@@ -3,8 +3,9 @@ package wol.dom.space.geometric;
 import wol.dom.Entity;
 import wol.dom.iEvent;
 import wol.dom.iEventObserver;
-import wol.dom.phisycs.Movement;
-import wol.dom.space.Coordinate;
+import wol.dom.space.Vector;
+import wol.dom.space.Movement;
+import wol.dom.space.iCoordinate;
 import wol.dom.space.iSpace;
 
 /**
@@ -16,7 +17,7 @@ import wol.dom.space.iSpace;
  * Only an Object at time can have e slot.
  * Moving out the limit cause return to the specular opposit place.
  */
-public class FlatSphere implements iSpace<Entity,Coordinate>{
+public class FlatSphere implements iSpace<Entity,Vector>{
    /* protected List<List<C>> matrix;
     protected Integer radius;
     protected Integer maxY;
@@ -109,12 +110,12 @@ while ( ++sx < ex ) {
     }           */
 
 
-    public Entity getEntity(Coordinate position) {
+    public Entity getEntity(Vector position) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public Coordinate getPosition(Entity tEntity) {
+    public Vector getPosition(Entity tEntity) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -131,4 +132,10 @@ while ( ++sx < ex ) {
     public void processEvent(iEvent event) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
+
+	@Override
+	public boolean insertEntity(Vector coordinate, Entity entity) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

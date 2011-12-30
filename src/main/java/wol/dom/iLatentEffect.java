@@ -7,7 +7,7 @@ package wol.dom;
  * Time: 0.10
  * To change this template use File | Settings | File Templates.
  */
-public interface iLatentEffect extends iEvent {
-    public Entity getEntity();
-    public void setEntity(Entity entity);
+public interface iLatentEffect<E extends Entity> extends iEvent<E> {
+    public E getEntity();
+    public void setEntity(E entity);
 }

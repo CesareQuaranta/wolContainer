@@ -5,14 +5,14 @@ import wol.dom.shape.iShape;
 public class Planet extends Planetoid {
     protected String UID;
     protected Double mass;
-    protected Double circumference;
+    protected Float radius;
 
     protected iShape shape;
 
 
-    public Planet(Double mass,Double circumference,iShape shape){
+    public Planet(Double mass,Float radius,iShape shape){
         this.mass=mass;
-        this.circumference=circumference;
+        this.radius=radius;
         this.shape=shape;
     }
 
@@ -29,8 +29,8 @@ public class Planet extends Planetoid {
         return mass;
     }
 
-    public void setCircumference(Double circumference) {
-        this.circumference = circumference;
+    public void setRadius(Float radius) {
+        this.radius = radius;
     }
 
     public void setMass(Double mass) {
@@ -45,8 +45,8 @@ public class Planet extends Planetoid {
         this.UID = UID;
     }
 
-    public Double getCircumference() {
-        return circumference;
+    public Float getRadius() {
+        return radius;
 
     }
 

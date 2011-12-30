@@ -7,6 +7,6 @@ package wol.dom;
  * Time: 23.01
  * To change this template use File | Settings | File Templates.
  */
-public interface iEventObserver {
-    public void processEvent(iEvent event);
+public interface iEventObserver<E extends Entity> {
+    public void processEvent(iEvent<E> event);
 }

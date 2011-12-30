@@ -6,6 +6,6 @@ import wol.dom.shape.iShape;
 public abstract class Planetoid extends Entity implements Comparable<Planetoid>{
     public abstract String getUID();
     public abstract Double getMass();
-    public abstract Double getCircumference();
+    public abstract Float getRadius();
     public abstract iShape getShape();
 }

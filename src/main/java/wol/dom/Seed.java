@@ -7,16 +7,16 @@ package wol.dom;
  * Time: 0.08
  * To change this template use File | Settings | File Templates.
  */
-public class Seed {
-    private Entity entity;
+public class Seed<E extends Entity> {
+    private E entity;
     private iInternalCause internalCause;
-    private iLatentEffect latentEffect;
+    private iLatentEffect<E> latentEffect;
 
-    public Seed(Entity entity){
+    public Seed(E entity){
         this.entity=entity;
     }
 
-    public Entity getEntity(){
+    public E getEntity(){
         return this.entity;
     }
     public iInternalCause getInternalCause() {
@@ -27,11 +27,11 @@ public class Seed {
         this.internalCause = internalCause;
     }
 
-    public iLatentEffect getLatentEffect() {
+    public iLatentEffect<E> getLatentEffect() {
         return latentEffect;
     }
 
-    public void setLatentEffect(iLatentEffect latentEffect) {
+    public void setLatentEffect(iLatentEffect<E> latentEffect) {
         this.latentEffect = latentEffect;
     }
 }

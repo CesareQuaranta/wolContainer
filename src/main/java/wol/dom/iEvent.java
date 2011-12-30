@@ -9,5 +9,5 @@ import java.io.Serializable;
  * Time: 23.08
  * To change this template use File | Settings | File Templates.
  */
-public interface iEvent extends Serializable {
+public interface iEvent<E extends Entity> extends Serializable {
 }

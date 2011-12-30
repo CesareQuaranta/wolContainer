@@ -1,8 +1,10 @@
 package wol.dom.time;
 
+import wol.dom.Entity;
 import wol.dom.iEvent;
 import wol.dom.iEventObserver;
 import wol.dom.iLatentEffect;
+import wol.dom.space.planets.Planetoid;
 
 import java.util.*;
 
@@ -13,18 +15,18 @@ import java.util.*;
  * Time: 23.45.29
  * To change this template use File | Settings | File Templates.
  */
-public class TimeQueque implements iTime<iLatentEffect>{
+public class TimeQueque<E extends Entity> implements iTime<E>{
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = -5727897362144888852L;
-    private List<iEventObserver> observers=new ArrayList<iEventObserver>();
+    private List<iEventObserver<E>> observers=new ArrayList<iEventObserver<E>>();
 
     public void run() {
-       List<iLatentEffect> latentEffects=getPresent();
+       List<iEvent<E>> latentEffects=getPresent();
         if (latentEffects!=null&&!latentEffects.isEmpty()){
-            for(iLatentEffect latentEffect:latentEffects){
-                 for(iEventObserver curObserver:observers){
+            for(iEvent<E> latentEffect:latentEffects){
+                 for(iEventObserver<E> curObserver:observers){
                     curObserver.processEvent(latentEffect);
                     }
             }
@@ -32,31 +34,40 @@ public class TimeQueque implements iTime<iLatentEffect>{
         }
     }
 
-    public void processEvent(iEvent event) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void processEvent(iEvent<E> event) {
+    	if (event instanceof TimeEvent){
+     	   TimeEvent<E> tEvent=(TimeEvent<E>)event;
+     	   setFuture(tEvent.getSeed().getLatentEffect(),tEvent.getFuture());
+        }
     }
 
     private class QuequeElement{
-        private List<iLatentEffect> elements;
+        private List<iEvent<E>> elements;
         private Integer count;
 
-        public List<iLatentEffect> getElements() {
+        public QuequeElement(){
+        	elements=new LinkedList<iEvent<E>>();
+        }
+        public List<iEvent<E>> getElements() {
             return elements;
         }
 
-        public void setElements(List<iLatentEffect> elements) {
+        public void setElements(List<iEvent<E>> elements) {
             this.elements = elements;
         }
     }
     private List<QuequeElement> timeList;
-    private Map<iLatentEffect,QuequeElement> index;
+    private Map<iEvent<E>,QuequeElement> index;
     public TimeQueque(){
          timeList=new  LinkedList<QuequeElement>();
-        index=new HashMap<iLatentEffect,QuequeElement>();
+        index=new HashMap<iEvent<E>,QuequeElement>();
     }
 
-    public List<iLatentEffect> getPresent(){
-    	QuequeElement present=timeList.remove(0);
+    public List<iEvent<E>> getPresent(){
+    	QuequeElement present=null;
+    	if (!timeList.isEmpty()){
+    		present=timeList.remove(0);
+    	}
     	if (present!=null){
     		return present.getElements();
     	}else{
@@ -65,11 +76,11 @@ public class TimeQueque implements iTime<iLatentEffect>{
     }
 
 
-    public void addObserver(iEventObserver observer) {
+    public void addObserver(iEventObserver<E> observer) {
         observers.add(observer);
     }
 
-    public void setFuture(iLatentEffect element,long delay){
+    private void setFuture(iEvent<E> element,long delay){
         QuequeElement curElement=null;
 
         long curDelay=delay;
@@ -114,7 +125,7 @@ public class TimeQueque implements iTime<iLatentEffect>{
         }
     }
 
-    public boolean removeFuture(iLatentEffect element){
+    public boolean removeFuture(iLatentEffect<E> element){
     	boolean removed=false;
     	if (index.containsKey(element)){
     		QuequeElement queue=index.get(element);

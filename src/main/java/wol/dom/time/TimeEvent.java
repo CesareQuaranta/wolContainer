@@ -1,5 +1,6 @@
 package wol.dom.time;
 
+import wol.dom.Entity;
 import wol.dom.Seed;
 import wol.dom.iEvent;
 
@@ -10,10 +11,19 @@ import wol.dom.iEvent;
  * Time: 23.12
  * To change this template use File | Settings | File Templates.
  */
-public class TimeEvent implements iEvent {
-    private int future;
-    private Seed seed;
+public class TimeEvent<E extends Entity> implements iEvent<E> {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4387449006747666951L;
+	private int future;
+    private Seed<E> seed;
 
+    public TimeEvent(Seed<E> seed,int future){
+    	this.seed=seed;
+    	this.future=future;
+    }
+    
     public int getFuture() {
         return future;
     }
@@ -22,11 +32,11 @@ public class TimeEvent implements iEvent {
         this.future = future;
     }
 
-    public Seed getSeed() {
+    public Seed<E> getSeed() {
         return seed;
     }
 
-    public void setSeed(Seed seed) {
+    public void setSeed(Seed<E> seed) {
         this.seed = seed;
     }
 }

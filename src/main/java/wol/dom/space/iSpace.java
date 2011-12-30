@@ -1,7 +1,7 @@
 package wol.dom.space;
 
+import wol.dom.Entity;
 import wol.dom.iEventObserver;
-import wol.dom.phisycs.Movement;
 
 import java.io.Serializable;
 
@@ -12,9 +12,10 @@ import java.io.Serializable;
  * Time: 23.53.19
  * To change this template use File | Settings | File Templates.
  */
-public interface iSpace<Entity,tCoordinate> extends iEventObserver,Serializable{
-    public Entity getEntity(tCoordinate position);
-    public tCoordinate getPosition(Entity entity);
-    public void process(Entity entity,Movement movement);
-    public void addObserver(iEventObserver observer);
+public interface iSpace<E extends Entity,C extends iCoordinate> extends iEventObserver<E>,Serializable{
+    public E getEntity(C position);
+    public C getPosition(E entity);
+    public void process(E entity,Movement<E> movement);
+    public void addObserver(iEventObserver<E> observer);
+    public boolean insertEntity(C coordinate,E entity);
 }
