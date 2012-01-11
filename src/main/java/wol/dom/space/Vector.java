@@ -16,6 +16,9 @@ public class Vector implements Comparable<Vector>,iCoordinate {
     private Double y;
     private Double z;
 
+    public Vector(){
+    	this(0.0d,0.0d,0.0d);
+    }
     public Vector(Double x, Double y, Double z){
     	this.x=x;
     	this.y=y;
@@ -50,20 +53,29 @@ public class Vector implements Comparable<Vector>,iCoordinate {
 		return 3;
 	}
 	
-	public Double getDistance(Vector point){
-		Double rValue=null;
+	public double getDistance(Vector point){
+		double rValue=0;
 		Double distX=x-point.x;
 		Double distY=y-point.y;
 		Double distZ=z-point.z;
-		Double sum=Math.pow(distX, 2)+Math.pow(distY, 2)+Math.pow(distZ, 2);
+		double sum=Math.pow(distX, 2)+Math.pow(distY, 2)+Math.pow(distZ, 2);
 		rValue=Math.sqrt(sum);
 		return rValue;
 	}
-	
+
+	public float getLenght(){
+		float rValue=0;
+		Double sum=Math.pow(x, 2)+Math.pow(y, 2)+Math.pow(z, 2);
+		rValue=(float)Math.sqrt(sum);
+		return rValue;
+	}
 	public void sum(Vector addend){
 		this.x+=addend.x;
 		this.y+=addend.y;
 		this.z+=addend.z;
+	}
+	public Vector multiply(double multiplier){
+		return new Vector(x*multiplier,y*multiplier,z*multiplier);
 	}
 	
 	public Vector clone(){
