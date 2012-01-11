@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import wol.dom.Entity;
 import wol.dom.WorldContainer;
-import wol.dom.phisycs.UniversalGravityPhisycs;
+import wol.dom.phisycs.SolarSystemPhisycs;
 import wol.dom.phisycs.iPhisycs;
 import wol.dom.shape.PlanetShape;
 import wol.dom.shape.StarShape;
@@ -50,18 +50,18 @@ public class WorldTest
     {
         WorldContainer<Planetoid> wc=new WorldContainer<Planetoid>();
         PlanetSystem ps=new PlanetSystem();
-        UniversalGravityPhisycs phisics=new UniversalGravityPhisycs();
+        SolarSystemPhisycs phisics=new SolarSystemPhisycs();
         phisics.setPlanets(ps);
         TimeQueque<Planetoid> tq=new TimeQueque<Planetoid>();
         wc.setPhisycs(phisics);
         wc.setSpace((iSpace)ps);
         wc.setTime(tq);
         wc.init();
-        Vector earthCoordnate=new Vector(new Double(99),new Double(0),new Double(0));  
+        Vector earthCoordnate=new Vector(new Double(150e9),new Double(0),new Double(0));  
         wc.insertEntity(earthCoordnate, generateEarth());
         Vector sunCoordnate=new Vector(new Double(0),new Double(0),new Double(0));  
         wc.insertEntity(sunCoordnate, generateSun());
-        for (int i=0;i<100;i++){
+        for (long i=0;i<10e20;i++){
            wc.run();
         }
         assertTrue(true);
@@ -69,12 +69,12 @@ public class WorldTest
     
     private Planet generateEarth(){
     	iShape earthShape=new PlanetShape();
-    	Planet earth=new Planet(new Double(40055),new Float(6000),earthShape);
+    	Planet earth=new Planet(5.9742e24,6378.137f,earthShape);
     	return earth;
     }
     private Planet generateSun(){
     	iShape sunShape=new StarShape();
-    	Planet sun=new Star(new Double(4005500),new Float(600000),sunShape);
+    	Planet sun=new Star(1.9891e30,6.955e8f,sunShape);
     	return sun;
     }
 }
