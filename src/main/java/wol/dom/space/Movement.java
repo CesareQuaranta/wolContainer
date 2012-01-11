@@ -1,7 +1,7 @@
 package wol.dom.space;
 
 import wol.dom.Entity;
-import wol.dom.iLatentEffect;
+import wol.dom.LatentEffect;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,27 +10,22 @@ import wol.dom.iLatentEffect;
  * Time: 0.20
  * To change this template use File | Settings | File Templates.
  */
-public class Movement<E extends Entity> implements iLatentEffect<E>,iSpaceEvent<E> {
+public class Movement<E extends Entity> extends LatentEffect<E> implements iSpaceEvent<E> {
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = -3053579265734463310L;
 	private Vector vector;
-    private E entity;
 
-    public Movement(E entity,Vector vector){
-    	this.entity=entity;
+    public Movement(E entity,long delay,Vector vector){
+    	super(entity,delay);
         this.vector=vector;
     }
 
-    public E getEntity() {
-        return entity;
+    public Movement(E entity,Vector vector){
+    	this(entity,0,vector);
     }
-
-    public void setEntity(E entity) {
-        this.entity=entity;
-    }
-
+    
 	public Vector getVector() {
 		return vector;
 	}

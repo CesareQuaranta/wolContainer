@@ -3,18 +3,20 @@
  */
 package wol.dom.space.planets;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import wol.dom.iEvent;
 import wol.dom.iEventObserver;
-import wol.dom.iLatentEffect;
 import wol.dom.phisycs.Collision;
-import wol.dom.space.Vector;
 import wol.dom.space.Movement;
-import wol.dom.space.iCoordinate;
+import wol.dom.space.Vector;
 import wol.dom.space.iSpace;
 import wol.dom.space.iSpaceEvent;
-import wol.dom.time.TimeEvent;
-
-import java.util.*;
 
 /**
  * @author cesare
@@ -68,7 +70,7 @@ public class PlanetSystem implements iSpace<Planetoid,Vector> {
 
 
     public void processEvent(iEvent<Planetoid> event) {
-    	if (event instanceof iSpaceEvent){
+    	if (event instanceof Movement&&((Movement)event).getDelay()==0){
     		internalProcessEvent((iSpaceEvent<Planetoid>)event);
          }
     }
