@@ -28,15 +28,16 @@ public class WorldContainer<E extends Entity> implements Runnable, Serializable 
 
     public void init(){
         phisycs.addObserver(time);
-        time.addObserver(space);
         space.addObserver(phisycs);
+        time.addObserver(space);
+        time.addObserver(phisycs);
     }
     public void run() {
         time.run();
         //phisycs.run();
     }
 
-    protected void processSeeds(List<Seed<E>> seeds){
+    /*protected void processSeeds(List<Seed<E>> seeds){
           for(Seed<E> curSeed:seeds){
             iLatentEffect latentEffect=curSeed.getLatentEffect();
               E entity=curSeed.getEntity();
@@ -45,7 +46,7 @@ public class WorldContainer<E extends Entity> implements Runnable, Serializable 
                   space.process(entity,movement);
             }
        }
-    }
+    }*/
 
        public iSpace<E, iCoordinate> getSpace() {
         return space;

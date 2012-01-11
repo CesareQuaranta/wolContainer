@@ -1,5 +1,7 @@
 package wol.dom;
 
+import java.io.Serializable;
+
 /**
  * Created by IntelliJ IDEA.
  * User: cesare
@@ -7,5 +9,5 @@ package wol.dom;
  * Time: 0.09
  * To change this template use File | Settings | File Templates.
  */
-public interface iInternalCause {
+public interface iInternalCause<E extends Entity> extends Serializable {
 }
