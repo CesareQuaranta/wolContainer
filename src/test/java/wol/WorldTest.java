@@ -50,7 +50,7 @@ public class WorldTest
     {
         WorldContainer<Planetoid> wc=new WorldContainer<Planetoid>();
         PlanetSystem ps=new PlanetSystem();
-        SolarSystemPhisycs phisics=new SolarSystemPhisycs();
+        SolarSystemPhisycs phisics=new SolarSystemPhisycs(50000,1/100);
         phisics.setPlanets(ps);
         TimeQueque<Planetoid> tq=new TimeQueque<Planetoid>();
         wc.setPhisycs(phisics);
