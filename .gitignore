@@ -2,11 +2,13 @@
 .settings
 .project
 .classpath
-# idea conf files
+#idea conf files
 .idea
 *.iml
 *.ipr
 *.iws
-# building
+#building
 target
 build
+out
+
