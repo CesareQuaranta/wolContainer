@@ -1,11 +1,15 @@
 package wol.dom.space.geometric;
 
+import java.util.Collection;
+
 import wol.dom.Entity;
 import wol.dom.iEvent;
+import wol.dom.Phenomen;
 import wol.dom.iEventObserver;
+import wol.dom.phisycs.Force;
+import wol.dom.phisycs.ForceFactory;
 import wol.dom.space.Vector;
 import wol.dom.space.Movement;
-import wol.dom.space.iCoordinate;
 import wol.dom.space.iSpace;
 
 /**
@@ -119,23 +123,52 @@ while ( ++sx < ex ) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
+   /* @Override
     public void process(Entity tEntity, Movement movement) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public void addObserver(iEventObserver observer) {
         //To change body of implemented methods use File | Settings | File Templates.
-    }
+    }*/
 
 
-    public void processEvent(iEvent event) {
+    public void processEvent(Phenomen phenomen) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
 	@Override
 	public boolean insertEntity(Vector coordinate, Entity entity) {
-		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void processEvent(iEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Collection<Entity> getAllEntities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean process(Movement<Entity> movement) {
+		return false;
+		
+	}
+
+	@Override
+	public void addObserver(iEventObserver<Entity> observer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void insertForceFactory(ForceFactory f) {
+		// TODO Auto-generated method stub
+		
 	}
 }

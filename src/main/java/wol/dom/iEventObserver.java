@@ -8,5 +8,6 @@ package wol.dom;
  * To change this template use File | Settings | File Templates.
  */
 public interface iEventObserver<E extends Entity> {
-    public void processEvent(iEvent<E> event);
+    //public void addObserver(iEventObserver<E> observer);
+    public void processEvent(iEvent event);
 }

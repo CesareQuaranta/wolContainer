@@ -7,45 +7,45 @@ package wol.dom.space;
  * Time: 23.49
  * To change this template use File | Settings | File Templates.
  */
-public class Vector implements Comparable<Vector>,iCoordinate {
+public class Vector implements Comparable<Vector>,iCoordinate,Cloneable{
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = -5130651281630047189L;
-	private Double x;
-    private Double y;
-    private Double z;
+	protected float x;
+	protected float y;
+	protected float z;
 
     public Vector(){
-    	this(0.0d,0.0d,0.0d);
+    	this(0,0,0);
     }
-    public Vector(Double x, Double y, Double z){
+    public Vector(float x, float y, float z){
     	this.x=x;
     	this.y=y;
     	this.z=z;
     }
     
-    public Double getX() {
+	public float getX() {
         return x;
     }
 
-    public void setX(Double x) {
+    public void setX(float x) {
         this.x = x;
     }
 
-    public Double getY() {
+    public float getY() {
         return y;
     }
 
-    public void setY(Double y) {
+    public void setY(float y) {
         this.y = y;
     }
 
-    public Double getZ() {
+    public float getZ() {
         return z;
     }
 
-    public void setZ(Double z) {
+    public void setZ(float z) {
         this.z = z;
     }
 
@@ -53,11 +53,11 @@ public class Vector implements Comparable<Vector>,iCoordinate {
 		return 3;
 	}
 	
-	public double getDistance(Vector point){
+	public double getDistance(Position point){
 		double rValue=0;
-		Double distX=x-point.x;
-		Double distY=y-point.y;
-		Double distZ=z-point.z;
+        double distX=x-point.x;
+        double distY=y-point.y;
+        double distZ=z-point.z;
 		double sum=Math.pow(distX, 2)+Math.pow(distY, 2)+Math.pow(distZ, 2);
 		rValue=Math.sqrt(sum);
 		return rValue;
@@ -69,15 +69,33 @@ public class Vector implements Comparable<Vector>,iCoordinate {
 		rValue=(float)Math.sqrt(sum);
 		return rValue;
 	}
-	public void sum(Vector addend){
-		this.x+=addend.x;
-		this.y+=addend.y;
-		this.z+=addend.z;
-	}
-	public Vector multiply(double multiplier){
-		return new Vector(x*multiplier,y*multiplier,z*multiplier);
+	public void minimize(){
+		float max=Math.max(Math.abs(x), Math.abs(y));
+		max=Math.max(max, Math.abs(z));
+		x=x/max;
+		y=y/max;
+		z=z/max;	
 	}
 	
+	public Vector sum(Vector addend){
+		return sum(addend,1);
+	}
+	
+	public Vector sum(Vector addend,double d){
+		return new Vector((float)(this.x+(addend.x*d)),(float)(this.y+(addend.y*d)),(float)(this.z+(addend.z*d)));
+		
+	}
+	public Vector multiply(long multiplier){
+		return new Vector(x*multiplier,y*multiplier,z*multiplier);
+	}
+    public Vector multiply(float multiplier){
+        return new Vector(x*multiplier,y*multiplier,z*multiplier);
+    }
+    
+    public Vector div(float divisor){
+        return new Vector(x/divisor,y/divisor,z/divisor);
+    }
+    
 	public Vector clone(){
 		return new Vector(x,y,z);
 	}
@@ -86,11 +104,15 @@ public class Vector implements Comparable<Vector>,iCoordinate {
 		return compareTo(comp)==0;
 	}
 	public int compareTo(Vector comp) {
-		return Double.valueOf(x).compareTo(comp.y)+Double.valueOf(y).compareTo(comp.z)+Double.valueOf(z).compareTo(comp.z);
+		return Float.valueOf(x).compareTo(comp.y)+Float.valueOf(y).compareTo(comp.z)+Float.valueOf(z).compareTo(comp.z);
+	}
+	
+	public boolean isEmpty(){
+		return x==0 && y==0 && z==0;
 	}
 	
 	public String toString(){
-		return "x:"+x+" y:"+y+" z:"+z;
+		return "v < x:"+x+" y:"+y+" z:"+z+" >";
 	}
 
 }

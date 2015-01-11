@@ -9,5 +9,6 @@ import java.io.Serializable;
  * Time: 0.09
  * To change this template use File | Settings | File Templates.
  */
-public interface iInternalCause<E extends Entity> extends Serializable {
+public interface iInternalCause<E extends Entity> extends iEvent {
+    public boolean isSingleton();
 }

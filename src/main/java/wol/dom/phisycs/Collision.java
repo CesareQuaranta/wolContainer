@@ -1,9 +1,9 @@
 package wol.dom.phisycs;
 
+import wol.dom.Effect;
 import wol.dom.Entity;
-import wol.dom.iEvent;
 
-public class Collision<E extends Entity> implements iEvent<E>{
+public class Collision<E extends Entity> extends Effect<E> {
 	/**
 	 * 
 	 */
@@ -12,7 +12,7 @@ public class Collision<E extends Entity> implements iEvent<E>{
 	private E subject;
 	
 	public Collision(E object, E subject) {
-		super();
+		super(object);
 		this.object = object;
 		this.subject = subject;
 	}

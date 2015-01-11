@@ -1,5 +1,7 @@
 package wol.dom.shape;
 
+import wol.dom.space.Position;
+
 /**
  * Created by IntelliJ IDEA.
  * User: cesare
@@ -8,4 +10,5 @@ package wol.dom.shape;
  * To change this template use File | Settings | File Templates.
  */
 public interface iShape {
+	boolean checkInterseption(Position position,iShape otherShape,Position otherPosition);
 }
