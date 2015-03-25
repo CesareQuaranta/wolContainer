@@ -55,6 +55,12 @@
 			<scope>provided</scope>
 		</dependency>
 
+
+		<dependency>
+			<groupId>wol</groupId>
+			<artifactId>dom</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<pluginManagement>

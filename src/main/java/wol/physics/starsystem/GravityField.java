@@ -1,4 +1,4 @@
-package wol.starsystem.physics;
+package wol.physics.starsystem;
 
 import wol.dom.phisycs.Acceleration;
 import wol.dom.phisycs.Force;
@@ -8,7 +8,7 @@ import wol.dom.phisycs.iMassEntity;
 import wol.dom.space.BigVector;
 import wol.dom.space.Position;
 import wol.dom.space.Vector;
-import wol.starsystem.planets.iPlanetoid;
+import wol.dom.space.iPlanetoid;
 
 /**
  * Created with IntelliJ IDEA.

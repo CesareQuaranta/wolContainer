@@ -22,9 +22,10 @@ import wol.dom.space.Movement;
 import wol.dom.space.NewPosition;
 import wol.dom.space.Position;
 import wol.dom.space.Vector;
+import wol.dom.space.iPlanetoid;
 import wol.dom.space.iSpace;
-import wol.starsystem.physics.GravityAttraction;
-import wol.starsystem.physics.GravityField;
+import wol.physics.starsystem.GravityAttraction;
+import wol.physics.starsystem.GravityField;
 
 /**
  * @author cesare

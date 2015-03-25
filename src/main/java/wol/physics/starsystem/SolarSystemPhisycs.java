@@ -1,4 +1,4 @@
-package wol.starsystem;
+package wol.physics.starsystem;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,7 +11,6 @@ import wol.dom.Effect;
 import wol.dom.iEvent;
 import wol.dom.iPower;
 import wol.dom.phisycs.Acceleration;
-import wol.dom.phisycs.BasePhisycs;
 import wol.dom.phisycs.Collision;
 import wol.dom.phisycs.Force;
 import wol.dom.phisycs.Forces;
@@ -19,13 +18,12 @@ import wol.dom.phisycs.Inertia;
 import wol.dom.phisycs.Velocity;
 import wol.dom.space.Movement;
 import wol.dom.space.Position;
+import wol.dom.space.iPlanetoid;
 import wol.dom.time.Ichinen;
 import wol.dom.time.ManifestPresent;
 import wol.dom.time.iTimeManager;
-import wol.starsystem.physics.GravityAttraction;
-import wol.starsystem.physics.GravityField;
+import wol.physics.BasePhisycs;
 import wol.starsystem.planets.Cosmos;
-import wol.starsystem.planets.iPlanetoid;
 
 /**
  * Created by IntelliJ IDEA. User: cesare Date: 06/10/11 Time: 0.12 To change

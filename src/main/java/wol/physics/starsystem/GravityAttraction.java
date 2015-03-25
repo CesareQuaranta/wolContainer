@@ -1,10 +1,10 @@
-package wol.starsystem.physics;
+package wol.physics.starsystem;
 
 import java.util.Map;
 
 import wol.dom.iInternalCause;
 import wol.dom.space.BigVector;
-import wol.starsystem.planets.iPlanetoid;
+import wol.dom.space.iPlanetoid;
 
 public class GravityAttraction implements iInternalCause<iPlanetoid> {
 	private static final long serialVersionUID = 1L;

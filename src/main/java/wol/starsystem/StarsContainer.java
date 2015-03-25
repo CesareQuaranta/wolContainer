@@ -1,19 +1,17 @@
 package wol.starsystem;
 
 import wol.dom.iEvent;
+import wol.physics.starsystem.SolarSystemPhisycs;
 import wol.starsystem.planets.Cosmos;
-import wol.starsystem.planets.iPlanetEntity;
-import wol.starsystem.planets.iPlanetoid;
 import wol.dom.WorldContainer;
-import wol.dom.phisycs.iPhisycs;
 import wol.dom.space.Position;
-import wol.dom.space.Vector;
 import wol.dom.space.iCoordinate;
+import wol.dom.space.iPlanetEntity;
+import wol.dom.space.iPlanetoid;
 import wol.dom.space.iSpace;
 import wol.dom.time.TimeQueque;
 import wol.dom.time.iTimeManager;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 

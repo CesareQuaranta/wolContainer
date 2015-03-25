@@ -7,15 +7,15 @@ import junit.framework.Assert;
 import wol.dom.phisycs.Acceleration;
 import wol.dom.phisycs.Force;
 import wol.dom.space.BigVector;
+import wol.dom.space.LivingPlanet;
+import wol.dom.space.Planet;
 import wol.dom.space.Position;
+import wol.dom.space.Star;
+import wol.dom.space.iPlanetoid;
 import wol.dom.time.TimeQueque;
-import wol.starsystem.SolarSystemPhisycs;
+import wol.physics.starsystem.SolarSystemPhisycs;
 import wol.starsystem.StarsContainer;
 import wol.starsystem.planets.Cosmos;
-import wol.starsystem.planets.LivingPlanet;
-import wol.starsystem.planets.Planet;
-import wol.starsystem.planets.Star;
-import wol.starsystem.planets.iPlanetoid;
 
 public class FunctionalTest {
 
