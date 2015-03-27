@@ -1,5 +1,6 @@
 package wol.starsystem;
 
+import wol.TimeQueque;
 import wol.dom.iEvent;
 import wol.physics.starsystem.SolarSystemPhisycs;
 import wol.starsystem.planets.Cosmos;
@@ -9,7 +10,6 @@ import wol.dom.space.iCoordinate;
 import wol.dom.space.iPlanetEntity;
 import wol.dom.space.iPlanetoid;
 import wol.dom.space.iSpace;
-import wol.dom.time.TimeQueque;
 import wol.dom.time.iTimeManager;
 
 import java.util.ArrayList;

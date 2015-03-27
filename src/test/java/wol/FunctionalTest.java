@@ -12,7 +12,6 @@ import wol.dom.space.Planet;
 import wol.dom.space.Position;
 import wol.dom.space.Star;
 import wol.dom.space.iPlanetoid;
-import wol.dom.time.TimeQueque;
 import wol.physics.starsystem.SolarSystemPhisycs;
 import wol.starsystem.StarsContainer;
 import wol.starsystem.planets.Cosmos;
