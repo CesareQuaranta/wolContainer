@@ -6,14 +6,11 @@ import java.util.List;
 
 import org.junit.Assert;
 
-import wol.dom.phisycs.Acceleration;
-import wol.dom.phisycs.Force;
 import wol.dom.space.Planet;
 import wol.dom.space.Position;
 import wol.dom.space.Vector;
 import wol.dom.space.iPlanetoid;
 import wol.dom.time.Ichinen;
-import wol.dom.time.TimeQueque;
 import wol.starsystem.planets.Cosmos;
 
 public class UnitTest {
@@ -66,15 +63,6 @@ public class UnitTest {
 			}
 		}
 			
-	}
-	
-	@org.junit.Test
-	public void testPhisyc() {
-		Force f1=new Force(1D,new Acceleration(new Vector(1,0,0)));
-		Force f2=new Force(1D,new Acceleration(new Vector(-1,0,0)));
-		f1.sum(f2);
-		Assert.assertTrue("Errore somma forze contrapposte",f1.isEmpty());
-		
 	}
 	
 	private void checkPresent(List<Ichinen<iPlanetoid>> present,List<Ichinen<iPlanetoid>> expected){
