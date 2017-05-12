@@ -6,12 +6,13 @@ import java.util.List;
 
 import org.junit.Assert;
 
-import wol.dom.space.Planet;
-import wol.dom.space.Position;
-import wol.dom.space.Vector;
-import wol.dom.space.iPlanetoid;
-import wol.dom.time.Ichinen;
-import wol.starsystem.planets.Cosmos;
+import edu.wol.TimeQueque;
+import edu.wol.dom.space.Planet;
+import edu.wol.dom.space.Position;
+import edu.wol.dom.space.Vector;
+import edu.wol.dom.space.iPlanetoid;
+import edu.wol.dom.time.Ichinen;
+import edu.wol.starsystem.planets.Cosmos;
 
 public class UnitTest {
 

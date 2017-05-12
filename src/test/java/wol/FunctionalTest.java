@@ -3,18 +3,19 @@ package wol;
 import java.util.Collection;
 import java.util.Iterator;
 
+import edu.wol.TimeQueque;
+import edu.wol.dom.phisycs.Acceleration;
+import edu.wol.dom.phisycs.Force;
+import edu.wol.dom.space.BigVector;
+import edu.wol.dom.space.LivingPlanet;
+import edu.wol.dom.space.Planet;
+import edu.wol.dom.space.Position;
+import edu.wol.dom.space.Star;
+import edu.wol.dom.space.iPlanetoid;
+import edu.wol.physics.starsystem.SolarSystemPhisycs;
+import edu.wol.starsystem.StarDial;
+import edu.wol.starsystem.planets.Cosmos;
 import junit.framework.Assert;
-import wol.dom.phisycs.Acceleration;
-import wol.dom.phisycs.Force;
-import wol.dom.space.BigVector;
-import wol.dom.space.LivingPlanet;
-import wol.dom.space.Planet;
-import wol.dom.space.Position;
-import wol.dom.space.Star;
-import wol.dom.space.iPlanetoid;
-import wol.physics.starsystem.SolarSystemPhisycs;
-import wol.starsystem.StarsContainer;
-import wol.starsystem.planets.Cosmos;
 
 public class FunctionalTest {
 
@@ -65,7 +66,7 @@ public class FunctionalTest {
 		int oneSecond=(int) (maxVelocity/spacePrecision);
 		long numRun=(long) oneSecond*3;
 		long start=System.currentTimeMillis();
-		StarsContainer sc = new StarsContainer();
+		StarDial sc = new StarDial();
 
 		sc.init(spacePrecision,maxVelocity);
 		
@@ -134,13 +135,13 @@ public class FunctionalTest {
 		sun.setUID("SUN");
 		return sun;
 	}
-	private Planet insertEarth(StarsContainer sc) {
+	private Planet insertEarth(StarDial sc) {
 		Planet earth=generateEarth();
 		sc.insertEntity(new Position(DistanceSunEarth, 0L, 0L),earth );
 		return earth;
 	}
 	
-	private Planet insertMoon(StarsContainer sc) {
+	private Planet insertMoon(StarDial sc) {
 		Planet earth=(Planet) findPlanetoid(sc.getAllEntities(),"Earth");
 		Position earthPosition=sc.getSpace().getPosition(earth);
 		Planet moon=new Planet(MoonMass, MoonRadius);
@@ -149,7 +150,7 @@ public class FunctionalTest {
 		sc.insertEntity(moonCoordinate,moon );
 		return moon;
 	}
-	private iPlanetoid insertSatellite(StarsContainer sc) {
+	private iPlanetoid insertSatellite(StarDial sc) {
 		Planet earth=(Planet) findPlanetoid(sc.getAllEntities(),"Earth");
 		Position earthPosition=sc.getSpace().getPosition(earth);
 		Planet satellite=new Planet(10, 10);
@@ -160,7 +161,7 @@ public class FunctionalTest {
 		return satellite;
 	}
 
-	private Star insertSun(StarsContainer sc) {
+	private Star insertSun(StarDial sc) {
 		Star sun=generateSun();
 		sc.insertEntity(new Position(0L, 0L, 0L), sun);
 		return sun;

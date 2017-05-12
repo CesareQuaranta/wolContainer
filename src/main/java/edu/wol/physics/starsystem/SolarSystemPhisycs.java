@@ -1,4 +1,4 @@
-package wol.physics.starsystem;
+package edu.wol.physics.starsystem;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,23 +7,23 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import wol.dom.Effect;
-import wol.dom.iEvent;
-import wol.dom.iPower;
-import wol.dom.phisycs.Acceleration;
-import wol.dom.phisycs.Collision;
-import wol.dom.phisycs.Force;
-import wol.dom.phisycs.Forces;
-import wol.dom.phisycs.Inertia;
-import wol.dom.phisycs.Velocity;
-import wol.dom.space.Movement;
-import wol.dom.space.Position;
-import wol.dom.space.iPlanetoid;
-import wol.dom.time.Ichinen;
-import wol.dom.time.ManifestPresent;
-import wol.dom.time.iTimeManager;
-import wol.physics.BasePhisycs;
-import wol.starsystem.planets.Cosmos;
+import edu.wol.dom.Effect;
+import edu.wol.dom.iEvent;
+import edu.wol.dom.iPower;
+import edu.wol.dom.phisycs.Acceleration;
+import edu.wol.dom.phisycs.Collision;
+import edu.wol.dom.phisycs.Force;
+import edu.wol.dom.phisycs.Forces;
+import edu.wol.dom.phisycs.Inertia;
+import edu.wol.dom.phisycs.Velocity;
+import edu.wol.dom.space.Movement;
+import edu.wol.dom.space.Position;
+import edu.wol.dom.space.iPlanetoid;
+import edu.wol.dom.time.Ichinen;
+import edu.wol.dom.time.ManifestPresent;
+import edu.wol.dom.time.iTimeManager;
+import edu.wol.physics.BasePhisycs;
+import edu.wol.starsystem.planets.Cosmos;
 
 /**
  * Created by IntelliJ IDEA. User: cesare Date: 06/10/11 Time: 0.12 To change

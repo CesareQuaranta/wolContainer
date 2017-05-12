@@ -1,14 +1,14 @@
-package wol.physics.starsystem;
+package edu.wol.physics.starsystem;
 
-import wol.dom.phisycs.Acceleration;
-import wol.dom.phisycs.Force;
-import wol.dom.phisycs.ForceFactory;
-import wol.dom.phisycs.iForceElements;
-import wol.dom.phisycs.iMassEntity;
-import wol.dom.space.BigVector;
-import wol.dom.space.Position;
-import wol.dom.space.Vector;
-import wol.dom.space.iPlanetoid;
+import edu.wol.dom.phisycs.Acceleration;
+import edu.wol.dom.phisycs.Force;
+import edu.wol.dom.phisycs.ForceFactory;
+import edu.wol.dom.phisycs.iForceElements;
+import edu.wol.dom.phisycs.iMassEntity;
+import edu.wol.dom.space.BigVector;
+import edu.wol.dom.space.Position;
+import edu.wol.dom.space.Vector;
+import edu.wol.dom.space.iPlanetoid;
 
 /**
  * Created with IntelliJ IDEA.

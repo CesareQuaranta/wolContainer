@@ -1,4 +1,4 @@
-package wol.process;
+package edu.wol.process;
 
 /**
  * Created with IntelliJ IDEA.

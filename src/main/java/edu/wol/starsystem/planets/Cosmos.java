@@ -1,7 +1,7 @@
 /**
  * 
  */
-package wol.starsystem.planets;
+package edu.wol.starsystem.planets;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,21 +11,21 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import wol.dom.iEvent;
-import wol.dom.iEventObserver;
-import wol.dom.phisycs.Collision;
-import wol.dom.phisycs.Force;
-import wol.dom.phisycs.ForceFactory;
-import wol.dom.shape.iShape;
-import wol.dom.space.BigVector;
-import wol.dom.space.Movement;
-import wol.dom.space.NewPosition;
-import wol.dom.space.Position;
-import wol.dom.space.Vector;
-import wol.dom.space.iPlanetoid;
-import wol.dom.space.iSpace;
-import wol.physics.starsystem.GravityAttraction;
-import wol.physics.starsystem.GravityField;
+import edu.wol.dom.iEvent;
+import edu.wol.dom.iEventObserver;
+import edu.wol.dom.phisycs.Collision;
+import edu.wol.dom.phisycs.Force;
+import edu.wol.dom.phisycs.ForceFactory;
+import edu.wol.dom.shape.iShape;
+import edu.wol.dom.space.BigVector;
+import edu.wol.dom.space.Movement;
+import edu.wol.dom.space.NewPosition;
+import edu.wol.dom.space.Position;
+import edu.wol.dom.space.Vector;
+import edu.wol.dom.space.iPlanetoid;
+import edu.wol.dom.space.iSpace;
+import edu.wol.physics.starsystem.GravityAttraction;
+import edu.wol.physics.starsystem.GravityField;
 
 /**
  * @author cesare

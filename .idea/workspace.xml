@@ -2,27 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f5c3bcfe-1525-43be-81b0-35709559adaa" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/Effect.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/Factors.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/Karma.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/iAction.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/iEventGenerator.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/iExternalCause.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/iPhenomen.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/phisycs/BasePhisycs.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/phisycs/iMassEntity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/space/Gravity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/space/iSpacePhenomen.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/time/Ichinen.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/time/Time.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/wol/process/CoerenceProcessor.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/wol/process/iSpeceField.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/wol/starsystem/GravitationalField.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/wol/starsystem/PlanetShape.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/wol/starsystem/StarShape.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/wol/starsystem/StarsContainer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/wol/starsystem/planets/PlanetSystem.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/wol/starsystem/planets/iPlanetoid.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/Effect.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/Factors.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/Karma.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/iAction.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/iEventGenerator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/iExternalCause.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/iPhenomen.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/phisycs/BasePhisycs.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/phisycs/iMassEntity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/space/Gravity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/space/iSpacePhenomen.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/time/Ichinen.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/time/Time.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/process/CoerenceProcessor.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/process/iSpeceField.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/starsystem/GravitationalField.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/starsystem/PlanetShape.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/starsystem/StarShape.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/starsystem/StarsContainer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/starsystem/planets/PlanetSystem.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/starsystem/planets/iPlanetoid.java" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.hgignore" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_3_8_1.xml" afterPath="" />
@@ -30,32 +30,32 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/WorldContainer.iml" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/Main.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/shape/PlanetShape.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/shape/StarShape.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/space/iSpaceEvent.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/space/planets/PlanetSystem.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/space/planets/Planetoid.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/phisycs/SolarSystemPhisycs.java" afterPath="$PROJECT_DIR$/src/main/java/wol/starsystem/SolarSystemPhisycs.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/space/planets/Planet.java" afterPath="$PROJECT_DIR$/src/main/java/wol/starsystem/planets/Planet.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/space/planets/Star.java" afterPath="$PROJECT_DIR$/src/main/java/wol/starsystem/planets/Star.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/time/TimeQueque.java" afterPath="$PROJECT_DIR$/src/main/java/wol/process/TimeQueque.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/time/iTime.java" afterPath="$PROJECT_DIR$/src/main/java/wol/process/iTimeManager.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/shape/PlanetShape.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/shape/StarShape.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/space/iSpaceEvent.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/space/planets/PlanetSystem.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/space/planets/Planetoid.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/phisycs/SolarSystemPhisycs.java" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/starsystem/SolarSystemPhisycs.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/space/planets/Planet.java" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/starsystem/planets/Planet.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/space/planets/Star.java" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/starsystem/planets/Star.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/time/TimeQueque.java" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/process/TimeQueque.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/time/iTime.java" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/process/iTimeManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/Entity.java" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/Entity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/LatentEffect.java" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/LatentEffect.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/WorldContainer.java" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/WorldContainer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/iEvent.java" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/iEvent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/iEventObserver.java" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/iEventObserver.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/iInternalCause.java" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/iInternalCause.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/phisycs/Acceleration.java" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/phisycs/Acceleration.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/phisycs/Attraction.java" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/phisycs/Attraction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/phisycs/Collision.java" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/phisycs/Collision.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/phisycs/iPhisycs.java" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/phisycs/iPhisycs.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/space/Movement.java" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/space/Movement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/space/Vector.java" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/space/Vector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/space/geometric/FlatSphere.java" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/space/geometric/FlatSphere.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/wol/dom/space/iSpace.java" afterPath="$PROJECT_DIR$/src/main/java/wol/dom/space/iSpace.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/wol/WorldTest.java" afterPath="$PROJECT_DIR$/src/test/java/wol/WorldTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/Entity.java" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/Entity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/LatentEffect.java" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/LatentEffect.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/WorldContainer.java" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/WorldContainer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/iEvent.java" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/iEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/iEventObserver.java" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/iEventObserver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/iInternalCause.java" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/iInternalCause.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/phisycs/Acceleration.java" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/phisycs/Acceleration.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/phisycs/Attraction.java" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/phisycs/Attraction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/phisycs/Collision.java" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/phisycs/Collision.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/phisycs/iPhisycs.java" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/phisycs/iPhisycs.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/space/Movement.java" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/space/Movement.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/space/Vector.java" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/space/Vector.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/space/geometric/FlatSphere.java" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/space/geometric/FlatSphere.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu.wol/dom/space/iSpace.java" afterPath="$PROJECT_DIR$/src/main/java/edu.wol/dom/space/iSpace.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/edu.wol/WorldTest.java" afterPath="$PROJECT_DIR$/src/test/java/edu.wol/WorldTest.java" />
     </list>
     <ignored path=".idea/workspace.xml" />
     <ignored path="WorldContainer.iws" />
@@ -119,7 +119,7 @@
   <component name="FileEditorManager">
     <leaf>
       <file leaf-file-name="StarsContainer.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/wol/starsystem/StarsContainer.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu.wol/starsystem/StarsContainer.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="37" column="5" selection-start="953" selection-end="953" vertical-scroll-proportion="0.0">
               <folding>
@@ -130,7 +130,7 @@
         </entry>
       </file>
       <file leaf-file-name="CoerenceProcessor.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/wol/process/CoerenceProcessor.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu.wol/process/CoerenceProcessor.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="10" column="24" selection-start="232" selection-end="232" vertical-scroll-proportion="0.37406483">
               <folding />
@@ -139,7 +139,7 @@
         </entry>
       </file>
       <file leaf-file-name="iTimeManager.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/wol/process/iTimeManager.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu.wol/process/iTimeManager.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="17" column="93" selection-start="440" selection-end="440" vertical-scroll-proportion="0.0">
               <folding />
@@ -148,7 +148,7 @@
         </entry>
       </file>
       <file leaf-file-name="iPhisycs.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/wol/dom/phisycs/iPhisycs.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu.wol/dom/phisycs/iPhisycs.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="17" column="89" selection-start="416" selection-end="416" vertical-scroll-proportion="0.0">
               <folding />
@@ -157,7 +157,7 @@
         </entry>
       </file>
       <file leaf-file-name="iEventGenerator.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/wol/dom/iEventGenerator.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu.wol/dom/iEventGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="9" column="32" selection-start="188" selection-end="203" vertical-scroll-proportion="0.0">
               <folding />
@@ -166,7 +166,7 @@
         </entry>
       </file>
       <file leaf-file-name="iEventObserver.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/wol/dom/iEventObserver.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu.wol/dom/iEventObserver.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="9" column="31" selection-start="186" selection-end="200" vertical-scroll-proportion="0.0">
               <folding />
@@ -175,7 +175,7 @@
         </entry>
       </file>
       <file leaf-file-name="iPlanetoid.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/wol/starsystem/planets/iPlanetoid.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu.wol/starsystem/planets/iPlanetoid.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="5" column="17" selection-start="116" selection-end="116" vertical-scroll-proportion="0.0">
               <folding />
@@ -199,22 +199,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/wol/dom/iInternalCause.java" />
-        <option value="$PROJECT_DIR$/src/main/java/wol/dom/iExternalCause.java" />
-        <option value="$PROJECT_DIR$/src/main/java/wol/dom/time/Time.java" />
-        <option value="$PROJECT_DIR$/src/main/java/wol/dom/space/Gravity.java" />
-        <option value="$PROJECT_DIR$/src/main/java/wol/dom/space/planets/PlanetSystem.java" />
-        <option value="$PROJECT_DIR$/src/main/java/wol/dom/phisycs/BasePhisycs.java" />
-        <option value="$PROJECT_DIR$/src/main/java/wol/dom/phisycs/SolarSystemPhisycs.java" />
-        <option value="$PROJECT_DIR$/src/test/java/wol/WorldTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/wol/dom/iEventObserver.java" />
-        <option value="$PROJECT_DIR$/src/main/java/wol/dom/WorldContainer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/wol/dom/iEventGenerator.java" />
-        <option value="$PROJECT_DIR$/src/main/java/wol/dom/phisycs/iPhisycs.java" />
-        <option value="$PROJECT_DIR$/src/main/java/wol/process/iTimeManager.java" />
-        <option value="$PROJECT_DIR$/src/main/java/wol/dom/space/iSpace.java" />
-        <option value="$PROJECT_DIR$/src/main/java/wol/starsystem/StarsContainer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/wol/process/CoerenceProcessor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu.wol/dom/iInternalCause.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu.wol/dom/iExternalCause.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu.wol/dom/time/Time.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu.wol/dom/space/Gravity.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu.wol/dom/space/planets/PlanetSystem.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu.wol/dom/phisycs/BasePhisycs.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu.wol/dom/phisycs/SolarSystemPhisycs.java" />
+        <option value="$PROJECT_DIR$/src/test/java/edu.wol/WorldTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu.wol/dom/iEventObserver.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu.wol/dom/WorldContainer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu.wol/dom/iEventGenerator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu.wol/dom/phisycs/iPhisycs.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu.wol/process/iTimeManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu.wol/dom/space/iSpace.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu.wol/starsystem/StarsContainer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu.wol/process/CoerenceProcessor.java" />
       </list>
     </option>
   </component>
@@ -403,7 +403,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="wol" />
+              <option name="myItemId" value="edu.wol" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -447,7 +447,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="wol" />
+              <option name="myItemId" value="edu.wol" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -477,7 +477,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="wol" />
+              <option name="myItemId" value="edu.wol" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -507,7 +507,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="wol" />
+              <option name="myItemId" value="edu.wol" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -535,18 +535,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="wol.starsystem" />
-      <recent name="wol.dom" />
+      <recent name="edu.wol.starsystem" />
+      <recent name="edu.wol.dom" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
-      <recent name="wol.dom" />
+      <recent name="edu.wol.dom" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="wol.starsystem" />
-      <recent name="wol.process" />
-      <recent name="wol.dom.phisycs" />
-      <recent name="wol" />
-      <recent name="wol.dom" />
+      <recent name="edu.wol.starsystem" />
+      <recent name="edu.wol.process" />
+      <recent name="edu.wol.dom.phisycs" />
+      <recent name="edu.wol" />
+      <recent name="edu.wol.dom" />
     </key>
   </component>
   <component name="RunManager" selected="Maven.WorldContainer [test]">
@@ -554,8 +554,8 @@
       <module name="Test" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="wol" />
-      <option name="MAIN_CLASS_NAME" value="wol.AppTest" />
+      <option name="PACKAGE_NAME" value="edu.wol" />
+      <option name="MAIN_CLASS_NAME" value="edu.wol.AppTest" />
       <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" />
@@ -1020,17 +1020,17 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/wol/dom/space/Gravity.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu.wol/dom/space/Gravity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="20" selection-start="263" selection-end="270" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/wol/dom/phisycs/Collision.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu.wol/dom/phisycs/Collision.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="13" selection-start="113" selection-end="113" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/wol/dom/phisycs/Acceleration.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu.wol/dom/phisycs/Acceleration.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="18" column="10" selection-start="449" selection-end="449" vertical-scroll-proportion="0.0" />
       </provider>
@@ -1040,57 +1040,57 @@
         <state line="18" column="31" selection-start="866" selection-end="866" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/wol/starsystem/SolarSystemPhisycs.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu.wol/starsystem/SolarSystemPhisycs.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="4" column="17" selection-start="64" selection-end="64" vertical-scroll-proportion="0.042857144" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/wol/starsystem/planets/PlanetSystem.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu.wol/starsystem/planets/PlanetSystem.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="23" column="37" selection-start="448" selection-end="473" vertical-scroll-proportion="0.036057692" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/wol/WorldTest.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/edu.wol/WorldTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="64" column="51" selection-start="1914" selection-end="1914" vertical-scroll-proportion="0.6759907" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/wol/dom/space/iSpace.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu.wol/dom/space/iSpace.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="16" column="109" selection-start="440" selection-end="440" vertical-scroll-proportion="0.42525774" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/wol/dom/WorldContainer.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu.wol/dom/WorldContainer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="22" column="15" selection-start="587" selection-end="587" vertical-scroll-proportion="0.06185567" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/wol/process/iTimeManager.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu.wol/process/iTimeManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="17" column="93" selection-start="440" selection-end="440" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/wol/dom/phisycs/iPhisycs.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu.wol/dom/phisycs/iPhisycs.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="17" column="89" selection-start="416" selection-end="416" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/wol/dom/iEventGenerator.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu.wol/dom/iEventGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="32" selection-start="188" selection-end="203" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/wol/dom/iEventObserver.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu.wol/dom/iEventObserver.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="31" selection-start="186" selection-end="200" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/wol/starsystem/planets/iPlanetoid.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu.wol/starsystem/planets/iPlanetoid.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="17" selection-start="116" selection-end="116" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/wol/starsystem/StarsContainer.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu.wol/starsystem/StarsContainer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="37" column="5" selection-start="953" selection-end="953" vertical-scroll-proportion="0.0">
           <folding>
@@ -1099,7 +1099,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/wol/process/CoerenceProcessor.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu.wol/process/CoerenceProcessor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="24" selection-start="232" selection-end="232" vertical-scroll-proportion="0.37406483">
           <folding />

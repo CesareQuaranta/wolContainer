@@ -1,19 +1,27 @@
-package wol.starsystem;
-
-import wol.TimeQueque;
-import wol.dom.iEvent;
-import wol.physics.starsystem.SolarSystemPhisycs;
-import wol.starsystem.planets.Cosmos;
-import wol.dom.WorldContainer;
-import wol.dom.space.Position;
-import wol.dom.space.iCoordinate;
-import wol.dom.space.iPlanetEntity;
-import wol.dom.space.iPlanetoid;
-import wol.dom.space.iSpace;
-import wol.dom.time.iTimeManager;
+package edu.wol.starsystem;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import edu.wol.TimeQueque;
+import edu.wol.dom.WorldContainer;
+import edu.wol.dom.iEvent;
+import edu.wol.dom.space.Position;
+import edu.wol.dom.space.iCoordinate;
+import edu.wol.dom.space.iPlanetEntity;
+import edu.wol.dom.space.iPlanetoid;
+import edu.wol.dom.space.iSpace;
+import edu.wol.dom.time.iTimeManager;
+import edu.wol.physics.starsystem.SolarSystemPhisycs;
+import edu.wol.starsystem.planets.Cosmos;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,17 +30,25 @@ import java.util.Collection;
  * Time: 23.50.16
  * To change this template use File | Settings | File Templates.
  */
-public class StarsContainer implements WorldContainer<iPlanetoid,Position> {
+@Entity
+@Table(name="WOL_STARDIAL")
+public class StarDial implements WorldContainer<iPlanetoid,Position> {
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 8786030279582189151L;
+	@Id
+	@GeneratedValue
+	private long ID;
+	
+	@OneToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="SDIAL_ID")
 	private iTimeManager<iPlanetoid> timeManager;
     private Cosmos space;
     private SolarSystemPhisycs phisycs;
     private Collection<WorldContainer<iPlanetEntity,Position>> subWorlds=new ArrayList<WorldContainer<iPlanetEntity,Position>>();
 
-    public StarsContainer() {
+    public StarDial() {
 	}
     
 	@Override
