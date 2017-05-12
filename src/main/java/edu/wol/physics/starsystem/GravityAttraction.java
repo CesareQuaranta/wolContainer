@@ -4,15 +4,15 @@ import java.util.Map;
 
 import edu.wol.dom.iInternalCause;
 import edu.wol.dom.space.BigVector;
-import edu.wol.dom.space.iPlanetoid;
+import edu.wol.dom.space.Planetoid;
 
-public class GravityAttraction implements iInternalCause<iPlanetoid> {
+public class GravityAttraction implements iInternalCause<Planetoid> {
 	private static final long serialVersionUID = 1L;
-	private iPlanetoid entity;
+	private Planetoid entity;
 	private Map<GravityField,BigVector> gravityFields;
 
 
-	public GravityAttraction(iPlanetoid curPlanet, Map<GravityField,BigVector> gravityFields) {
+	public GravityAttraction(Planetoid curPlanet, Map<GravityField,BigVector> gravityFields) {
 		this.entity=curPlanet;
 		this.gravityFields=gravityFields;
 	}
@@ -24,11 +24,11 @@ public class GravityAttraction implements iInternalCause<iPlanetoid> {
 	}
 
 
-	public iPlanetoid getEntity() {
+	public Planetoid getEntity() {
 		return entity;
 	}
 
-	public void setEntity(iPlanetoid entity) {
+	public void setEntity(Planetoid entity) {
 		this.entity = entity;
 	}
 

@@ -13,7 +13,7 @@ import edu.wol.dom.space.LivingPlanet;
 import edu.wol.dom.space.Planet;
 import edu.wol.dom.space.Position;
 import edu.wol.dom.space.Star;
-import edu.wol.dom.space.iPlanetoid;
+import edu.wol.dom.space.Planetoid;
 import edu.wol.physics.starsystem.SolarSystemPhisycs;
 import edu.wol.starsystem.StarDial;
 import edu.wol.starsystem.planets.Cosmos;
@@ -43,7 +43,7 @@ public class FunctionalTest {
 	@Test
 	public void basePhisicTest(){
 		Cosmos space = new Cosmos();
-		TimeQueque<iPlanetoid> tq = new TimeQueque<iPlanetoid>();
+		TimeQueque<Planetoid> tq = new TimeQueque<Planetoid>();
 		SolarSystemPhisycs phisycs = new SolarSystemPhisycs(space, tq, 1,1);
 		space.addObserver(phisycs);
 	    tq.addObserver(phisycs);
@@ -81,60 +81,63 @@ public class FunctionalTest {
 		sc.getPhisycs().applyForce(earth, orbitalForceEarth);
 		
 		Planet moon=insertMoon(sc);
-		Position moonCoordinate=sc.getSpace().getPosition(moon);
-		Force orbitalForceMoon=new Force(moon.getMass(),new Acceleration(-1000,0,0));
-		sc.getPhisycs().applyForce(moon, orbitalForceMoon);
-		
-		iPlanetoid sat=insertSatellite(sc);
-		Position satCoordinate=sc.getSpace().getPosition(sat);
-		Force orbitalForceSat=new Force(sat.getMass(),new Acceleration(-6000,0,0));
-		sc.getPhisycs().applyForce(sat, orbitalForceSat);
-		
-		//Apply force x 1 second
-		for (long i = 0; i < oneSecond+1; i++) {
-			sc.run();
+		if(moon != null){
+			Position moonCoordinate=sc.getSpace().getPosition(moon);
+			Force orbitalForceMoon=new Force(moon.getMass(),new Acceleration(-1000,0,0));
+			sc.getPhisycs().applyForce(moon, orbitalForceMoon);
+			
+			Planetoid sat=insertSatellite(sc);
+			Position satCoordinate=sc.getSpace().getPosition(sat);
+			Force orbitalForceSat=new Force(sat.getMass(),new Acceleration(-6000,0,0));
+			sc.getPhisycs().applyForce(sat, orbitalForceSat);
+			
+			//Apply force x 1 second
+			for (long i = 0; i < oneSecond+1; i++) {
+				sc.run();
+			}
+			System.out.println("Stop apply forcs");
+			sc.getPhisycs().removeForce(earth, orbitalForceEarth);
+			sc.getPhisycs().removeForce(moon, orbitalForceMoon);
+			sc.getPhisycs().removeForce(sat, orbitalForceSat);
+			
+			for (long i = 0; i < numRun-(oneSecond+1); i++) {
+				sc.run();
+			}
+			
+			System.out.println("Solar System test successull terminated");
+			System.out.println("Results:");
+			long secondsSimulated=(long) (numRun/oneSecond);
+			System.out.println(secondsSimulated+" seconds simulated in "+((System.currentTimeMillis()-start)/1000)+"s");
+			
+			Position sunFinalPosition=sc.getSpace().getPosition(sun);
+			BigVector sunDistance=sunCoordinate.getDistanceVector(sunFinalPosition);
+			System.out.println("Sun movements:"+sunDistance);
+			
+			Position earthFinalPosition=sc.getSpace().getPosition(earth);
+			BigVector earthDistance=earthCoordinate.getDistanceVector(earthFinalPosition);
+			System.out.println("Earth movements:"+earthDistance);
+			
+			Position moonFinalPosition=sc.getSpace().getPosition(moon);
+			BigVector moonDistance=moonCoordinate.getDistanceVector(moonFinalPosition);
+			System.out.println("Moon movements:"+moonDistance);
+			
+			Position satFinalPosition=sc.getSpace().getPosition(sat);
+			BigVector satDistance=satCoordinate.getDistanceVector(satFinalPosition);
+			System.out.println("Satellite movements:"+satDistance);
 		}
-		System.out.println("Stop apply forcs");
-		sc.getPhisycs().removeForce(earth, orbitalForceEarth);
-		sc.getPhisycs().removeForce(moon, orbitalForceMoon);
-		sc.getPhisycs().removeForce(sat, orbitalForceSat);
 		
-		for (long i = 0; i < numRun-(oneSecond+1); i++) {
-			sc.run();
-		}
-		
-		System.out.println("Solar System test successull terminated");
-		System.out.println("Results:");
-		long secondsSimulated=(long) (numRun/oneSecond);
-		System.out.println(secondsSimulated+" seconds simulated in "+((System.currentTimeMillis()-start)/1000)+"s");
-		
-		Position sunFinalPosition=sc.getSpace().getPosition(sun);
-		BigVector sunDistance=sunCoordinate.getDistanceVector(sunFinalPosition);
-		System.out.println("Sun movements:"+sunDistance);
-		
-		Position earthFinalPosition=sc.getSpace().getPosition(earth);
-		BigVector earthDistance=earthCoordinate.getDistanceVector(earthFinalPosition);
-		System.out.println("Earth movements:"+earthDistance);
-		
-		Position moonFinalPosition=sc.getSpace().getPosition(moon);
-		BigVector moonDistance=moonCoordinate.getDistanceVector(moonFinalPosition);
-		System.out.println("Moon movements:"+moonDistance);
-		
-		Position satFinalPosition=sc.getSpace().getPosition(sat);
-		BigVector satDistance=satCoordinate.getDistanceVector(satFinalPosition);
-		System.out.println("Satellite movements:"+satDistance);
 	}
 
 	//Dati reali espressi in Kg e metri
 	private Planet generateEarth(){
 		Planet earth=new LivingPlanet(EarthMass,EatrhRadius );
-		earth.setUID("EARTH");
+		//earth.setUID("EARTH");
 		return earth;
 	}
 	
 	private Star generateSun(){
 		Star sun=new Star(SunMass,SunRadius);
-		sun.setUID("SUN");
+		//sun.setUID("SUN");
 		return sun;
 	}
 	private Planet insertEarth(StarDial sc) {
@@ -145,18 +148,22 @@ public class FunctionalTest {
 	
 	private Planet insertMoon(StarDial sc) {
 		Planet earth=(Planet) findPlanetoid(sc.getAllEntities(),"Earth");
-		Position earthPosition=sc.getSpace().getPosition(earth);
-		Planet moon=new Planet(MoonMass, MoonRadius);
-		moon.setUID("MOON");
-		Position moonCoordinate = new Position(earthPosition.getX(),(long)(earthPosition.getY()+DistanceMoonEarth),earthPosition.getZ());
-		sc.insertEntity(moonCoordinate,moon );
-		return moon;
+		if(earth != null){
+			Position earthPosition=sc.getSpace().getPosition(earth);
+			Planet moon=new Planet(MoonMass, MoonRadius);
+			//moon.setUID("MOON");
+			Position moonCoordinate = new Position(earthPosition.getX(),(long)(earthPosition.getY()+DistanceMoonEarth),earthPosition.getZ());
+			sc.insertEntity(moonCoordinate,moon );
+			return moon;
+		}else{
+			return null;
+		}
 	}
-	private iPlanetoid insertSatellite(StarDial sc) {
+	private Planetoid insertSatellite(StarDial sc) {
 		Planet earth=(Planet) findPlanetoid(sc.getAllEntities(),"Earth");
 		Position earthPosition=sc.getSpace().getPosition(earth);
 		Planet satellite=new Planet(10, 10);
-		satellite.setUID("SatBX213");
+		//satellite.setUID("SatBX213");
 		long altitude=10000;
 		Position satelliteCoordinate = new Position(earthPosition.getX(),(long)(earthPosition.getY()+EatrhRadius+altitude),earthPosition.getZ());
 		sc.insertEntity(satelliteCoordinate,satellite );
@@ -169,13 +176,13 @@ public class FunctionalTest {
 		return sun;
 	}
 	
-	private iPlanetoid findPlanetoid(Collection<iPlanetoid> planets,String UID){
-		Iterator<iPlanetoid> planetIterator=planets.iterator();
+	private Planetoid findPlanetoid(Collection<Planetoid> planets,String UID){
+		Iterator<Planetoid> planetIterator=planets.iterator();
 		while(planetIterator.hasNext()){
-			iPlanetoid curPlanetoid=planetIterator.next();
-			if(curPlanetoid.getUID().equalsIgnoreCase(UID)){
+			Planetoid curPlanetoid=planetIterator.next();
+			/*if(curPlanetoid.getUID().equalsIgnoreCase(UID)){
 				return curPlanetoid;
-			}
+			}*/
 		}
 		return null;
 	}

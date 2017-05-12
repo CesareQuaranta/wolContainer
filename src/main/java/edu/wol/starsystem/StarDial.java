@@ -16,8 +16,7 @@ import edu.wol.dom.WorldContainer;
 import edu.wol.dom.iEvent;
 import edu.wol.dom.space.Position;
 import edu.wol.dom.space.iCoordinate;
-import edu.wol.dom.space.iPlanetEntity;
-import edu.wol.dom.space.iPlanetoid;
+import edu.wol.dom.space.Planetoid;
 import edu.wol.dom.space.iSpace;
 import edu.wol.dom.time.iTimeManager;
 import edu.wol.physics.starsystem.SolarSystemPhisycs;
@@ -32,7 +31,7 @@ import edu.wol.starsystem.planets.Cosmos;
  */
 @Entity
 @Table(name="WOL_STARDIAL")
-public class StarDial implements WorldContainer<iPlanetoid,Position> {
+public class StarDial implements WorldContainer<Planetoid,Position> {
     /**
 	 * 
 	 */
@@ -43,10 +42,10 @@ public class StarDial implements WorldContainer<iPlanetoid,Position> {
 	
 	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="SDIAL_ID")
-	private iTimeManager<iPlanetoid> timeManager;
+	private TimeQueque<Planetoid> timeManager;
     private Cosmos space;
     private SolarSystemPhisycs phisycs;
-    private Collection<WorldContainer<iPlanetEntity,Position>> subWorlds=new ArrayList<WorldContainer<iPlanetEntity,Position>>();
+    private Collection<WorldContainer<Planetoid,Position>> subWorlds=new ArrayList<WorldContainer<Planetoid,Position>>();
 
     public StarDial() {
 	}
@@ -57,7 +56,7 @@ public class StarDial implements WorldContainer<iPlanetoid,Position> {
     		space=new Cosmos();
     	}
     	if(timeManager==null){
-    		timeManager = new TimeQueque<iPlanetoid>();
+    		timeManager = new TimeQueque<Planetoid>();
     	}
     	if(phisycs==null){
     		phisycs = new SolarSystemPhisycs(space, timeManager, spacePrecision,timePrecision);
@@ -69,7 +68,7 @@ public class StarDial implements WorldContainer<iPlanetoid,Position> {
     }
     public void run() {
         phisycs.run();
-        for(WorldContainer<iPlanetEntity,Position> subWold:subWorlds){
+        for(WorldContainer<Planetoid,Position> subWold:subWorlds){
         	subWold.run();
         }
     }
@@ -78,14 +77,14 @@ public class StarDial implements WorldContainer<iPlanetoid,Position> {
     	this.space=space;
     }
     
-    public void insertEntity(iCoordinate coordinate,iPlanetoid entity){
+    public void insertEntity(iCoordinate coordinate,Planetoid entity){
     		phisycs.insert(entity,(Position) coordinate);
     		if(entity instanceof WorldContainer){
-    			subWorlds.add((WorldContainer<iPlanetEntity,Position>) entity);
+    			subWorlds.add((WorldContainer<Planetoid,Position>) entity);
     		}
     }
     
-    public Collection<iPlanetoid> getAllEntities(){
+    public Collection<Planetoid> getAllEntities(){
 		return space.getAllEntities();
     }
 
@@ -99,16 +98,16 @@ public class StarDial implements WorldContainer<iPlanetoid,Position> {
 		this.phisycs=phisycs;
 	}
 	
-	public void setTimeManager(iTimeManager<iPlanetoid> tm) {
+	public void setTimeManager(TimeQueque<Planetoid> tm) {
 		this.timeManager=tm;
 	}
 	
-	public iTimeManager<iPlanetoid> getTimeManager() {
+	public iTimeManager<Planetoid> getTimeManager() {
 		return timeManager;
 	}
 	
 	@Override
-	public iSpace<iPlanetoid,Position> getSpace() {
+	public iSpace<Planetoid,Position> getSpace() {
 		return space;
 	}
 	

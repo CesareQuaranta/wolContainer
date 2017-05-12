@@ -16,13 +16,13 @@ import edu.wol.dom.iEventObserver;
 import edu.wol.dom.phisycs.Collision;
 import edu.wol.dom.phisycs.Force;
 import edu.wol.dom.phisycs.ForceFactory;
-import edu.wol.dom.shape.iShape;
+import edu.wol.dom.shape.Shape;
 import edu.wol.dom.space.BigVector;
 import edu.wol.dom.space.Movement;
 import edu.wol.dom.space.NewPosition;
 import edu.wol.dom.space.Position;
 import edu.wol.dom.space.Vector;
-import edu.wol.dom.space.iPlanetoid;
+import edu.wol.dom.space.Planetoid;
 import edu.wol.dom.space.iSpace;
 import edu.wol.physics.starsystem.GravityAttraction;
 import edu.wol.physics.starsystem.GravityField;
@@ -31,36 +31,36 @@ import edu.wol.physics.starsystem.GravityField;
  * @author cesare
  *
  */
-public class Cosmos implements iSpace<iPlanetoid,Position> {
+public class Cosmos implements iSpace<Planetoid,Position> {
    /**
 	 * 
 	 */
 	private static final long serialVersionUID = 9186629741540928858L;
     private static final long spaceUnit=1L;
 
-    private Map<Position,iPlanetoid> space;
+    private Map<Position,Planetoid> space;
     private Map<Position,GravityField> gravityFields;
-    private Map<iPlanetoid,Position> index;
-    private List<iEventObserver<iPlanetoid>> observers;
+    private Map<Planetoid,Position> index;
+    private List<iEventObserver<Planetoid>> observers;
 
     public Cosmos(){
-            space=new HashMap<Position,iPlanetoid>();//TODO da implementare hash map ottimizzata
-            index=new HashMap<iPlanetoid,Position>();
+            space=new HashMap<Position,Planetoid>();//TODO da implementare hash map ottimizzata
+            index=new HashMap<Planetoid,Position>();
             gravityFields=new HashMap<Position,GravityField>();
-            observers=new ArrayList<iEventObserver<iPlanetoid>>();
+            observers=new ArrayList<iEventObserver<Planetoid>>();
     }
 
-    public Collection<iPlanetoid> getAllEntities(){
+    public Collection<Planetoid> getAllEntities(){
         return index.keySet();
     }
 
-    public boolean insertEntity(Position position,iPlanetoid planet){
+    public boolean insertEntity(Position position,Planetoid planet){
     	boolean ok=false;
         if (!index.containsKey(planet)&&getEntity(position)==null){
         	boolean collision=false;
-        	Iterator<iPlanetoid> planets=index.keySet().iterator();
+        	Iterator<Planetoid> planets=index.keySet().iterator();
         	while(collision==false&&planets.hasNext()){
-        		iPlanetoid checkPlanet=planets.next();
+        		Planetoid checkPlanet=planets.next();
         		Position checkPosition=index.get(checkPlanet);
         		double checkDistance=position.getDistance(checkPosition);
         		collision=checkDistance<(planet.getRadius()+checkPlanet.getRadius());
@@ -88,7 +88,7 @@ public class Cosmos implements iSpace<iPlanetoid,Position> {
 	        		
 					for(GravityField curGravityField:GF){//For all planet
 						if(!curGravityField.getCenter().equals(position)){
-							iPlanetoid curPlanet=space.get(curGravityField.getCenter());
+							Planetoid curPlanet=space.get(curGravityField.getCenter());
 							Position curPlatetPosition=curGravityField.getCenter();
 							//Collection<Force> forces2=new ArrayList<Force>(GF.size()-1);
 							Collection<GravityField> GF2=getEngagedGravityFields(curPlatetPosition,curPlanet.getMass());
@@ -124,30 +124,30 @@ public class Cosmos implements iSpace<iPlanetoid,Position> {
 		return engagedFields;
 	}
 
-	public iPlanetoid getEntity(Position position) {
+	public Planetoid getEntity(Position position) {
         return space.get(position);  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public Position getPosition(iPlanetoid planetoid) {
+    public Position getPosition(Planetoid planetoid) {
         return index.get(planetoid);  //To change body of implemented methods use File | Settings | File Templates.
     }
 
 
-    public boolean process(Movement<iPlanetoid> movement) {
+    public boolean process(Movement<Planetoid> movement) {
     	Position curPosition=index.get(movement.getEntity());
         Vector moveVector=movement.getVector();
         Position result=curPosition.clone();
         result.sum(moveVector);
-        	 List<iPlanetoid> collisionList=null;//checkCollision(curPosition,result);
+        	 List<Planetoid> collisionList=null;//checkCollision(curPosition,result);
              if(collisionList==null){
              	move(movement.getEntity(),result);
              	//TODO fire event Move x ricalcolo forze
              	System.out.println("Pianeta "+movement.getEntity()+" mosso in "+result);
-             	fireEvent(new NewPosition<iPlanetoid>(movement.getEntity(),result));
+             	fireEvent(new NewPosition<Planetoid>(movement.getEntity(),result));
              	return true;
              }else{
-             	for(iPlanetoid curPlanet:collisionList){
-     				fireEvent(new Collision<iPlanetoid>(movement.getEntity(),curPlanet));
+             	for(Planetoid curPlanet:collisionList){
+     				fireEvent(new Collision<Planetoid>(movement.getEntity(),curPlanet));
      			}
              }
         return false;
@@ -155,7 +155,7 @@ public class Cosmos implements iSpace<iPlanetoid,Position> {
     }
 
 
-    public void addObserver(iEventObserver<iPlanetoid> observer) {
+    public void addObserver(iEventObserver<Planetoid> observer) {
         observers.add(observer);
     }
 
@@ -186,11 +186,11 @@ public class Cosmos implements iSpace<iPlanetoid,Position> {
 
    
     
-    private List<iPlanetoid> checkCollision(Position startPoint,Position endPoint){
-    	List<iPlanetoid> collisionList=null;
+    private List<Planetoid> checkCollision(Position startPoint,Position endPoint){
+    	List<Planetoid> collisionList=null;
 
-       iPlanetoid startPlanet=getEntity(startPoint);
-       iShape startPlanetShape=startPlanet.getShape();//TODO Check collision with shape
+       Planetoid startPlanet=getEntity(startPoint);
+       Shape startPlanetShape=startPlanet.getShape();//TODO Check collision with shape
        Position curPoint=startPoint.clone();
        float curX=curPoint.getX();
        float curY=curPoint.getY();
@@ -204,13 +204,13 @@ public class Cosmos implements iSpace<iPlanetoid,Position> {
        float addZ=difZ/difMax*spaceUnit;
         double planetRadius=startPlanet.getRadius();
         while(!curPoint.equals(endPoint)){
-        for(iPlanetoid curPlanet:index.keySet()){
+        for(Planetoid curPlanet:index.keySet()){
             if(!curPlanet.equals(startPlanet)){
             	Position curVector=index.get(curPlanet);
             	double curRadius=curPlanet.getRadius();
                if(checkCollision(curPoint,planetRadius,curVector,curRadius)){
     			if (collisionList==null){
-    				collisionList=new LinkedList<iPlanetoid>();
+    				collisionList=new LinkedList<Planetoid>();
     			    }
     			collisionList.add(curPlanet);
     		    }
@@ -261,7 +261,7 @@ public class Cosmos implements iSpace<iPlanetoid,Position> {
         return false;
     }
     
-    protected void move(iPlanetoid planet,Position newPosition){
+    protected void move(Planetoid planet,Position newPosition){
     	Position oldPosition=getPosition(planet);
     	space.remove(oldPosition);
     	space.put(newPosition,planet);
@@ -269,7 +269,7 @@ public class Cosmos implements iSpace<iPlanetoid,Position> {
     }
     
     protected void fireEvent(iEvent event){
-    	for(iEventObserver<iPlanetoid> observer:observers){
+    	for(iEventObserver<Planetoid> observer:observers){
             observer.processEvent(event);
     	}
     }

@@ -18,7 +18,7 @@ import edu.wol.dom.phisycs.Inertia;
 import edu.wol.dom.phisycs.Velocity;
 import edu.wol.dom.space.Movement;
 import edu.wol.dom.space.Position;
-import edu.wol.dom.space.iPlanetoid;
+import edu.wol.dom.space.Planetoid;
 import edu.wol.dom.time.Ichinen;
 import edu.wol.dom.time.ManifestPresent;
 import edu.wol.dom.time.iTimeManager;
@@ -29,33 +29,33 @@ import edu.wol.starsystem.planets.Cosmos;
  * Created by IntelliJ IDEA. User: cesare Date: 06/10/11 Time: 0.12 To change
  * this template use File | Settings | File Templates.
  */
-public class SolarSystemPhisycs extends BasePhisycs<iPlanetoid> {
+public class SolarSystemPhisycs extends BasePhisycs<Planetoid> {
 	private static final long serialVersionUID = -7499754647514879204L;
 	public static final int LIGHT_VELOCITY = (int) 3e7;
     
-	private Collection<iPlanetoid> planets = new ArrayList<iPlanetoid>();
+	private Collection<Planetoid> planets = new ArrayList<Planetoid>();
 	private Map<GravityField,Force> gravityFieldsIndex=new HashMap<GravityField,Force>();
 
 	public SolarSystemPhisycs(){
 		
 	}
-	public SolarSystemPhisycs(Cosmos space, iTimeManager<iPlanetoid> time) {
+	public SolarSystemPhisycs(Cosmos space, iTimeManager<Planetoid> time) {
 		this(space,time,1, 1);
 	}
 
-	public SolarSystemPhisycs(Cosmos space, iTimeManager<iPlanetoid> time,float spacePrecision, float maxVelocity) {
+	public SolarSystemPhisycs(Cosmos space, iTimeManager<Planetoid> time,float spacePrecision, float maxVelocity) {
 		//Super class initialize
-		this.activeForces=new HashMap<Force,Ichinen<iPlanetoid>>();
-		this.forcesIndex=new HashMap<iPlanetoid,Collection<Force>>(); 
-	    this.heap=new LinkedList<iPlanetoid>();
-	    this.ichinens = new HashMap<iPlanetoid, Ichinen<iPlanetoid>>();
-	    this.velocityIndex = new HashMap<iPlanetoid, Velocity>();
+		this.activeForces=new HashMap<Force,Ichinen<Planetoid>>();
+		this.forcesIndex=new HashMap<Planetoid,Collection<Force>>(); 
+	    this.heap=new LinkedList<Planetoid>();
+	    this.ichinens = new HashMap<Planetoid, Ichinen<Planetoid>>();
+	    this.velocityIndex = new HashMap<Planetoid, Velocity>();
 		this.space=space;
 		this.time=time;
 		this.spacePrecision = spacePrecision;
 		this.maxVelocity=maxVelocity;
 		this.timePrecision = spacePrecision/maxVelocity;
-		for(iPlanetoid curPlanet:space.getAllEntities()){
+		for(Planetoid curPlanet:space.getAllEntities()){
 			if(!planets.contains(curPlanet)){
 				initialize(curPlanet);
 				
@@ -68,20 +68,20 @@ public class SolarSystemPhisycs extends BasePhisycs<iPlanetoid> {
 		super.run();
 	}
 
-	public void insert(iPlanetoid planet,Position coordinate) {
+	public void insert(Planetoid planet,Position coordinate) {
 		if(space.insertEntity((Position)coordinate, planet)){
 			initialize(planet);
 		}
 	}
 	
-	private void initialize(iPlanetoid planet) {
+	private void initialize(Planetoid planet) {
 		planets.add(planet);
 		velocityIndex.put(planet, new Velocity(1));
 	}
 	  @Override
 		public void processEvent(iEvent event) {
 		  if(event instanceof ManifestPresent){
-			  processPresent(((ManifestPresent<iPlanetoid>)event).getPresent());
+			  processPresent(((ManifestPresent<Planetoid>)event).getPresent());
 		  }else if(event instanceof GravityAttraction){
 	    		GravityAttraction GA=(GravityAttraction)event;
 	    		for(GravityField curGravityField:GA.getGravityFields().keySet()){
@@ -117,11 +117,11 @@ public class SolarSystemPhisycs extends BasePhisycs<iPlanetoid> {
 				}   */
 			}
 	
-	private void processPresent(List<Ichinen<iPlanetoid>> present) {
-		for(Ichinen<iPlanetoid> curIchinen:present){
+	private void processPresent(List<Ichinen<Planetoid>> present) {
+		for(Ichinen<Planetoid> curIchinen:present){
 			iPower power=curIchinen.getPower();
-			Effect<iPlanetoid> curEffect=curIchinen.getEffect();
-			iPlanetoid entity=curIchinen.getEntity();
+			Effect<Planetoid> curEffect=curIchinen.getEffect();
+			Planetoid entity=curIchinen.getEntity();
 			if(power instanceof Acceleration){
 				Velocity curVelocity=velocityIndex.get(entity);
 				Velocity newVelocity=(Velocity)curIchinen.getAction();
@@ -129,14 +129,14 @@ public class SolarSystemPhisycs extends BasePhisycs<iPlanetoid> {
 
 				
 				if(curEffect instanceof Movement){
-					space.process((Movement<iPlanetoid>)curEffect);
+					space.process((Movement<Planetoid>)curEffect);
 				}
-				Forces<iPlanetoid> extrenalCause=(Forces<iPlanetoid>) curIchinen.getExternalCause();
+				Forces<Planetoid> extrenalCause=(Forces<Planetoid>) curIchinen.getExternalCause();
 				insertAccellerationIchinen(curIchinen.getEntity(), extrenalCause.getForces());//TODO Ottimizzazzione inserire lo stesso ichinen non ricalcolarlo ogni volta
 			}
 			else if(power instanceof Inertia){
 				if(curEffect instanceof Movement){
-					space.process((Movement<iPlanetoid>)curEffect);
+					space.process((Movement<Planetoid>)curEffect);
 				}
 				insertInertiaIchinen(curIchinen.getEntity());//TODO Ottimizzazzione inserire lo stesso ichinen non ricalcolarlo ogni volta
 			}

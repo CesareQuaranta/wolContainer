@@ -4,11 +4,11 @@ import edu.wol.dom.phisycs.Acceleration;
 import edu.wol.dom.phisycs.Force;
 import edu.wol.dom.phisycs.ForceFactory;
 import edu.wol.dom.phisycs.iForceElements;
-import edu.wol.dom.phisycs.iMassEntity;
+import edu.wol.dom.phisycs.MassEntity;
 import edu.wol.dom.space.BigVector;
 import edu.wol.dom.space.Position;
 import edu.wol.dom.space.Vector;
-import edu.wol.dom.space.iPlanetoid;
+import edu.wol.dom.space.Planetoid;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,7 +28,7 @@ public class GravityField implements ForceFactory {
 		this.mass=mass;
 	}
 
-	 private Vector processGravityVector(iPlanetoid planet){
+	 private Vector processGravityVector(Planetoid planet){
 	        Vector gravityVector=null;
 	      /*  Vector planetPosition=index.get(planet);
 	        List<Vector> gravityVectors=new ArrayList<Vector>(0);
@@ -57,7 +57,7 @@ public class GravityField implements ForceFactory {
 		return Math.sqrt(gravityBaseIntensity);
 	}
 
-	public Force getForce(iMassEntity entity,BigVector distance) {
+	public Force getForce(MassEntity entity,BigVector distance) {
 		GravityForceElements elements=new GravityForceElements(entity,distance);
 		return getForce(elements);
 	}
@@ -77,15 +77,15 @@ public class GravityField implements ForceFactory {
 			return new Force(entityMass,gravityAcceleration);
 	}
 	
-	public class GravityForceElements implements iForceElements<iMassEntity>{
-		private iMassEntity entity;
+	public class GravityForceElements implements iForceElements<MassEntity>{
+		private MassEntity entity;
 		private BigVector distance;
-		public GravityForceElements(iMassEntity entity, BigVector distance) {
+		public GravityForceElements(MassEntity entity, BigVector distance) {
 			super();
 			this.entity = entity;
 			this.distance = distance;
 		}
-		public iMassEntity getEntity() {
+		public MassEntity getEntity() {
 			return entity;
 		}
 		public BigVector getDistance() {

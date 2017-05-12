@@ -11,7 +11,7 @@ import edu.wol.TimeQueque;
 import edu.wol.dom.space.Planet;
 import edu.wol.dom.space.Position;
 import edu.wol.dom.space.Vector;
-import edu.wol.dom.space.iPlanetoid;
+import edu.wol.dom.space.Planetoid;
 import edu.wol.dom.time.Ichinen;
 import edu.wol.starsystem.planets.Cosmos;
 
@@ -36,10 +36,10 @@ public class UnitTest {
 	
 	@Test
 	public void testTime() {
-		TimeQueque<iPlanetoid> timeQ=new  TimeQueque<iPlanetoid>();
-		List<Ichinen<iPlanetoid>> ichinenList=new ArrayList<Ichinen<iPlanetoid>>(5);
+		TimeQueque<Planetoid> timeQ=new  TimeQueque<Planetoid>();
+		List<Ichinen<Planetoid>> ichinenList=new ArrayList<Ichinen<Planetoid>>(5);
 		for(int i=0;i<5;i++)
-			ichinenList.add(i,new Ichinen<iPlanetoid>(null));
+			ichinenList.add(i,new Ichinen<Planetoid>(null));
 		
 		timeQ.addFuture(ichinenList.get(2), 3);
 		timeQ.addFuture(ichinenList.get(0), 0);
@@ -56,7 +56,7 @@ public class UnitTest {
 		emptyIndex.add(9);
 		int j=0;
 		for(int i=0;i<11;i++){
-			List<Ichinen<iPlanetoid>> present=timeQ.getPresent();
+			List<Ichinen<Planetoid>> present=timeQ.getPresent();
 			if(emptyIndex.contains(i)){
 				Assert.assertNull("Get present error: unespected present",present);
 			}else{
@@ -67,14 +67,14 @@ public class UnitTest {
 			
 	}
 	
-	private void checkPresent(List<Ichinen<iPlanetoid>> present,List<Ichinen<iPlanetoid>> expected){
+	private void checkPresent(List<Ichinen<Planetoid>> present,List<Ichinen<Planetoid>> expected){
 		Assert.assertNotNull("Get present error 1: Null present", present);
 		Assert.assertFalse("Get present error 2: Empty present",present.isEmpty());
 		Assert.assertFalse("Get present error 3: expected "+expected.size()+" present ichinen found "+present.size(),present.size()!=expected.size());
 		Assert.assertTrue("Present error: invalid ichinen",present.containsAll(expected));
 	}
 
-	private iPlanetoid generateRandomPlanet(){
+	private Planetoid generateRandomPlanet(){
 		return new Planet(Math.random(),Math.random());
 	}
 	
