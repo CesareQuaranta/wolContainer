@@ -1,7 +1,9 @@
-package wol;
+package edu.wol;
 
 import java.util.Collection;
 import java.util.Iterator;
+
+import org.junit.Test;
 
 import edu.wol.TimeQueque;
 import edu.wol.dom.phisycs.Acceleration;
@@ -38,7 +40,7 @@ public class FunctionalTest {
 		// TODO Auto-generated constructor stub
 	}
 	
-	@org.junit.Test
+	@Test
 	public void basePhisicTest(){
 		Cosmos space = new Cosmos();
 		TimeQueque<iPlanetoid> tq = new TimeQueque<iPlanetoid>();
@@ -59,7 +61,7 @@ public class FunctionalTest {
 	    //Assert.assertTrue("Test fallito Position:"+endPosition,endPosition.getX()==endPosition.getY() && endPosition.getY()==endPosition.getZ() && endPosition.getZ()==2);
 	}
 
-	@org.junit.Test
+	@Test
 	public void testSolarSystem() {
 		float maxVelocity=100000;//SolarSystemPhisycs.LIGHT_VELOCITY
 		float spacePrecision=1000;// in metri, 1km x simulazioni stellari

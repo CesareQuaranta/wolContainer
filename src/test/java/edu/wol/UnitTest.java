@@ -1,10 +1,11 @@
-package wol;
+package edu.wol;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import edu.wol.TimeQueque;
 import edu.wol.dom.space.Planet;
@@ -20,7 +21,7 @@ public class UnitTest {
 		// TODO Auto-generated constructor stub
 	}
 	
-	@org.junit.Test
+	@Test
 	public void testSpace() {
 		long px=149597870691L;
 		Position p1=new Position(px,0,0);
@@ -33,7 +34,7 @@ public class UnitTest {
 		Assert.assertFalse("Duplicate Insert with same coordinate",space.insertEntity(new Position(0L, 0L, 0L), generateRandomPlanet()));
 	}
 	
-	@org.junit.Test
+	@Test
 	public void testTime() {
 		TimeQueque<iPlanetoid> timeQ=new  TimeQueque<iPlanetoid>();
 		List<Ichinen<iPlanetoid>> ichinenList=new ArrayList<Ichinen<iPlanetoid>>(5);

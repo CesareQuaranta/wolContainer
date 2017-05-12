@@ -14,7 +14,7 @@
         <project.reporting.outputEncoding>
             UTF-8
         </project.reporting.outputEncoding>
-        <maven.test.skip>true</maven.test.skip>
+        <maven.test.skip>false</maven.test.skip>
     </properties>
 	
 	<dependencies>
@@ -24,7 +24,6 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>wol</groupId>
 			<artifactId>dom</artifactId>
