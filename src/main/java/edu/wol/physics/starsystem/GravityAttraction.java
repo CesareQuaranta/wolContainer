@@ -2,11 +2,11 @@ package edu.wol.physics.starsystem;
 
 import java.util.Map;
 
-import edu.wol.dom.iInternalCause;
+import edu.wol.dom.InternalCause;
 import edu.wol.dom.space.BigVector;
 import edu.wol.dom.space.Planetoid;
 
-public class GravityAttraction implements iInternalCause<Planetoid> {
+public class GravityAttraction extends InternalCause<Planetoid> {
 	private static final long serialVersionUID = 1L;
 	private Planetoid entity;
 	private Map<GravityField,BigVector> gravityFields;

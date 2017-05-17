@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import edu.wol.dom.Effect;
+import edu.wol.dom.Power;
 import edu.wol.dom.iEvent;
-import edu.wol.dom.iPower;
 import edu.wol.dom.phisycs.Acceleration;
 import edu.wol.dom.phisycs.Collision;
 import edu.wol.dom.phisycs.Force;
@@ -119,7 +119,7 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid> {
 	
 	private void processPresent(List<Ichinen<Planetoid>> present) {
 		for(Ichinen<Planetoid> curIchinen:present){
-			iPower power=curIchinen.getPower();
+			Power power=curIchinen.getPower();
 			Effect<Planetoid> curEffect=curIchinen.getEffect();
 			Planetoid entity=curIchinen.getEntity();
 			if(power instanceof Acceleration){

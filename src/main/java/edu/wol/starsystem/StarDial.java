@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -31,7 +32,7 @@ import edu.wol.starsystem.planets.Cosmos;
  */
 @Entity
 @Table(name="WOL_STARDIAL")
-public class StarDial implements WorldContainer<Planetoid,Position> {
+public class StarDial extends WorldContainer<Planetoid,Position> {
     /**
 	 * 
 	 */
@@ -45,7 +46,9 @@ public class StarDial implements WorldContainer<Planetoid,Position> {
 	private TimeQueque<Planetoid> timeManager;
     private Cosmos space;
     private SolarSystemPhisycs phisycs;
-    private Collection<WorldContainer<Planetoid,Position>> subWorlds=new ArrayList<WorldContainer<Planetoid,Position>>();
+    
+    //@OneToMany
+   // private Collection<WorldContainer<Planetoid,Position>> subWorlds=new ArrayList<WorldContainer<Planetoid,Position>>();
 
     public StarDial() {
 	}
@@ -68,9 +71,9 @@ public class StarDial implements WorldContainer<Planetoid,Position> {
     }
     public void run() {
         phisycs.run();
-        for(WorldContainer<Planetoid,Position> subWold:subWorlds){
+       /* for(WorldContainer<Planetoid,Position> subWold:subWorlds){
         	subWold.run();
-        }
+        }*/
     }
     
     public void setSpace(Cosmos space){
@@ -79,9 +82,9 @@ public class StarDial implements WorldContainer<Planetoid,Position> {
     
     public void insertEntity(iCoordinate coordinate,Planetoid entity){
     		phisycs.insert(entity,(Position) coordinate);
-    		if(entity instanceof WorldContainer){
+    		/*if(entity instanceof WorldContainer){
     			subWorlds.add((WorldContainer<Planetoid,Position>) entity);
-    		}
+    		}*/
     }
     
     public Collection<Planetoid> getAllEntities(){
