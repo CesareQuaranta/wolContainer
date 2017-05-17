@@ -1,5 +1,9 @@
 package edu.wol.physics.starsystem;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 import edu.wol.dom.phisycs.Acceleration;
 import edu.wol.dom.phisycs.Force;
 import edu.wol.dom.phisycs.ForceFactory;
@@ -17,9 +21,13 @@ import edu.wol.dom.space.Planetoid;
  * Time: 15.55
  * To change this template use File | Settings | File Templates.
  */
+@Entity
 public class GravityField implements ForceFactory {
 	private static final long serialVersionUID = 1L;
 	public static final float GRAVITATIONAL_CONSTANT = 6.6742e-11f;
+	@Id
+	@GeneratedValue
+	private long ID;
 	private Position center;
 	private double mass;
 	

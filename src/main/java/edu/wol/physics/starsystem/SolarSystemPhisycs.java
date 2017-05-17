@@ -7,6 +7,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
 import edu.wol.dom.Effect;
 import edu.wol.dom.Power;
 import edu.wol.dom.iEvent;
@@ -29,11 +34,17 @@ import edu.wol.starsystem.planets.Cosmos;
  * Created by IntelliJ IDEA. User: cesare Date: 06/10/11 Time: 0.12 To change
  * this template use File | Settings | File Templates.
  */
+@Entity
 public class SolarSystemPhisycs extends BasePhisycs<Planetoid> {
 	private static final long serialVersionUID = -7499754647514879204L;
 	public static final int LIGHT_VELOCITY = (int) 3e7;
-    
+	@Id
+	@GeneratedValue
+	private long ID;
+	
+	@OneToMany
 	private Collection<Planetoid> planets = new ArrayList<Planetoid>();
+	@OneToMany
 	private Map<GravityField,Force> gravityFieldsIndex=new HashMap<GravityField,Force>();
 
 	public SolarSystemPhisycs(){

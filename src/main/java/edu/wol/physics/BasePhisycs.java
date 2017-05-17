@@ -5,6 +5,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
+
 import edu.wol.dom.ExternalCause;
 import edu.wol.dom.WolEntity;
 import edu.wol.dom.iEvent;
@@ -30,8 +36,13 @@ import edu.wol.dom.time.iTimeManager;
  * Time: 23.25
  * To change this template use File | Settings | File Templates.
  */
+@MappedSuperclass
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class BasePhisycs<E extends WolEntity> implements iPhisycs<E>{
-	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue
+	private long ID;
+	
 	protected List<iEventObserver<E>> observers = new ArrayList<iEventObserver<E>>();
     protected iSpace<Planetoid, Position> space;
     protected iTimeManager<E> time;

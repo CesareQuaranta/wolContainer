@@ -11,6 +11,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import edu.wol.dom.iEvent;
 import edu.wol.dom.iEventObserver;
 import edu.wol.dom.phisycs.Collision;
@@ -31,16 +37,22 @@ import edu.wol.physics.starsystem.GravityField;
  * @author cesare
  *
  */
+@Entity
+@Table(name="WOL_COSMOS")
 public class Cosmos implements iSpace<Planetoid,Position> {
    /**
 	 * 
 	 */
 	private static final long serialVersionUID = 9186629741540928858L;
     private static final long spaceUnit=1L;
-
+    @Id
+	@GeneratedValue
+	private long ID;
+    
     private Map<Position,Planetoid> space;
     private Map<Position,GravityField> gravityFields;
     private Map<Planetoid,Position> index;
+    @Transient
     private List<iEventObserver<Planetoid>> observers;
 
     public Cosmos(){

@@ -41,8 +41,6 @@ public class StarDial extends WorldContainer<Planetoid,Position> {
 	@GeneratedValue
 	private long ID;
 	
-	@OneToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="SDIAL_ID")
 	private TimeQueque<Planetoid> timeManager;
     private Cosmos space;
     private SolarSystemPhisycs phisycs;
