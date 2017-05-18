@@ -28,6 +28,7 @@ public class GravityField implements ForceFactory {
 	@Id
 	@GeneratedValue
 	private long ID;
+	
 	private Position center;
 	private double mass;
 	

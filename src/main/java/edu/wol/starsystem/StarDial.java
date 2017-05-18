@@ -2,9 +2,12 @@ package edu.wol.starsystem;
 
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import edu.wol.TimeQueque;
@@ -36,9 +39,14 @@ public class StarDial extends WorldContainer<Planetoid,Position> {
 	@Id
 	@GeneratedValue
 	private long ID;
-	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "tmId", referencedColumnName = "ID")
 	private TimeQueque<Planetoid> timeManager;
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "spId", referencedColumnName = "ID")
     private Cosmos space;
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "phId", referencedColumnName = "ID")
     private SolarSystemPhisycs phisycs;
     
     //@OneToMany

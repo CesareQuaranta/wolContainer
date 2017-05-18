@@ -5,11 +5,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import edu.wol.TimeQueque;
@@ -39,14 +41,14 @@ import edu.wol.dom.time.Ichinen;
  */
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class BasePhisycs<E extends WolEntity> implements iPhisycs<E>{
+public abstract class BasePhisycs<E extends WolEntity,S extends Space<E,Position>> implements iPhisycs<E>{
 	@Id
 	@GeneratedValue
 	private long ID;
 	
-	@Transient
-	protected List<iEventObserver<E>> observers = new ArrayList<iEventObserver<E>>();
-    protected Space<E, Position> space;
+	@OneToOne(cascade=CascadeType.ALL)
+    protected S space;
+	@OneToOne(cascade=CascadeType.ALL)
     protected TimeQueque<E> time;
     @Transient
     protected Map<E,Collection<Force>> forcesIndex;
@@ -61,6 +63,8 @@ public abstract class BasePhisycs<E extends WolEntity> implements iPhisycs<E>{
 	protected float spacePrecision;
 	protected float maxVelocity;
 	protected float timePrecision;
+	@Transient
+	protected List<iEventObserver<E>> observers = new ArrayList<iEventObserver<E>>();
 
 
    

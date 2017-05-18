@@ -7,10 +7,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import edu.wol.TimeQueque;
@@ -38,14 +40,12 @@ import edu.wol.starsystem.planets.Cosmos;
  * this template use File | Settings | File Templates.
  */
 @Entity
-public class SolarSystemPhisycs extends BasePhisycs<Planetoid> {
+@Table(name="WOL_STARPHISYCS")
+public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Cosmos> {
 	private static final long serialVersionUID = -7499754647514879204L;
 	public static final int LIGHT_VELOCITY = (int) 3e7;
-	@Id
-	@GeneratedValue
-	private long ID;
 	
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	private Collection<Planetoid> planets = new ArrayList<Planetoid>();
 	@Transient
 	private Map<GravityField,Force> gravityFieldsIndex=new HashMap<GravityField,Force>();

@@ -2,16 +2,27 @@ package edu.wol.physics.starsystem;
 
 import java.util.Map;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+
 import edu.wol.dom.InternalCause;
 import edu.wol.dom.space.BigVector;
 import edu.wol.dom.space.Planetoid;
 
+@Entity
 public class GravityAttraction extends InternalCause<Planetoid> {
 	private static final long serialVersionUID = 1L;
+	@OneToOne(cascade=CascadeType.ALL)
 	private Planetoid entity;
+	@Transient
 	private Map<GravityField,BigVector> gravityFields;
 
-
+	public GravityAttraction() {
+		this.entity=null;
+		this.gravityFields=null;
+	}
 	public GravityAttraction(Planetoid curPlanet, Map<GravityField,BigVector> gravityFields) {
 		this.entity=curPlanet;
 		this.gravityFields=gravityFields;
