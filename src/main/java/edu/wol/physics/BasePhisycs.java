@@ -10,7 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
+import edu.wol.TimeQueque;
 import edu.wol.dom.ExternalCause;
 import edu.wol.dom.WolEntity;
 import edu.wol.dom.iEvent;
@@ -22,12 +24,11 @@ import edu.wol.dom.phisycs.Inertia;
 import edu.wol.dom.phisycs.Velocity;
 import edu.wol.dom.phisycs.iPhisycs;
 import edu.wol.dom.space.Movement;
-import edu.wol.dom.space.Position;
-import edu.wol.dom.space.Vector;
 import edu.wol.dom.space.Planetoid;
-import edu.wol.dom.space.iSpace;
+import edu.wol.dom.space.Position;
+import edu.wol.dom.space.Space;
+import edu.wol.dom.space.Vector;
 import edu.wol.dom.time.Ichinen;
-import edu.wol.dom.time.iTimeManager;
 
 /**
  * Created with IntelliJ IDEA.
@@ -43,14 +44,20 @@ public abstract class BasePhisycs<E extends WolEntity> implements iPhisycs<E>{
 	@GeneratedValue
 	private long ID;
 	
+	@Transient
 	protected List<iEventObserver<E>> observers = new ArrayList<iEventObserver<E>>();
-    protected iSpace<Planetoid, Position> space;
-    protected iTimeManager<E> time;
+    protected Space<E, Position> space;
+    protected TimeQueque<E> time;
+    @Transient
     protected Map<E,Collection<Force>> forcesIndex;
-    protected Map<Planetoid, Velocity> velocityIndex;
+    @Transient
+    protected Map<E, Velocity> velocityIndex;
+    @Transient
     protected Map<Force,Ichinen<E>> activeForces;
+    @Transient
     protected List<E> heap;
-	protected Map<E, Ichinen<E>> ichinens;
+    @Transient
+    protected Map<E, Ichinen<E>> ichinens;
 	protected float spacePrecision;
 	protected float maxVelocity;
 	protected float timePrecision;
@@ -59,7 +66,7 @@ public abstract class BasePhisycs<E extends WolEntity> implements iPhisycs<E>{
    
 	public void run() {
 		while(!heap.isEmpty()){//Process new forces
-			E curEntity=heap.remove(0);
+			E curEntity=(E) heap.remove(0);
 			Collection<Force> activeForces=forcesIndex.get(curEntity);
 			if(activeForces!=null && !activeForces.isEmpty()){
 				insertAccellerationIchinen(curEntity,activeForces);
@@ -89,7 +96,7 @@ public abstract class BasePhisycs<E extends WolEntity> implements iPhisycs<E>{
 		Collection<Force> forces=forcesIndex.get(entity);
 		if(forces!=null && !forces.isEmpty() && forces.remove(force)){
 	
-			Ichinen<E> forceIchinen=activeForces.get(force);
+			Ichinen<E> forceIchinen=(Ichinen<E>) activeForces.get(force);
 			if(forceIchinen!=null){
 				time.removeIchinen(forceIchinen);//TODO Apply partial ichinen before remove
 			}
@@ -138,7 +145,7 @@ public abstract class BasePhisycs<E extends WolEntity> implements iPhisycs<E>{
 			ichinen.setPower(accPowr);
 			insertIchinen(ichinen,future);
 			for(Force curForce:forces){
-				activeForces.put(curForce, ichinen);
+				activeForces.put(curForce, (Ichinen<E>) ichinen);
 				}
 			}
 	}
@@ -160,9 +167,9 @@ public abstract class BasePhisycs<E extends WolEntity> implements iPhisycs<E>{
 		insertIchinen(ichinen,future);
 	}
     protected void insertIchinen(Ichinen<E> ichinen,long future){
-		ichinens.put(ichinen.getEntity(), ichinen);
+		ichinens.put(ichinen.getEntity(), (Ichinen<E>) ichinen);
 		if(future>-1){
-			time.addFuture(ichinen,future);
+			time.addFuture( ichinen,future);
 		}else{
 			System.out.println("Errore inserimento Ichinen "+ichinen);
 		}

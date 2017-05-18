@@ -220,7 +220,7 @@ public class TimeQueque<E extends WolEntity> implements iTimeManager<E> {
 	
 	@Entity
 	@Table(name="WOL_TIMEQELEMENT")
-    private class QuequeElement{
+    public class QuequeElement{
 		@Id
 		@GeneratedValue
 		private long ID;

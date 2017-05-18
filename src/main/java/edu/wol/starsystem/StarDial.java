@@ -1,24 +1,20 @@
 package edu.wol.starsystem;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import edu.wol.TimeQueque;
+import edu.wol.dom.WolEntity;
 import edu.wol.dom.WorldContainer;
 import edu.wol.dom.iEvent;
-import edu.wol.dom.space.Position;
-import edu.wol.dom.space.iCoordinate;
 import edu.wol.dom.space.Planetoid;
-import edu.wol.dom.space.iSpace;
+import edu.wol.dom.space.Position;
+import edu.wol.dom.space.Space;
+import edu.wol.dom.space.iCoordinate;
 import edu.wol.dom.time.iTimeManager;
 import edu.wol.physics.starsystem.SolarSystemPhisycs;
 import edu.wol.starsystem.planets.Cosmos;
@@ -108,7 +104,7 @@ public class StarDial extends WorldContainer<Planetoid,Position> {
 	}
 	
 	@Override
-	public iSpace<Planetoid,Position> getSpace() {
+	public Space<Planetoid,Position> getSpace() {
 		return space;
 	}
 	

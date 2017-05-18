@@ -20,16 +20,15 @@ import javax.persistence.Transient;
 import edu.wol.dom.iEvent;
 import edu.wol.dom.iEventObserver;
 import edu.wol.dom.phisycs.Collision;
-import edu.wol.dom.phisycs.Force;
 import edu.wol.dom.phisycs.ForceFactory;
 import edu.wol.dom.shape.Shape;
 import edu.wol.dom.space.BigVector;
 import edu.wol.dom.space.Movement;
 import edu.wol.dom.space.NewPosition;
-import edu.wol.dom.space.Position;
-import edu.wol.dom.space.Vector;
 import edu.wol.dom.space.Planetoid;
-import edu.wol.dom.space.iSpace;
+import edu.wol.dom.space.Position;
+import edu.wol.dom.space.Space;
+import edu.wol.dom.space.Vector;
 import edu.wol.physics.starsystem.GravityAttraction;
 import edu.wol.physics.starsystem.GravityField;
 
@@ -39,18 +38,17 @@ import edu.wol.physics.starsystem.GravityField;
  */
 @Entity
 @Table(name="WOL_COSMOS")
-public class Cosmos implements iSpace<Planetoid,Position> {
+public class Cosmos extends Space<Planetoid,Position> {
    /**
 	 * 
 	 */
 	private static final long serialVersionUID = 9186629741540928858L;
     private static final long spaceUnit=1L;
-    @Id
-	@GeneratedValue
-	private long ID;
-    
+    @Transient
     private Map<Position,Planetoid> space;
+    @Transient
     private Map<Position,GravityField> gravityFields;
+    @Transient
     private Map<Planetoid,Position> index;
     @Transient
     private List<iEventObserver<Planetoid>> observers;

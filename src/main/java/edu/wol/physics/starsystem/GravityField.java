@@ -31,6 +31,11 @@ public class GravityField implements ForceFactory {
 	private Position center;
 	private double mass;
 	
+	public GravityField() {
+		this.center=null;
+		this.mass=0;
+	}
+	
 	public GravityField(Double mass, Position position) {
 		this.center=position;
 		this.mass=mass;

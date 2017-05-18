@@ -11,9 +11,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
+import edu.wol.TimeQueque;
 import edu.wol.dom.Effect;
 import edu.wol.dom.Power;
+import edu.wol.dom.WolEntity;
 import edu.wol.dom.iEvent;
 import edu.wol.dom.phisycs.Acceleration;
 import edu.wol.dom.phisycs.Collision;
@@ -22,8 +25,8 @@ import edu.wol.dom.phisycs.Forces;
 import edu.wol.dom.phisycs.Inertia;
 import edu.wol.dom.phisycs.Velocity;
 import edu.wol.dom.space.Movement;
-import edu.wol.dom.space.Position;
 import edu.wol.dom.space.Planetoid;
+import edu.wol.dom.space.Position;
 import edu.wol.dom.time.Ichinen;
 import edu.wol.dom.time.ManifestPresent;
 import edu.wol.dom.time.iTimeManager;
@@ -44,17 +47,17 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid> {
 	
 	@OneToMany
 	private Collection<Planetoid> planets = new ArrayList<Planetoid>();
-	@OneToMany
+	@Transient
 	private Map<GravityField,Force> gravityFieldsIndex=new HashMap<GravityField,Force>();
 
 	public SolarSystemPhisycs(){
 		
 	}
-	public SolarSystemPhisycs(Cosmos space, iTimeManager<Planetoid> time) {
+	public SolarSystemPhisycs(Cosmos space, TimeQueque<Planetoid> time) {
 		this(space,time,1, 1);
 	}
 
-	public SolarSystemPhisycs(Cosmos space, iTimeManager<Planetoid> time,float spacePrecision, float maxVelocity) {
+	public SolarSystemPhisycs(Cosmos space, TimeQueque<Planetoid> time,float spacePrecision, float maxVelocity) {
 		//Super class initialize
 		this.activeForces=new HashMap<Force,Ichinen<Planetoid>>();
 		this.forcesIndex=new HashMap<Planetoid,Collection<Force>>(); 
