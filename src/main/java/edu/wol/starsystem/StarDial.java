@@ -119,5 +119,10 @@ public class StarDial extends WorldContainer<Planetoid,Position> {
 	public SolarSystemPhisycs getPhisycs() {
 		return phisycs;
 	}
+
+	@Override
+	public boolean isEmpty() {
+		return space.isEmpty();
+	}
 	
 }

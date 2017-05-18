@@ -300,5 +300,10 @@ public class Cosmos extends Space<Planetoid,Position> {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public boolean isEmpty() {
+		return space.isEmpty();
+	}
 	
 }
