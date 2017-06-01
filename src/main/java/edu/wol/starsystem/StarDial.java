@@ -35,9 +35,6 @@ public class StarDial extends WorldContainer<SolarSystem,Position> {
 	 * 
 	 */
 	private static final long serialVersionUID = 8786030279582189151L;
-	@Id
-	@GeneratedValue
-	private long ID;
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "tmId", referencedColumnName = "ID")
 	private TimeQueque<Planetoid> timeManager;

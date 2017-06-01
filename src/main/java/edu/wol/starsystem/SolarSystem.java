@@ -35,9 +35,6 @@ public class SolarSystem extends WorldContainer<Planetoid,Position> {
 	 * 
 	 */
 	private static final long serialVersionUID = 8786030279582189151L;
-	@Id
-	@GeneratedValue
-	private long ID;
 	private double radius;
 	
 	@OneToOne(cascade=CascadeType.ALL)
