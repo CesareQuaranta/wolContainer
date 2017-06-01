@@ -7,13 +7,12 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import edu.wol.TimeQueque;
 import edu.wol.dom.space.Planet;
+import edu.wol.dom.space.Planetoid;
 import edu.wol.dom.space.Position;
 import edu.wol.dom.space.Vector;
-import edu.wol.dom.space.Planetoid;
 import edu.wol.dom.time.Ichinen;
-import edu.wol.starsystem.planets.Cosmos;
+import edu.wol.space.Orbital;
 
 public class UnitTest {
 
@@ -29,7 +28,7 @@ public class UnitTest {
 		Assert.assertTrue("",p1.getX()<px);
 		Assert.assertTrue("",p1.getY()==-1);
 		Assert.assertTrue("",p1.getZ()==1);
-		Cosmos space = new Cosmos();
+		Orbital space = new Orbital();
 		Assert.assertTrue("Insert Error", space.insertEntity(new Position(0L, 0L, 0L), generateRandomPlanet()));
 		Assert.assertFalse("Duplicate Insert with same coordinate",space.insertEntity(new Position(0L, 0L, 0L), generateRandomPlanet()));
 	}

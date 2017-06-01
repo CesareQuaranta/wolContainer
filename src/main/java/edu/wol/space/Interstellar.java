@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.wol.starsystem.planets;
+package edu.wol.space;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,61 +31,63 @@ import edu.wol.dom.space.Space;
 import edu.wol.dom.space.Vector;
 import edu.wol.physics.starsystem.GravityAttraction;
 import edu.wol.physics.starsystem.GravityField;
+import edu.wol.starsystem.SolarSystem;
 
 /**
  * @author cesare
+ * Interstellar Space
  *
  */
+//TODO Derivare da comune classe con campi gravitazionali
 @Entity
-@Table(name="WOL_COSMOS")
-public class Cosmos extends Space<Planetoid,Position> {
+public class Interstellar extends Space<SolarSystem,Position> {
    /**
 	 * 
 	 */
 	private static final long serialVersionUID = 9186629741540928858L;
     private static final long spaceUnit=1L;
     @Transient
-    private Map<Position,Planetoid> space;
+    private Map<Position,SolarSystem> space;
     @Transient
     private Map<Position,GravityField> gravityFields;
     @Transient
-    private Map<Planetoid,Position> index;
+    private Map<SolarSystem,Position> index;
     @Transient
-    private List<iEventObserver<Planetoid>> observers;
+    private List<iEventObserver<SolarSystem>> observers;
 
-    public Cosmos(){
-            space=new HashMap<Position,Planetoid>();//TODO da implementare hash map ottimizzata
-            index=new HashMap<Planetoid,Position>();
+    public Interstellar(){
+            space=new HashMap<Position,SolarSystem>();//TODO da implementare hash map ottimizzata
+            index=new HashMap<SolarSystem,Position>();
             gravityFields=new HashMap<Position,GravityField>();
-            observers=new ArrayList<iEventObserver<Planetoid>>();
+            observers=new ArrayList<iEventObserver<SolarSystem>>();
     }
 
-    public Collection<Planetoid> getAllEntities(){
+    public Collection<SolarSystem> getAllEntities(){
         return index.keySet();
     }
 
-    public boolean insertEntity(Position position,Planetoid planet){
+    public boolean insertEntity(Position position,SolarSystem ss){
     	boolean ok=false;
-        if (!index.containsKey(planet)&&getEntity(position)==null){
+        if (!index.containsKey(ss)&&getEntity(position)==null){
         	boolean collision=false;
-        	Iterator<Planetoid> planets=index.keySet().iterator();
-        	while(collision==false&&planets.hasNext()){
-        		Planetoid checkPlanet=planets.next();
-        		Position checkPosition=index.get(checkPlanet);
+        	Iterator<SolarSystem> stars=index.keySet().iterator();
+        	while(collision==false&&stars.hasNext()){
+        		SolarSystem checkStarSystem=stars.next();
+        		Position checkPosition=index.get(checkStarSystem);
         		double checkDistance=position.getDistance(checkPosition);
-        		collision=checkDistance<(planet.getRadius()+checkPlanet.getRadius());
+        		collision=checkDistance<(ss.getRadius()+checkStarSystem.getRadius());
         		if(collision){
-        			System.err.println("Impossibile inserire "+planet+" alle coordinate:"+position+" collisione con "+checkPlanet+" alle coordinate:"+checkPosition);
+        			System.err.println("Impossibile inserire "+ss+" alle coordinate:"+position+" collisione con "+checkStarSystem+" alle coordinate:"+checkPosition);
         		}
         	}
         	if(!collision){
-        		space.put(position,planet);
-        		index.put(planet,position);
-        		if(planet.getMass()>0){
-        			gravityFields.put(position, new GravityField(planet.getMass(),position));
+        		space.put(position,ss);
+        		index.put(ss,position);
+        		if(ss.getMass()>0){
+        			gravityFields.put(position, new GravityField(ss.getMass(),position));
         		}
         		
-        		Collection<GravityField> GF=getEngagedGravityFields(position,planet.getMass());
+        		Collection<GravityField> GF=getEngagedGravityFields(position,ss.getMass());
         		Map<GravityField,BigVector> GfMap=new HashMap<GravityField,BigVector>(GF.size());
         		if(!GF.isEmpty()){
         			//Collection<Force> forces=new ArrayList<Force>(GF.size()-1);
@@ -94,21 +96,21 @@ public class Cosmos extends Space<Planetoid,Position> {
 	        			GfMap.put(curGravityField, distance);
 						//forces.add(curGravityField.getForce(planet, position));
 	        		}
-	        		fireEvent(new GravityAttraction(planet,GfMap));
+	        		fireEvent(new GravityAttraction(ss,GfMap));
 	        		
 					for(GravityField curGravityField:GF){//For all planet
 						if(!curGravityField.getCenter().equals(position)){
-							Planetoid curPlanet=space.get(curGravityField.getCenter());
+							SolarSystem cSolarSystem=space.get(curGravityField.getCenter());
 							Position curPlatetPosition=curGravityField.getCenter();
 							//Collection<Force> forces2=new ArrayList<Force>(GF.size()-1);
-							Collection<GravityField> GF2=getEngagedGravityFields(curPlatetPosition,curPlanet.getMass());
+							Collection<GravityField> GF2=getEngagedGravityFields(curPlatetPosition,cSolarSystem.getMass());
 							Map<GravityField,BigVector> GfMap2=new HashMap<GravityField,BigVector>(GF2.size());
 							for(GravityField curGravityField2:GF2){
 								BigVector distance=curGravityField2.getCenter().getDistanceVector(curPlatetPosition);
 			        			GfMap2.put(curGravityField2, distance);
 								//forces2.add(curGravityField2.getForce(curPlanet, curPlatetPosition));
 							}
-							fireEvent(new GravityAttraction(curPlanet,GfMap2));
+							fireEvent(new GravityAttraction(cSolarSystem,GfMap2));
 						}
 					}
         		}
@@ -134,30 +136,30 @@ public class Cosmos extends Space<Planetoid,Position> {
 		return engagedFields;
 	}
 
-	public Planetoid getEntity(Position position) {
+	public SolarSystem getEntity(Position position) {
         return space.get(position);  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public Position getPosition(Planetoid planetoid) {
-        return index.get(planetoid);  //To change body of implemented methods use File | Settings | File Templates.
+    public Position getPosition(SolarSystem ss) {
+        return index.get(ss);  //To change body of implemented methods use File | Settings | File Templates.
     }
 
 
-    public boolean process(Movement<Planetoid> movement) {
+    public boolean process(Movement<SolarSystem> movement) {
     	Position curPosition=index.get(movement.getEntity());
         Vector moveVector=movement.getVector();
         Position result=curPosition.clone();
         result.sum(moveVector);
-        	 List<Planetoid> collisionList=null;//checkCollision(curPosition,result);
+        	 List<SolarSystem> collisionList=null;//checkCollision(curPosition,result);
              if(collisionList==null){
              	move(movement.getEntity(),result);
              	//TODO fire event Move x ricalcolo forze
              	System.out.println("Pianeta "+movement.getEntity()+" mosso in "+result);
-             	fireEvent(new NewPosition<Planetoid>(movement.getEntity(),result));
+             	fireEvent(new NewPosition<SolarSystem>(movement.getEntity(),result));
              	return true;
              }else{
-             	for(Planetoid curPlanet:collisionList){
-     				fireEvent(new Collision<Planetoid>(movement.getEntity(),curPlanet));
+             	for(SolarSystem curSolarSystem:collisionList){
+     				fireEvent(new Collision<SolarSystem>(movement.getEntity(),curSolarSystem));
      			}
              }
         return false;
@@ -165,7 +167,7 @@ public class Cosmos extends Space<Planetoid,Position> {
     }
 
 
-    public void addObserver(iEventObserver<Planetoid> observer) {
+    public void addObserver(iEventObserver<SolarSystem> observer) {
         observers.add(observer);
     }
 
@@ -199,8 +201,8 @@ public class Cosmos extends Space<Planetoid,Position> {
     private List<Planetoid> checkCollision(Position startPoint,Position endPoint){
     	List<Planetoid> collisionList=null;
 
-       Planetoid startPlanet=getEntity(startPoint);
-       Shape startPlanetShape=startPlanet.getShape();//TODO Check collision with shape
+    	SolarSystem startPlanet=getEntity(startPoint);
+       /*Shape startPlanetShape=startPlanet.getShape();//TODO Check collision with shape
        Position curPoint=startPoint.clone();
        float curX=curPoint.getX();
        float curY=curPoint.getY();
@@ -271,7 +273,7 @@ public class Cosmos extends Space<Planetoid,Position> {
         return false;
     }
     
-    protected void move(Planetoid planet,Position newPosition){
+    protected void move(SolarSystem planet,Position newPosition){
     	Position oldPosition=getPosition(planet);
     	space.remove(oldPosition);
     	space.put(newPosition,planet);
@@ -279,7 +281,7 @@ public class Cosmos extends Space<Planetoid,Position> {
     }
     
     protected void fireEvent(iEvent event){
-    	for(iEventObserver<Planetoid> observer:observers){
+    	for(iEventObserver<SolarSystem> observer:observers){
             observer.processEvent(event);
     	}
     }

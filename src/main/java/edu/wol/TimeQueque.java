@@ -32,7 +32,6 @@ import edu.wol.dom.time.iTimeManager;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="WOL_TIMEQ")
 public class TimeQueque<E extends WolEntity> implements iTimeManager<E> {
 
 	private static final long serialVersionUID = -5727897362144888852L;

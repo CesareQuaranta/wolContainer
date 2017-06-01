@@ -8,14 +8,15 @@ import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import edu.wol.dom.InternalCause;
+import edu.wol.dom.phisycs.MassEntity;
 import edu.wol.dom.space.BigVector;
 import edu.wol.dom.space.Planetoid;
 
 @Entity
-public class GravityAttraction extends InternalCause<Planetoid> {
+public class GravityAttraction extends InternalCause<MassEntity> {
 	private static final long serialVersionUID = 1L;
 	@OneToOne(cascade=CascadeType.ALL)
-	private Planetoid entity;
+	private MassEntity entity;
 	@Transient
 	private Map<GravityField,BigVector> gravityFields;
 
@@ -23,8 +24,8 @@ public class GravityAttraction extends InternalCause<Planetoid> {
 		this.entity=null;
 		this.gravityFields=null;
 	}
-	public GravityAttraction(Planetoid curPlanet, Map<GravityField,BigVector> gravityFields) {
-		this.entity=curPlanet;
+	public GravityAttraction(MassEntity entity, Map<GravityField,BigVector> gravityFields) {
+		this.entity=entity;
 		this.gravityFields=gravityFields;
 	}
 
@@ -35,11 +36,11 @@ public class GravityAttraction extends InternalCause<Planetoid> {
 	}
 
 
-	public Planetoid getEntity() {
+	public MassEntity getEntity() {
 		return entity;
 	}
 
-	public void setEntity(Planetoid entity) {
+	public void setEntity(MassEntity entity) {
 		this.entity = entity;
 	}
 

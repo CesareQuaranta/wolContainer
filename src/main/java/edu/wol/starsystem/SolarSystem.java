@@ -20,7 +20,7 @@ import edu.wol.dom.space.Space;
 import edu.wol.dom.space.iCoordinate;
 import edu.wol.dom.time.iTimeManager;
 import edu.wol.physics.starsystem.SolarSystemPhisycs;
-import edu.wol.space.Interstellar;
+import edu.wol.space.Orbital;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,7 +30,7 @@ import edu.wol.space.Interstellar;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-public class StarDial extends WorldContainer<SolarSystem,Position> {
+public class SolarSystem extends WorldContainer<Planetoid,Position> {
     /**
 	 * 
 	 */
@@ -38,60 +38,59 @@ public class StarDial extends WorldContainer<SolarSystem,Position> {
 	@Id
 	@GeneratedValue
 	private long ID;
+	private double radius;
+	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "tmId", referencedColumnName = "ID")
 	private TimeQueque<Planetoid> timeManager;
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "spId", referencedColumnName = "ID")
-    private Interstellar space;
-    
-	//@OneToOne(cascade=CascadeType.ALL)
-    //@JoinColumn(name = "phId", referencedColumnName = "ID")
-    //TDOD private SolarSystemPhisycs phisycs;
+    private Orbital space;
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "phId", referencedColumnName = "ID")
+    private SolarSystemPhisycs phisycs;
     
     //@OneToMany
    // private Collection<WorldContainer<Planetoid,Position>> subWorlds=new ArrayList<WorldContainer<Planetoid,Position>>();
 
-    public StarDial() {
+    public SolarSystem() {
 	}
     
 	@Override
 	public void init(float spacePrecision, float timePrecision){
     	if(space==null){
-    		space=new Interstellar();
+    		space=new Orbital();
     	}
     	if(timeManager==null){
     		timeManager = new TimeQueque<Planetoid>();
     	}
-    	/*TODO
     	if(phisycs==null){
     		phisycs = new SolarSystemPhisycs(space, timeManager, spacePrecision,timePrecision);
     	}
-        /phisycs.addObserver(this);
+        phisycs.addObserver(this);
         space.addObserver(phisycs);
         timeManager.addObserver(phisycs);
-        */
         System.out.println("StarsContainer successfull Initialized");
     }
     public void run() {
-        //TODO phisycs.run();
+        phisycs.run();
        /* for(WorldContainer<Planetoid,Position> subWold:subWorlds){
         	subWold.run();
         }*/
     }
     
-    public void setSpace(Interstellar space){
+    public void setSpace(Orbital space){
     	this.space=space;
     }
     
     public void insertEntity(iCoordinate coordinate,Planetoid entity){
-    		//TODO phisycs.insert(entity,(Position) coordinate);
+    		phisycs.insert(entity,(Position) coordinate);
     		/*if(entity instanceof WorldContainer){
     			subWorlds.add((WorldContainer<Planetoid,Position>) entity);
     		}*/
     }
     
-    public Collection<SolarSystem> getAllEntities(){
+    public Collection<Planetoid> getAllEntities(){
 		return space.getAllEntities();
     }
 
@@ -100,14 +99,10 @@ public class StarDial extends WorldContainer<SolarSystem,Position> {
     	
         //To change body of implemented methods use File | Settings | File Templates.
     }
-    /*TODO
+    
 	public void setPhisycs(SolarSystemPhisycs phisycs) {
 		this.phisycs=phisycs;
 	}
-	public SolarSystemPhisycs getPhisycs() {
-		return phisycs;
-	}
-	*/
 	
 	public void setTimeManager(TimeQueque<Planetoid> tm) {
 		this.timeManager=tm;
@@ -118,13 +113,21 @@ public class StarDial extends WorldContainer<SolarSystem,Position> {
 	}
 	
 	@Override
-	public Space<SolarSystem,Position> getSpace() {
+	public Space<Planetoid,Position> getSpace() {
 		return space;
 	}
 	
+	public SolarSystemPhisycs getPhisycs() {
+		return phisycs;
+	}
+
 	@Override
 	public boolean isEmpty() {
 		return space.isEmpty();
+	}
+
+	public double getRadius() {
+		return radius;
 	}
 	
 }

@@ -33,15 +33,15 @@ import edu.wol.dom.time.Ichinen;
 import edu.wol.dom.time.ManifestPresent;
 import edu.wol.dom.time.iTimeManager;
 import edu.wol.physics.BasePhisycs;
-import edu.wol.starsystem.planets.Cosmos;
+import edu.wol.space.Interstellar;
+import edu.wol.space.Orbital;
 
 /**
  * Created by IntelliJ IDEA. User: cesare Date: 06/10/11 Time: 0.12 To change
  * this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="WOL_STARPHISYCS")
-public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Cosmos> {
+public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 	private static final long serialVersionUID = -7499754647514879204L;
 	public static final int LIGHT_VELOCITY = (int) 3e7;
 	
@@ -53,11 +53,11 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Cosmos> {
 	public SolarSystemPhisycs(){
 		
 	}
-	public SolarSystemPhisycs(Cosmos space, TimeQueque<Planetoid> time) {
+	public SolarSystemPhisycs(Orbital space, TimeQueque<Planetoid> time) {
 		this(space,time,1, 1);
 	}
 
-	public SolarSystemPhisycs(Cosmos space, TimeQueque<Planetoid> time,float spacePrecision, float maxVelocity) {
+	public SolarSystemPhisycs(Orbital space, TimeQueque<Planetoid> time,float spacePrecision, float maxVelocity) {
 		//Super class initialize
 		this.activeForces=new HashMap<Force,Ichinen<Planetoid>>();
 		this.forcesIndex=new HashMap<Planetoid,Collection<Force>>(); 
@@ -101,7 +101,7 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Cosmos> {
 	    		for(GravityField curGravityField:GA.getGravityFields().keySet()){
 	    			Force curAttractionForce=curGravityField.getForce(GA.getEntity(), GA.getGravityFields().get(curGravityField));
 	    			gravityFieldsIndex.put(curGravityField, curAttractionForce);
-	    			applyForce(GA.getEntity(),curAttractionForce);
+	    			applyForce((Planetoid) GA.getEntity(),curAttractionForce);
 	    		}
 	    		//insertAccellerationIchinen(GA.getEntity(),forces);
 	    	}else if(event instanceof Collision){

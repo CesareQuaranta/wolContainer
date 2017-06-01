@@ -15,8 +15,10 @@ import edu.wol.dom.space.Position;
 import edu.wol.dom.space.Star;
 import edu.wol.dom.space.Planetoid;
 import edu.wol.physics.starsystem.SolarSystemPhisycs;
+import edu.wol.space.Interstellar;
+import edu.wol.space.Orbital;
+import edu.wol.starsystem.SolarSystem;
 import edu.wol.starsystem.StarDial;
-import edu.wol.starsystem.planets.Cosmos;
 import junit.framework.Assert;
 
 public class FunctionalTest {
@@ -42,7 +44,7 @@ public class FunctionalTest {
 	
 	@Test
 	public void basePhisicTest(){
-		Cosmos space = new Cosmos();
+		Orbital space = new Orbital();
 		TimeQueque<Planetoid> tq = new TimeQueque<Planetoid>();
 		SolarSystemPhisycs phisycs = new SolarSystemPhisycs(space, tq, 1,1);
 		space.addObserver(phisycs);
@@ -68,7 +70,7 @@ public class FunctionalTest {
 		int oneSecond=(int) (maxVelocity/spacePrecision);
 		long numRun=(long) oneSecond*3;
 		long start=System.currentTimeMillis();
-		StarDial sc = new StarDial();
+		SolarSystem sc = new SolarSystem();
 
 		sc.init(spacePrecision,maxVelocity);
 		
@@ -140,13 +142,13 @@ public class FunctionalTest {
 		//sun.setUID("SUN");
 		return sun;
 	}
-	private Planet insertEarth(StarDial sc) {
+	private Planet insertEarth(SolarSystem sc) {
 		Planet earth=generateEarth();
 		sc.insertEntity(new Position(DistanceSunEarth, 0L, 0L),earth );
 		return earth;
 	}
 	
-	private Planet insertMoon(StarDial sc) {
+	private Planet insertMoon(SolarSystem sc) {
 		Planet earth=(Planet) findPlanetoid(sc.getAllEntities(),"Earth");
 		if(earth != null){
 			Position earthPosition=sc.getSpace().getPosition(earth);
@@ -159,7 +161,7 @@ public class FunctionalTest {
 			return null;
 		}
 	}
-	private Planetoid insertSatellite(StarDial sc) {
+	private Planetoid insertSatellite(SolarSystem sc) {
 		Planet earth=(Planet) findPlanetoid(sc.getAllEntities(),"Earth");
 		Position earthPosition=sc.getSpace().getPosition(earth);
 		Planet satellite=new Planet(10, 10);
@@ -170,7 +172,7 @@ public class FunctionalTest {
 		return satellite;
 	}
 
-	private Star insertSun(StarDial sc) {
+	private Star insertSun(SolarSystem sc) {
 		Star sun=generateSun();
 		sc.insertEntity(new Position(0L, 0L, 0L), sun);
 		return sun;
