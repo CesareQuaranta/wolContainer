@@ -80,8 +80,8 @@ public class SolarSystem extends WorldContainer<Planetoid,Position> {
     	this.space=space;
     }
     
-    public void insertEntity(iCoordinate coordinate,Planetoid entity){
-    		phisycs.insert(entity,(Position) coordinate);
+    public void insertEntity(Position position,Planetoid entity){
+    		phisycs.insert(entity,position);
     		/*if(entity instanceof WorldContainer){
     			subWorlds.add((WorldContainer<Planetoid,Position>) entity);
     		}*/

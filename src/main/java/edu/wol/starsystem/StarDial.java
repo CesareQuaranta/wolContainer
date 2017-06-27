@@ -81,7 +81,7 @@ public class StarDial extends WorldContainer<SolarSystem,Position> {
     	this.space=space;
     }
     
-    public void insertEntity(iCoordinate coordinate,Planetoid entity){
+    public void insertEntity(Position position,SolarSystem entity){
     		//TODO phisycs.insert(entity,(Position) coordinate);
     		/*if(entity instanceof WorldContainer){
     			subWorlds.add((WorldContainer<Planetoid,Position>) entity);
