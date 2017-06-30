@@ -40,12 +40,18 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 	public static final int LIGHT_VELOCITY = (int) 3e7;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	private Collection<Planetoid> planets = new ArrayList<Planetoid>();
+	private Collection<Planetoid> planets;
 	@Transient
-	private Map<GravityField,Force> gravityFieldsIndex=new HashMap<GravityField,Force>();
+	private Map<GravityField,Force> gravityFieldsIndex;
 
 	public SolarSystemPhisycs(){
-		
+		this.planets = new ArrayList<Planetoid>();
+		this.gravityFieldsIndex = new HashMap<GravityField,Force>();
+		this.activeForces = new HashMap<Force,Ichinen<Planetoid>>();
+		this.forcesIndex = new HashMap<Planetoid,Collection<Force>>(); 
+	    this.heap = new LinkedList<Planetoid>();
+	    this.ichinens = new HashMap<Planetoid, Ichinen<Planetoid>>();
+	    this.velocityIndex = new HashMap<Planetoid, Velocity>();
 	}
 	public SolarSystemPhisycs(Orbital space, TimeQueque<Planetoid> time) {
 		this(space,time,1, 1);
@@ -53,11 +59,7 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 
 	public SolarSystemPhisycs(Orbital space, TimeQueque<Planetoid> time,float spacePrecision, float maxVelocity) {
 		//Super class initialize
-		this.activeForces=new HashMap<Force,Ichinen<Planetoid>>();
-		this.forcesIndex=new HashMap<Planetoid,Collection<Force>>(); 
-	    this.heap=new LinkedList<Planetoid>();
-	    this.ichinens = new HashMap<Planetoid, Ichinen<Planetoid>>();
-	    this.velocityIndex = new HashMap<Planetoid, Velocity>();
+		this();
 		this.space=space;
 		this.time=time;
 		this.spacePrecision = spacePrecision;
