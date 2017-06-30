@@ -151,6 +151,9 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 			
 		}
 	}
+	public Collection<Planetoid> getPlanets() {
+		return planets;
+	}
 	
 	
 /*
