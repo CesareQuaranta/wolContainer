@@ -14,6 +14,8 @@ import edu.wol.TimeQueque;
 import edu.wol.dom.WolEntity;
 import edu.wol.dom.WorldContainer;
 import edu.wol.dom.iEvent;
+import edu.wol.dom.iEventObserver;
+import edu.wol.dom.space.NewPosition;
 import edu.wol.dom.space.Planetoid;
 import edu.wol.dom.space.Position;
 import edu.wol.dom.space.Space;
@@ -82,6 +84,10 @@ public class SolarSystem extends WorldContainer<Planetoid,Position> {
     
     public void insertEntity(Position position,Planetoid entity){
     		phisycs.insert(entity,position);
+    		for(iEventObserver<Planetoid> observer : observers){
+    			NewPosition<Planetoid> e = new NewPosition<Planetoid>(entity, position);
+    			observer.processEvent(e);
+    		}
     		/*if(entity instanceof WorldContainer){
     			subWorlds.add((WorldContainer<Planetoid,Position>) entity);
     		}*/
@@ -125,6 +131,11 @@ public class SolarSystem extends WorldContainer<Planetoid,Position> {
 
 	public double getRadius() {
 		return radius;
+	}
+
+	@Override
+	public void addEventObserver(iEventObserver<Planetoid> observer) {
+		this.observers.add(observer);	
 	}
 	
 }

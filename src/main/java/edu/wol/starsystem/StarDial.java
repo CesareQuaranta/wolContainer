@@ -14,6 +14,7 @@ import edu.wol.TimeQueque;
 import edu.wol.dom.WolEntity;
 import edu.wol.dom.WorldContainer;
 import edu.wol.dom.iEvent;
+import edu.wol.dom.iEventObserver;
 import edu.wol.dom.space.Planetoid;
 import edu.wol.dom.space.Position;
 import edu.wol.dom.space.Space;
@@ -122,6 +123,12 @@ public class StarDial extends WorldContainer<SolarSystem,Position> {
 	@Override
 	public boolean isEmpty() {
 		return space.isEmpty();
+	}
+
+	@Override
+	public void addEventObserver(iEventObserver<SolarSystem> observer) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
