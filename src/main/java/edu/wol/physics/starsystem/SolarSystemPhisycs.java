@@ -9,16 +9,12 @@ import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import edu.wol.TimeQueque;
 import edu.wol.dom.Effect;
 import edu.wol.dom.Power;
-import edu.wol.dom.WolEntity;
 import edu.wol.dom.iEvent;
 import edu.wol.dom.phisycs.Acceleration;
 import edu.wol.dom.phisycs.Collision;
@@ -31,9 +27,7 @@ import edu.wol.dom.space.Planetoid;
 import edu.wol.dom.space.Position;
 import edu.wol.dom.time.Ichinen;
 import edu.wol.dom.time.ManifestPresent;
-import edu.wol.dom.time.iTimeManager;
 import edu.wol.physics.BasePhisycs;
-import edu.wol.space.Interstellar;
 import edu.wol.space.Orbital;
 
 /**
