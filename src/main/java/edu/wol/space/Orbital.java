@@ -16,6 +16,7 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.MapKeyJoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import edu.wol.dom.iEvent;
@@ -45,10 +46,11 @@ public class Orbital extends Space<Planetoid,Position> {
 	 */
 	private static final long serialVersionUID = 9186629741540928858L;
     private static final long spaceUnit=1L;
+    @OneToMany
     @ElementCollection
     @CollectionTable(name="Orbital_Planetoid")
     @MapKeyJoinColumn(name="PositionID")
-    @Column(name="SPACE")
+    @Column(name="planetoid")
     private Map<Position,Planetoid> space;
     @Transient
     private Map<Position,GravityField> gravityFields;
