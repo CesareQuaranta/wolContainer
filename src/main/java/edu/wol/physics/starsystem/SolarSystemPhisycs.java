@@ -1,11 +1,12 @@
 package edu.wol.physics.starsystem;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -41,12 +42,12 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 	public static final int LIGHT_VELOCITY = (int) 3e7;
 	
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-	private Collection<Planetoid> planets;
+	private Set<Planetoid> planets;
 	@Transient
 	private Map<GravityField,Force> gravityFieldsIndex;
 
 	public SolarSystemPhisycs(){
-		this.planets = new ArrayList<Planetoid>();
+		this.planets = new HashSet<Planetoid>();
 		this.gravityFieldsIndex = new HashMap<GravityField,Force>();
 		this.activeForces = new HashMap<Force,Ichinen<Planetoid>>();
 		this.forcesIndex = new HashMap<Planetoid,Collection<Force>>(); 
