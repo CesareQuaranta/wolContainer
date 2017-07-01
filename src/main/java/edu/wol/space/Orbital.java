@@ -11,10 +11,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
@@ -46,7 +48,7 @@ public class Orbital extends Space<Planetoid,Position> {
 	 */
 	private static final long serialVersionUID = 9186629741540928858L;
     private static final long spaceUnit=1L;
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     @ElementCollection
     @CollectionTable(name="Orbital_Planetoid")
     @MapKeyJoinColumn(name="PositionID")

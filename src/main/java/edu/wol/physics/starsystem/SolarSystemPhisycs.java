@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -39,7 +40,7 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 	private static final long serialVersionUID = -7499754647514879204L;
 	public static final int LIGHT_VELOCITY = (int) 3e7;
 	
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	private Collection<Planetoid> planets;
 	@Transient
 	private Map<GravityField,Force> gravityFieldsIndex;

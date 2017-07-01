@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -39,13 +40,13 @@ public class SolarSystem extends WorldContainer<Planetoid,Position> {
 	private static final long serialVersionUID = 8786030279582189151L;
 	private double radius;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	@JoinColumn(name = "tmId", referencedColumnName = "ID")
 	private TimeQueque<Planetoid> timeManager;
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	@JoinColumn(name = "spId", referencedColumnName = "ID")
     private Orbital space;
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     @JoinColumn(name = "phId", referencedColumnName = "ID")
     private SolarSystemPhisycs phisycs;
     

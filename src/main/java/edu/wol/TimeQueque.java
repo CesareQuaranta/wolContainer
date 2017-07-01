@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -39,7 +40,7 @@ public class TimeQueque<E extends WolEntity> implements iTimeManager<E> {
 	@GeneratedValue
 	private long ID;
 	
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     private List<QuequeElement> timeList;
     
 	@Transient
