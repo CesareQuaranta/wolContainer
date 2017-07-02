@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -41,12 +42,13 @@ public class TimeQueque<E extends WolEntity> implements iTimeManager<E> {
 	private long ID;
 	
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@OrderColumn(name="time_seq", nullable=false)
     private List<QuequeElement> timeList;
     
 	@Transient
     private List<iEventObserver<E>> observers=new ArrayList<iEventObserver<E>>();
     @Transient
-    private Map<E,List<QuequeElement>> entityIndex;
+    private Map<Long,List<QuequeElement>> entityIndex;//Entity.ID->list of elements
     
     @Transient
     private Map<Ichinen<E>,QuequeElement> index;
@@ -54,7 +56,7 @@ public class TimeQueque<E extends WolEntity> implements iTimeManager<E> {
     public TimeQueque(){
          timeList=new  LinkedList<QuequeElement>();
          index=new HashMap<Ichinen<E>,QuequeElement>();
-         entityIndex=new HashMap<E,List<QuequeElement>>();
+         entityIndex=new HashMap<Long,List<QuequeElement>>();
     }
     
     public void run() {
@@ -226,7 +228,8 @@ public class TimeQueque<E extends WolEntity> implements iTimeManager<E> {
 		@GeneratedValue
 		private long ID;
 		
-		@OneToMany
+		@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+		@OrderColumn(name="ichinen_seq", nullable=false)
         private List<Ichinen<WolEntity>> elements;
 		
         private Long count;
