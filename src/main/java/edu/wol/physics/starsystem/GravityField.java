@@ -1,8 +1,11 @@
 package edu.wol.physics.starsystem;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import edu.wol.dom.phisycs.Acceleration;
 import edu.wol.dom.phisycs.Force;
@@ -29,6 +32,7 @@ public class GravityField implements ForceFactory {
 	@GeneratedValue
 	private long ID;
 	
+	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	private Position center;
 	private double mass;
 	
