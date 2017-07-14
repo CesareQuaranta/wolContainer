@@ -36,7 +36,7 @@ import edu.wol.dom.space.NewPosition;
 import edu.wol.dom.space.Planetoid;
 import edu.wol.dom.space.Position;
 import edu.wol.dom.space.Space;
-import edu.wol.dom.space.Vector;
+import edu.wol.dom.space.Vector3f;
 import edu.wol.physics.starsystem.GravityAttraction;
 import edu.wol.physics.starsystem.GravityField;
 
@@ -81,8 +81,8 @@ public class Orbital extends Space<Planetoid,Position> {
         	Iterator<Planetoid> planets=getAllEntities().iterator();
         	while(collision==false&&planets.hasNext()){
         		Planetoid checkPlanet=planets.next();
-        		Position checkPosition=posIndex.get(checkPlanet.getID());
-        		double checkDistance=position.getDistance(checkPosition);
+        		Vector3f checkPosition=posIndex.get(checkPlanet.getID());
+        		double checkDistance=position.distance(checkPosition);
         		collision=checkDistance<(planet.getRadius()+checkPlanet.getRadius());
         		if(collision){
         			System.err.println("Impossibile inserire "+planet+" alle coordinate:"+position+" collisione con "+checkPlanet+" alle coordinate:"+checkPosition);
@@ -101,7 +101,7 @@ public class Orbital extends Space<Planetoid,Position> {
         		if(!GF.isEmpty()){
         			//Collection<Force> forces=new ArrayList<Force>(GF.size()-1);
 	        		for(GravityField curGravityField:GF){
-	        			BigVector distance=curGravityField.getCenter().getDistanceVector(position);
+	        			BigVector distance=curGravityField.getCenter().distanceVector(position);
 	        			GfMap.put(curGravityField, distance);
 						//forces.add(curGravityField.getForce(planet, position));
 	        		}
@@ -115,7 +115,7 @@ public class Orbital extends Space<Planetoid,Position> {
 							Collection<GravityField> GF2=getEngagedGravityFields(curPlatetPosition,curPlanet.getMass());
 							Map<GravityField,BigVector> GfMap2=new HashMap<GravityField,BigVector>(GF2.size());
 							for(GravityField curGravityField2:GF2){
-								BigVector distance=curGravityField2.getCenter().getDistanceVector(curPlatetPosition);
+								BigVector distance=curGravityField2.getCenter().distanceVector(curPlatetPosition);
 			        			GfMap2.put(curGravityField2, distance);
 								//forces2.add(curGravityField2.getForce(curPlanet, curPlatetPosition));
 							}
@@ -134,7 +134,7 @@ public class Orbital extends Space<Planetoid,Position> {
     	Collection<GravityField> engagedFields=new ArrayList<GravityField>();
 		for(Position curGFPosition:posIndex.values()){
 			if(!curGFPosition.equals(position)){
-				double curDistance=position.getDistance(curGFPosition);
+				double curDistance=position.distance(curGFPosition);
 				GravityField curGravityField=gravityFields.get(curGFPosition.serialize());
 				double maxDistance=curGravityField.getRadius(mass);
 				if(curDistance<maxDistance){
@@ -156,9 +156,10 @@ public class Orbital extends Space<Planetoid,Position> {
 
     public boolean process(Movement<Planetoid> movement) {
     	Position curPosition=posIndex.get(movement.getEntity().getID());
-        Vector moveVector=movement.getVector();
-        Position result=curPosition.clone();
-        result.sum(moveVector);
+        Vector3f moveVector=movement.getVector();
+        Position result=curPosition.clone();//TODO Da verificare se serve nuova istanza
+        result.add(moveVector);
+        
         	 List<Planetoid> collisionList=null;//checkCollision(curPosition,result);
              if(collisionList==null){
              	move(movement.getEntity(),result);

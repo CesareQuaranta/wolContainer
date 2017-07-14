@@ -10,7 +10,7 @@ import org.junit.Test;
 import edu.wol.dom.space.Planet;
 import edu.wol.dom.space.Planetoid;
 import edu.wol.dom.space.Position;
-import edu.wol.dom.space.Vector;
+import edu.wol.dom.space.Vector3f;
 import edu.wol.dom.time.Ichinen;
 import edu.wol.space.Orbital;
 
@@ -22,15 +22,9 @@ public class UnitTest {
 	
 	@Test
 	public void testSpace() {
-		long px=149597870691L;
-		Position p1=new Position(px,0,0);
-		p1.sum(new Vector(-1.5f,-0.9f,1.001f));
-		Assert.assertTrue("",p1.getX()<px);
-		Assert.assertTrue("",p1.getY()==-1);
-		Assert.assertTrue("",p1.getZ()==1);
 		Orbital space = new Orbital();
-		Assert.assertTrue("Insert Error", space.insertEntity(new Position(0L, 0L, 0L), generateRandomPlanet()));
-		Assert.assertFalse("Duplicate Insert with same coordinate",space.insertEntity(new Position(0L, 0L, 0L), generateRandomPlanet()));
+		Assert.assertTrue("Insert Error", space.insertEntity(new Position(), generateRandomPlanet()));
+		Assert.assertFalse("Duplicate Insert with same coordinate",space.insertEntity(new Position(), generateRandomPlanet()));
 	}
 	
 	@Test

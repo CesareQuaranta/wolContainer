@@ -14,7 +14,7 @@ import edu.wol.dom.phisycs.iForceElements;
 import edu.wol.dom.phisycs.MassEntity;
 import edu.wol.dom.space.BigVector;
 import edu.wol.dom.space.Position;
-import edu.wol.dom.space.Vector;
+import edu.wol.dom.space.Vector3f;
 import edu.wol.dom.space.Planetoid;
 
 /**
@@ -46,8 +46,8 @@ public class GravityField implements ForceFactory {
 		this.mass=mass;
 	}
 
-	 private Vector processGravityVector(Planetoid planet){
-	        Vector gravityVector=null;
+	 private Vector3f processGravityVector(Planetoid planet){
+	        Vector3f gravityVector=null;
 	      /*  Vector planetPosition=index.get(planet);
 	        List<Vector> gravityVectors=new ArrayList<Vector>(0);
 	        for(Vector curGravityPoint:gravityPoint.keySet()){
@@ -91,7 +91,7 @@ public class GravityField implements ForceFactory {
 			float accelerationX=(distanceX==0?0:Math.copySign((float)(gravityBaseIntensity/Math.pow(distanceX, 2)),distanceX));
 			float accelerationY=(distanceY==0?0:Math.copySign((float)(gravityBaseIntensity/Math.pow(distanceY, 2)),distanceY));
 			float accelerationZ=(distanceZ==0?0:Math.copySign((float)(gravityBaseIntensity/Math.pow(distanceZ, 2)),distanceZ));
-			Acceleration gravityAcceleration=new Acceleration(1,new Vector(accelerationX,accelerationY,accelerationZ));
+			Acceleration gravityAcceleration=new Acceleration(1,new Vector3f(accelerationX,accelerationY,accelerationZ));
 			return new Force(entityMass,gravityAcceleration);
 	}
 	

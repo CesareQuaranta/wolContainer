@@ -3,23 +3,20 @@ package edu.wol;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.junit.Assert;
 import org.junit.Test;
 
-import edu.wol.TimeQueque;
 import edu.wol.dom.phisycs.Acceleration;
 import edu.wol.dom.phisycs.Force;
 import edu.wol.dom.space.BigVector;
 import edu.wol.dom.space.LivingPlanet;
 import edu.wol.dom.space.Planet;
+import edu.wol.dom.space.Planetoid;
 import edu.wol.dom.space.Position;
 import edu.wol.dom.space.Star;
-import edu.wol.dom.space.Planetoid;
 import edu.wol.physics.starsystem.SolarSystemPhisycs;
-import edu.wol.space.Interstellar;
 import edu.wol.space.Orbital;
 import edu.wol.starsystem.SolarSystem;
-import edu.wol.starsystem.StarDial;
-import junit.framework.Assert;
 
 public class FunctionalTest {
 
@@ -112,19 +109,19 @@ public class FunctionalTest {
 			System.out.println(secondsSimulated+" seconds simulated in "+((System.currentTimeMillis()-start)/1000)+"s");
 			
 			Position sunFinalPosition=sc.getSpace().getPosition(sun);
-			BigVector sunDistance=sunCoordinate.getDistanceVector(sunFinalPosition);
+			BigVector sunDistance=sunCoordinate.distanceVector(sunFinalPosition);
 			System.out.println("Sun movements:"+sunDistance);
 			
 			Position earthFinalPosition=sc.getSpace().getPosition(earth);
-			BigVector earthDistance=earthCoordinate.getDistanceVector(earthFinalPosition);
+			BigVector earthDistance=earthCoordinate.distanceVector(earthFinalPosition);
 			System.out.println("Earth movements:"+earthDistance);
 			
 			Position moonFinalPosition=sc.getSpace().getPosition(moon);
-			BigVector moonDistance=moonCoordinate.getDistanceVector(moonFinalPosition);
+			BigVector moonDistance=moonCoordinate.distanceVector(moonFinalPosition);
 			System.out.println("Moon movements:"+moonDistance);
 			
 			Position satFinalPosition=sc.getSpace().getPosition(sat);
-			BigVector satDistance=satCoordinate.getDistanceVector(satFinalPosition);
+			BigVector satDistance=satCoordinate.distanceVector(satFinalPosition);
 			System.out.println("Satellite movements:"+satDistance);
 		}
 		

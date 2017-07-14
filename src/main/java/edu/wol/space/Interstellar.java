@@ -28,7 +28,7 @@ import edu.wol.dom.space.NewPosition;
 import edu.wol.dom.space.Planetoid;
 import edu.wol.dom.space.Position;
 import edu.wol.dom.space.Space;
-import edu.wol.dom.space.Vector;
+import edu.wol.dom.space.Vector3f;
 import edu.wol.physics.starsystem.GravityAttraction;
 import edu.wol.physics.starsystem.GravityField;
 import edu.wol.starsystem.SolarSystem;
@@ -74,7 +74,7 @@ public class Interstellar extends Space<SolarSystem,Position> {
         	while(collision==false&&stars.hasNext()){
         		SolarSystem checkStarSystem=stars.next();
         		Position checkPosition=index.get(checkStarSystem);
-        		double checkDistance=position.getDistance(checkPosition);
+        		double checkDistance=position.distance(checkPosition);
         		collision=checkDistance<(ss.getRadius()+checkStarSystem.getRadius());
         		if(collision){
         			System.err.println("Impossibile inserire "+ss+" alle coordinate:"+position+" collisione con "+checkStarSystem+" alle coordinate:"+checkPosition);
@@ -92,7 +92,7 @@ public class Interstellar extends Space<SolarSystem,Position> {
         		if(!GF.isEmpty()){
         			//Collection<Force> forces=new ArrayList<Force>(GF.size()-1);
 	        		for(GravityField curGravityField:GF){
-	        			BigVector distance=curGravityField.getCenter().getDistanceVector(position);
+	        			BigVector distance=curGravityField.getCenter().distanceVector(position);
 	        			GfMap.put(curGravityField, distance);
 						//forces.add(curGravityField.getForce(planet, position));
 	        		}
@@ -106,7 +106,7 @@ public class Interstellar extends Space<SolarSystem,Position> {
 							Collection<GravityField> GF2=getEngagedGravityFields(curPlatetPosition,cSolarSystem.getMass());
 							Map<GravityField,BigVector> GfMap2=new HashMap<GravityField,BigVector>(GF2.size());
 							for(GravityField curGravityField2:GF2){
-								BigVector distance=curGravityField2.getCenter().getDistanceVector(curPlatetPosition);
+								BigVector distance=curGravityField2.getCenter().distanceVector(curPlatetPosition);
 			        			GfMap2.put(curGravityField2, distance);
 								//forces2.add(curGravityField2.getForce(curPlanet, curPlatetPosition));
 							}
@@ -125,7 +125,7 @@ public class Interstellar extends Space<SolarSystem,Position> {
     	Collection<GravityField> engagedFields=new ArrayList<GravityField>();
 		for(Position curGFPosition:gravityFields.keySet()){
 			if(!curGFPosition.equals(position)){
-				double curDistance=position.getDistance(curGFPosition);
+				double curDistance=position.distance(curGFPosition);
 				GravityField curGravityField=gravityFields.get(curGFPosition);
 				double maxDistance=curGravityField.getRadius(mass);
 				if(curDistance<maxDistance){
@@ -147,9 +147,9 @@ public class Interstellar extends Space<SolarSystem,Position> {
 
     public boolean process(Movement<SolarSystem> movement) {
     	Position curPosition=index.get(movement.getEntity());
-        Vector moveVector=movement.getVector();
+        Vector3f moveVector=movement.getVector();
         Position result=curPosition.clone();
-        result.sum(moveVector);
+        result.add(moveVector);
         	 List<SolarSystem> collisionList=null;//checkCollision(curPosition,result);
              if(collisionList==null){
              	move(movement.getEntity(),result);

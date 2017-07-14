@@ -29,7 +29,7 @@ import edu.wol.dom.space.Movement;
 import edu.wol.dom.space.Planetoid;
 import edu.wol.dom.space.Position;
 import edu.wol.dom.space.Space;
-import edu.wol.dom.space.Vector;
+import edu.wol.dom.space.Vector3f;
 import edu.wol.dom.time.Ichinen;
 
 /**
@@ -137,10 +137,13 @@ public abstract class BasePhisycs<E extends WolEntity,S extends Space<E,Position
 			
 			//Convert from m/s to spacePrecision/timePrecision
 			float precisionFactor=(future+1)*timePrecision;
-			Vector relativeAccelleration=accPowr.getVector().multiply(precisionFactor);
-			Velocity newVelocity=new Velocity(curVelocity.getVector().sum(relativeAccelleration));
-			Vector moveVector=finalVelocity.getVector().multiply(precisionFactor);
-			Movement<E> effect=new Movement<E>(entity,moveVector);
+			Vector3f relativeAccelleration=accPowr.getVector().clone();
+			relativeAccelleration.scale(precisionFactor);
+			Vector3f newValocityVect=curVelocity.getVector().clone();
+			newValocityVect.add(relativeAccelleration);
+			Velocity newVelocity=new Velocity(newValocityVect);
+			finalVelocity.getVector().scale(precisionFactor);
+			Movement<E> effect=new Movement<E>(entity,finalVelocity.getVector());
 			ExternalCause<E> externalCause=new Forces<E>(forces);
 			Ichinen<E> ichinen=new Ichinen<E>(entity);
 			ichinen.setAction(newVelocity);
@@ -162,8 +165,8 @@ public abstract class BasePhisycs<E extends WolEntity,S extends Space<E,Position
 		long future=calculateFuture(velocity);
 		//Convert from m/s to spacePrecision/timePrecision
 		float precisionFactor=(future+1)*timePrecision;
-		Vector moveVector=velocity.getVector().multiply(precisionFactor);
-		Movement<E> effect=new Movement<E>(entity,moveVector);
+		velocity.getVector().scale(precisionFactor);
+		Movement<E> effect=new Movement<E>(entity,velocity.getVector());
 		Ichinen<E> ichinen=new Ichinen<E>(entity);
 		ichinen.setAction(velocity);
 		ichinen.setEffect(effect);

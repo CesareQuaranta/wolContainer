@@ -20,6 +20,7 @@ import edu.wol.dom.space.NewPosition;
 import edu.wol.dom.space.Planetoid;
 import edu.wol.dom.space.Position;
 import edu.wol.dom.space.Space;
+import edu.wol.dom.space.Vector3f;
 import edu.wol.dom.space.iCoordinate;
 import edu.wol.dom.time.iTimeManager;
 import edu.wol.physics.starsystem.SolarSystemPhisycs;

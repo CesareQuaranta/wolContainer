@@ -10,8 +10,10 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
@@ -45,6 +47,8 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 	public static final int LIGHT_VELOCITY = (int) 3e7;
 	
 	@ManyToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@JoinColumn(name = "SolarSystemPhisycs_id", nullable = false)
+	@Column(insertable=false, updatable=false)
 	private Collection<Planetoid> planets;
 	@Transient
 	private Map<GravityField,Force> gravityFieldsIndex;
