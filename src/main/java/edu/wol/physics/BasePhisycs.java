@@ -6,11 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
@@ -26,7 +31,6 @@ import edu.wol.dom.phisycs.Inertia;
 import edu.wol.dom.phisycs.Velocity;
 import edu.wol.dom.phisycs.iPhisycs;
 import edu.wol.dom.space.Movement;
-import edu.wol.dom.space.Planetoid;
 import edu.wol.dom.space.Position;
 import edu.wol.dom.space.Space;
 import edu.wol.dom.space.Vector3f;
@@ -46,58 +50,68 @@ public abstract class BasePhisycs<E extends WolEntity,S extends Space<E,Position
 	@GeneratedValue
 	private long ID;
 	
+	protected float spacePrecision;
+	protected float maxVelocity;
+	protected float timePrecision;
+	
 	@OneToOne(cascade=CascadeType.ALL)
     protected S space;
 	@OneToOne(cascade=CascadeType.ALL)
     protected TimeQueque<E> time;
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	protected Map<Long,E> entityMap;//TODO Centralizzare
+	
+	/*@ElementCollection
+	@CollectionTable(
+	        name="PHISYCS_FORCES",
+	        joinColumns=@JoinColumn(name="PHISYC_ID")
+	  )*/
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+    protected Map<Long,Forces<E>> forcesIndex;
     @Transient
-    protected Map<E,Collection<Force>> forcesIndex;
-    @Transient
-    protected Map<E, Velocity> velocityIndex;
+    protected Map<Long, Velocity> velocityIndex;
     @Transient
     protected Map<Force,Ichinen<E>> activeForces;
     @Transient
-    protected List<E> heap;
+    protected List<Long> heap;//Heap of entity to process in next cycle
     @Transient
-    protected Map<E, Ichinen<E>> ichinens;
-	protected float spacePrecision;
-	protected float maxVelocity;
-	protected float timePrecision;
+    protected Map<Long, Ichinen<E>> ichinens;
+
 	@Transient
 	protected List<iEventObserver<E>> observers = new ArrayList<iEventObserver<E>>();
 
-
-   
 	public void run() {
-		while(!heap.isEmpty()){//Process new forces
-			E curEntity=(E) heap.remove(0);
-			Collection<Force> activeForces=forcesIndex.get(curEntity);
-			if(activeForces!=null && !activeForces.isEmpty()){
+		while(!heap.isEmpty()){//Process Heap
+			Long curEntity= heap.remove(0);
+			Forces<E> activeForces=forcesIndex.get(curEntity);
+			if(activeForces!=null && !activeForces.isEmpty()){//Process active forces
 				insertAccellerationIchinen(curEntity,activeForces);
-			}else{
-				Velocity actualVelocity=velocityIndex.get(curEntity);
-				if(actualVelocity!=null && !actualVelocity.isEmpty()){
-					insertInertiaIchinen(curEntity);
-				}
+			}
+			
+			Velocity actualVelocity=velocityIndex.get(curEntity);
+			if(actualVelocity!=null && !actualVelocity.isEmpty()){//Process inertial velocity
+				insertInertiaIchinen(curEntity);
 			}
 			
 		}
-		//Process inertia
 	}
 
 	public void applyForce(E entity, Force force) {
-		if(!forcesIndex.containsKey(entity)){
-			forcesIndex.put(entity, new ArrayList<Force>());
+		if(!entityMap.containsKey(entity.getID())){
+			entityMap.put(entity.getID(), entity);
 		}
-		forcesIndex.get(entity).add(force);
-		if(!heap.contains(entity)){
-			heap.add(entity);
+		if(!forcesIndex.containsKey(entity.getID())){
+			forcesIndex.put(entity.getID(), new Forces<E>());
+		}
+		forcesIndex.get(entity.getID()).add(force);
+		if(!heap.contains(entity.getID())){
+			heap.add(entity.getID());
 		}
 		
 	}
 
 	public void removeForce(E entity, Force force) {
-		Collection<Force> forces=forcesIndex.get(entity);
+		Forces<E> forces=forcesIndex.get(entity.getID());
 		if(forces!=null && !forces.isEmpty() && forces.remove(force)){
 	
 			Ichinen<E> forceIchinen=(Ichinen<E>) activeForces.get(force);
@@ -106,15 +120,15 @@ public abstract class BasePhisycs<E extends WolEntity,S extends Space<E,Position
 			}
 			
 			if(forces.isEmpty()){
-				forcesIndex.remove(entity);
-				insertInertiaIchinen(entity);
-			}else if(!heap.contains(entity)){
-				heap.add(entity);
+				forcesIndex.remove(entity.getID());
+				insertInertiaIchinen(entity.getID());
+			}else if(!heap.contains(entity.getID())){
+				heap.add(entity.getID());
 			}
 		}		
 	}
 
-    protected Acceleration calcAcceleration(E entity,Collection<Force> forces){
+    protected Acceleration calcAcceleration(Long entity,Forces<E> forces){
     	Force resultForce=new Force();
         for (Force curForce : forces) {
         	resultForce.sum(curForce);
@@ -122,11 +136,12 @@ public abstract class BasePhisycs<E extends WolEntity,S extends Space<E,Position
         return resultForce.getAcceleration();
     }
     
-    protected void insertAccellerationIchinen(E entity,Collection<Force> forces){
-		if(!forces.isEmpty()){
+    protected void insertAccellerationIchinen(Long entityId,Forces<E> forces){
+    	E entity=entityMap.get(entityId);
+    	if(!forces.isEmpty()){
 			long future=-1;
-			Velocity curVelocity=velocityIndex.get(entity);
-			Acceleration accPowr = calcAcceleration(entity,forces);
+			Velocity curVelocity=velocityIndex.get(entityId);
+			Acceleration accPowr = calcAcceleration(entityId,forces);
 			Velocity finalVelocity = curVelocity.sum(accPowr);
 			
 			if(finalVelocity.getIntensity()>accPowr.getIntensity()){
@@ -144,7 +159,7 @@ public abstract class BasePhisycs<E extends WolEntity,S extends Space<E,Position
 			Velocity newVelocity=new Velocity(newValocityVect);
 			finalVelocity.getVector().scale(precisionFactor);
 			Movement<E> effect=new Movement<E>(entity,finalVelocity.getVector());
-			ExternalCause<E> externalCause=new Forces<E>(forces);
+			ExternalCause<E> externalCause=forces;
 			Ichinen<E> ichinen=new Ichinen<E>(entity);
 			ichinen.setAction(newVelocity);
 			ichinen.setEffect(effect);
@@ -157,10 +172,11 @@ public abstract class BasePhisycs<E extends WolEntity,S extends Space<E,Position
 			}
 	}
     
-    protected void insertInertiaIchinen(E entity){
-		Velocity velocity=velocityIndex.get(entity);
+    protected void insertInertiaIchinen(Long entityId){
+    	E entity=entityMap.get(entityId);
+		Velocity velocity=velocityIndex.get(entityId);
 		if(velocity==null){
-			System.err.println("No Velocity 4 "+entity);
+			System.err.println("No Velocity 4 "+entityId);
 		}
 		long future=calculateFuture(velocity);
 		//Convert from m/s to spacePrecision/timePrecision
@@ -174,7 +190,7 @@ public abstract class BasePhisycs<E extends WolEntity,S extends Space<E,Position
 		insertIchinen(ichinen,future);
 	}
     protected void insertIchinen(Ichinen<E> ichinen,long future){
-		ichinens.put(ichinen.getEntity(), (Ichinen<E>) ichinen);
+		ichinens.put(ichinen.getEntity().getID(), (Ichinen<E>) ichinen);
 		if(future>-1){
 			time.addFuture( ichinen,future);
 		}else{

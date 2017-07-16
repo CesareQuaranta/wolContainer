@@ -46,21 +46,18 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 	private static final long serialVersionUID = -7499754647514879204L;
 	public static final int LIGHT_VELOCITY = (int) 3e7;
 	
-	@ManyToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-	@JoinColumn(name = "SolarSystemPhisycs_id", nullable = false)
-	@Column(insertable=false, updatable=false)
-	private Collection<Planetoid> planets;
+
 	@Transient
 	private Map<GravityField,Force> gravityFieldsIndex;
 
 	public SolarSystemPhisycs(){
-		this.planets = new ArrayList<Planetoid>();
+		this.entityMap = new  HashMap<Long,Planetoid>(); 
 		this.gravityFieldsIndex = new HashMap<GravityField,Force>();
 		this.activeForces = new HashMap<Force,Ichinen<Planetoid>>();
-		this.forcesIndex = new HashMap<Planetoid,Collection<Force>>(); 
-	    this.heap = new LinkedList<Planetoid>();
-	    this.ichinens = new HashMap<Planetoid, Ichinen<Planetoid>>();
-	    this.velocityIndex = new HashMap<Planetoid, Velocity>();
+		this.forcesIndex = new HashMap<Long,Forces<Planetoid>>(); 
+	    this.heap = new LinkedList<Long>();
+	    this.ichinens = new HashMap<Long, Ichinen<Planetoid>>();
+	    this.velocityIndex = new HashMap<Long, Velocity>();
 	}
 	public SolarSystemPhisycs(Orbital space, TimeQueque<Planetoid> time) {
 		this(space,time,1, 1);
@@ -75,7 +72,7 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 		this.maxVelocity=maxVelocity;
 		this.timePrecision = spacePrecision/maxVelocity;
 		for(Planetoid curPlanet:space.getAllEntities()){
-			if(!planets.contains(curPlanet)){
+			if(!entityMap.containsKey(curPlanet.getID())){
 				initialize(curPlanet);
 				
 			}
@@ -94,8 +91,8 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 	}
 	
 	private void initialize(Planetoid planet) {
-		planets.add(planet);
-		velocityIndex.put(planet, new Velocity(1));
+		entityMap.put(planet.getID(), planet);
+		velocityIndex.put(planet.getID(), new Velocity(1));
 	}
 	  @Override
 		public void processEvent(iEvent event) {
@@ -144,26 +141,26 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 			if(power instanceof Acceleration){
 				Velocity curVelocity=velocityIndex.get(entity);
 				Velocity newVelocity=(Velocity)curIchinen.getAction();
-				velocityIndex.put(entity, newVelocity);
+				velocityIndex.put(entity.getID(), newVelocity);
 
 				
 				if(curEffect instanceof Movement){
 					space.process((Movement<Planetoid>)curEffect);
 				}
 				Forces<Planetoid> extrenalCause=(Forces<Planetoid>) curIchinen.getExternalCause();
-				insertAccellerationIchinen(curIchinen.getEntity(), extrenalCause.getForces());//TODO Ottimizzazzione inserire lo stesso ichinen non ricalcolarlo ogni volta
+				insertAccellerationIchinen(curIchinen.getEntity().getID(), extrenalCause);//TODO Ottimizzazzione inserire lo stesso ichinen non ricalcolarlo ogni volta
 			}
 			else if(power instanceof Inertia){
 				if(curEffect instanceof Movement){
 					space.process((Movement<Planetoid>)curEffect);
 				}
-				insertInertiaIchinen(curIchinen.getEntity());//TODO Ottimizzazzione inserire lo stesso ichinen non ricalcolarlo ogni volta
+				insertInertiaIchinen(curIchinen.getEntity().getID());//TODO Ottimizzazzione inserire lo stesso ichinen non ricalcolarlo ogni volta
 			}
 			
 		}
 	}
 	public Collection<Planetoid> getPlanets() {
-		return planets;
+		return entityMap.values();
 	}
 	
 	
