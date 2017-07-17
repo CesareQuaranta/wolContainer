@@ -3,7 +3,8 @@ package edu.wol;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.junit.Assert;
+import static org.mockito.Mockito.*;
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 import edu.wol.dom.phisycs.Acceleration;
@@ -46,7 +47,14 @@ public class FunctionalTest {
 		SolarSystemPhisycs phisycs = new SolarSystemPhisycs(space, tq, 1,1);
 		space.addObserver(phisycs);
 	    tq.addObserver(phisycs);
-	    Planet unitTestPlanet=new Planet(1, 1);
+	    
+	    //Mockito
+	    Planet unitTestPlanet = mock(Planet.class);
+	    when(unitTestPlanet.getID()).thenReturn(1L);
+	    when(unitTestPlanet.isNew()).thenReturn(false);
+	  
+	    unitTestPlanet.setMass(1);;
+	    unitTestPlanet.setRadius(1);
 	    Position startPosition=new Position();
 	    phisycs.insert(unitTestPlanet,startPosition );
 	    Force unitTestFore=new Force((double) 1,new Acceleration(1,1,1));
@@ -54,7 +62,7 @@ public class FunctionalTest {
 	    phisycs.run();
 	    phisycs.run();
 	    Position endPosition=space.getPosition(unitTestPlanet);
-	    Assert.assertTrue("Test fallito Position:"+endPosition,endPosition.getX()==endPosition.getY() && endPosition.getY()==endPosition.getZ() && endPosition.getZ()==1);
+	    assertTrue("Test fallito Position:"+endPosition,endPosition.getX()==endPosition.getY() && endPosition.getY()==endPosition.getZ() && endPosition.getZ()==1);
 	    phisycs.removeForce(unitTestPlanet, unitTestFore);
 	    phisycs.run();
 	    //Assert.assertTrue("Test fallito Position:"+endPosition,endPosition.getX()==endPosition.getY() && endPosition.getY()==endPosition.getZ() && endPosition.getZ()==2);
@@ -129,13 +137,21 @@ public class FunctionalTest {
 
 	//Dati reali espressi in Kg e metri
 	private Planet generateEarth(){
-		Planet earth=new LivingPlanet(EarthMass,EatrhRadius );
+		 Planet earth = mock(LivingPlanet.class);
+		 when(earth.getID()).thenReturn(1L);
+		 when(earth.isNew()).thenReturn(false);
+		 earth.setMass(EarthMass);
+		 earth.setRadius(EatrhRadius);
 		//earth.setUID("EARTH");
 		return earth;
 	}
 	
 	private Star generateSun(){
-		Star sun=new Star(SunMass,SunRadius);
+		Star sun = mock(Star.class);
+		when(sun.getID()).thenReturn(2L);
+		when(sun.isNew()).thenReturn(false);
+		sun.setMass(SunMass);
+		sun.setRadius(SunRadius);
 		//sun.setUID("SUN");
 		return sun;
 	}
@@ -149,7 +165,11 @@ public class FunctionalTest {
 		Planet earth=(Planet) findPlanetoid(sc.getAllEntities(),"Earth");
 		if(earth != null){
 			Position earthPosition=sc.getSpace().getPosition(earth);
-			Planet moon=new Planet(MoonMass, MoonRadius);
+			Planet moon = mock(Planet.class);
+			when(moon.getID()).thenReturn(3L);
+			when(moon.isNew()).thenReturn(false);
+			moon.setMass(MoonMass);
+			moon.setRadius(MoonRadius);
 			//moon.setUID("MOON");
 			Position moonCoordinate = new Position(earthPosition.getX(),(long)(earthPosition.getY()+DistanceMoonEarth),earthPosition.getZ());
 			sc.insertEntity(moonCoordinate,moon );
@@ -161,7 +181,11 @@ public class FunctionalTest {
 	private Planetoid insertSatellite(SolarSystem sc) {
 		Planet earth=(Planet) findPlanetoid(sc.getAllEntities(),"Earth");
 		Position earthPosition=sc.getSpace().getPosition(earth);
-		Planet satellite=new Planet(10, 10);
+		Planet satellite = mock(Planet.class);
+		when(satellite.getID()).thenReturn(4L);
+		when(satellite.isNew()).thenReturn(false);
+		satellite.setMass(10);
+		satellite.setRadius(10);
 		//satellite.setUID("SatBX213");
 		long altitude=10000;
 		Position satelliteCoordinate = new Position(earthPosition.getX(),(long)(earthPosition.getY()+EatrhRadius+altitude),earthPosition.getZ());
