@@ -15,6 +15,7 @@ import edu.wol.dom.WolEntity;
 import edu.wol.dom.WorldContainer;
 import edu.wol.dom.iEvent;
 import edu.wol.dom.iEventObserver;
+import edu.wol.dom.phisycs.iPhisycs;
 import edu.wol.dom.space.Planetoid;
 import edu.wol.dom.space.Position;
 import edu.wol.dom.space.Space;
@@ -129,6 +130,12 @@ public class StarDial extends WorldContainer<SolarSystem,Position> {
 	public void addEventObserver(iEventObserver<SolarSystem> observer) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public iPhisycs<SolarSystem> getPhisycs() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

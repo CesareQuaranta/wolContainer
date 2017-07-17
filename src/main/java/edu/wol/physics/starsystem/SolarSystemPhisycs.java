@@ -46,7 +46,8 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 	private static final long serialVersionUID = -7499754647514879204L;
 	public static final int LIGHT_VELOCITY = (int) 3e7;
 	
-
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	private Map<Long,Velocity> angularVelocityIndex;
 	@Transient
 	private Map<GravityField,Force> gravityFieldsIndex;
 
@@ -58,6 +59,7 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 	    this.heap = new LinkedList<Long>();
 	    this.ichinens = new HashMap<Long, Ichinen<Planetoid>>();
 	    this.velocityIndex = new HashMap<Long, Velocity>();
+	    this.angularVelocityIndex = new HashMap<Long, Velocity>();
 	}
 	public SolarSystemPhisycs(Orbital space, TimeQueque<Planetoid> time) {
 		this(space,time,1, 1);
@@ -85,13 +87,18 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 	}
 
 	public void insert(Planetoid planet,Position coordinate) {
-		if(space.insertEntity((Position)coordinate, planet)){
-			initialize(planet);
+		if(planet!=null && coordinate!=null && !planet.isNew()){
+			if(space.insertEntity((Position)coordinate, planet)){
+				initialize(planet);
+			}
+		}else{
+			throw new IllegalArgumentException((planet==null || planet.isNew()?"Planet "+planet+" invalid for insertion ":"Invalid Coordinate for insertion"));
 		}
 	}
 	
 	private void initialize(Planetoid planet) {
 		entityMap.put(planet.getID(), planet);
+		angularVelocityIndex.put(planet.getID(), new Velocity(1));
 		velocityIndex.put(planet.getID(), new Velocity(1));
 	}
 	  @Override
@@ -161,6 +168,19 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 	}
 	public Collection<Planetoid> getPlanets() {
 		return entityMap.values();
+	}
+	@Override
+	public Velocity getVelocity(Planetoid entity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Velocity getAngularVelocity(Planetoid entity) {
+		if(entity!=null && !entity.isNew()){
+			return angularVelocityIndex.get(entity.getID());
+		}else{
+			return null;
+		}
 	}
 	
 	
