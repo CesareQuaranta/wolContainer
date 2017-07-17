@@ -136,9 +136,11 @@ public class Orbital extends Space<Planetoid,Position> {
 			if(!curGFPosition.equals(position)){
 				double curDistance=position.distance(curGFPosition);
 				GravityField curGravityField=gravityFields.get(curGFPosition.serialize());
-				double maxDistance=curGravityField.getRadius(mass);
-				if(curDistance<maxDistance){
-					engagedFields.add(curGravityField);
+				if(curGravityField!=null){
+					double maxDistance=curGravityField.getRadius(mass);
+					if(curDistance<maxDistance){
+						engagedFields.add(curGravityField);
+					}
 				}
 			}
 		}

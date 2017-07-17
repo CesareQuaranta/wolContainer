@@ -141,9 +141,11 @@ public abstract class BasePhisycs<E extends WolEntity,S extends Space<E,Position
     	if(!forces.isEmpty()){
 			long future=-1;
 			Velocity curVelocity=velocityIndex.get(entityId);
+			if(curVelocity==null){
+				curVelocity=new Velocity(0);
+			}
 			Acceleration accPowr = calcAcceleration(entityId,forces);
 			Velocity finalVelocity = curVelocity.sum(accPowr);
-			
 			if(finalVelocity.getIntensity()>accPowr.getIntensity()){
 				future=calculateFuture(finalVelocity);
 			}else{

@@ -32,6 +32,7 @@ import edu.wol.dom.phisycs.Velocity;
 import edu.wol.dom.space.Movement;
 import edu.wol.dom.space.Planetoid;
 import edu.wol.dom.space.Position;
+import edu.wol.dom.space.Vector3f;
 import edu.wol.dom.time.Ichinen;
 import edu.wol.dom.time.ManifestPresent;
 import edu.wol.physics.BasePhisycs;
@@ -98,8 +99,9 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 	
 	private void initialize(Planetoid planet) {
 		entityMap.put(planet.getID(), planet);
-		angularVelocityIndex.put(planet.getID(), new Velocity(1));
-		velocityIndex.put(planet.getID(), new Velocity(1));
+		//Random initialize angular velocity
+		angularVelocityIndex.put(planet.getID(), new Velocity(1000,new Vector3f((float) Math.random(),(float) Math.random(),(float) Math.random())));
+		//velocityIndex.put(planet.getID(), new Velocity(1));
 	}
 	  @Override
 		public void processEvent(iEvent event) {
