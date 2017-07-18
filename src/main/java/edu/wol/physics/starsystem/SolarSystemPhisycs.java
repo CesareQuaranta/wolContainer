@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -100,7 +101,21 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 	private void initialize(Planetoid planet) {
 		entityMap.put(planet.getID(), planet);
 		//Random initialize angular velocity
-		angularVelocityIndex.put(planet.getID(), new Velocity(1000,new Vector3f((float) Math.random(),(float) Math.random(),(float) Math.random())));
+		Vector3f v=null;
+		float maxRotation=(float) Math.random();
+		int maxDimension = ThreadLocalRandom.current().nextInt(0, 3);
+		int divisor1 = ThreadLocalRandom.current().nextInt(2, 100);
+		int divisor2 = ThreadLocalRandom.current().nextInt(2, 100);
+		switch(maxDimension){
+			case 0: v=new Vector3f(maxRotation,maxRotation/divisor1,maxRotation/divisor1);
+			break;
+			case 1: v=new Vector3f(maxRotation/divisor1,maxRotation,maxRotation/divisor2);
+			break;
+			case 2: v=new Vector3f(maxRotation/divisor1,maxRotation/divisor2,maxRotation);
+			break;
+		}
+		
+		angularVelocityIndex.put(planet.getID(), new Velocity(59000,v));
 		//velocityIndex.put(planet.getID(), new Velocity(1));
 	}
 	  @Override
