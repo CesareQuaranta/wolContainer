@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -44,9 +45,11 @@ public class SolarSystem extends WorldContainer<Planetoid,Position> {
 	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	@JoinColumn(name = "tmId", referencedColumnName = "ID")
 	private TimeQueque<Planetoid> timeManager;
+	
 	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	@JoinColumn(name = "spId", referencedColumnName = "ID")
     private Orbital space;
+	
     @OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     @JoinColumn(name = "phId", referencedColumnName = "ID")
     private SolarSystemPhisycs phisycs;

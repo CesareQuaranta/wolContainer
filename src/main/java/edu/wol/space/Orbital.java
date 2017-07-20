@@ -20,6 +20,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.MapKey;
 import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.OneToMany;
@@ -52,13 +53,15 @@ public class Orbital extends Space<Planetoid,Position> {
 	 */
 	private static final long serialVersionUID = 9186629741540928858L;
     private static final long spaceUnit=1L;
+    
     @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-    //@MapKey(name="position")
-    private Map<String,Planetoid> planetsMap;
+    @JoinTable(name="PlanetsMap",joinColumns = @JoinColumn( name = "Orbital_id"),inverseJoinColumns = @JoinColumn( name = "Planet_id"))
+    private Map<String,Planetoid> planetsMap;//<SerializedPosition,Planetoid>
+    
     @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-    //@MapKey(name="position")
-    private Map<String,GravityField> gravityFields;
-    @Transient
+    private Map<String,GravityField> gravityFields;//<SerializedPosition,GravityField>
+    
+    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     private Map<Long,Position> posIndex;//Convenient posIndex idPlanetoid position
     @Transient
     private List<iEventObserver<Planetoid>> observers;

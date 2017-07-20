@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -59,6 +60,7 @@ public abstract class BasePhisycs<E extends WolEntity,S extends Space<E,Position
 	@OneToOne(cascade=CascadeType.ALL)
     protected TimeQueque<E> time;
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@MapKeyJoinColumn(name="ID")
 	protected Map<Long,E> entityMap;//TODO Centralizzare
 	
 	/*@ElementCollection
