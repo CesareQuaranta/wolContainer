@@ -40,14 +40,14 @@ public class JPATest {
     	ss.init(1, 1);
     	em.persist(ss);
     	Asteroid a1=new Asteroid(Collections.singletonList("h2"),1,1);
-    	a1.setShape(AsteroidShapeFactory.getInstance().generateShape());
+    	a1.setShape(AsteroidShapeFactory.getInstance().generateHidrogenGemShape());
     	Position p1=new Position();
     	em.persist(a1);
     	em.persist(p1);
     	ss.insertEntity(p1, a1);
     	em.merge(ss);
     	Asteroid a2=new Asteroid(Collections.singletonList("h2"),2,2);
-    	a2.setShape(AsteroidShapeFactory.getInstance().generateShape());
+    	a2.setShape(AsteroidShapeFactory.getInstance().generateHidrogenGemShape());
     	Position p2=new Position(2,2,2);
     	em.persist(a2);
     	em.persist(p2);
