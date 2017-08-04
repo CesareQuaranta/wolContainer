@@ -33,6 +33,7 @@ import edu.wol.dom.phisycs.Velocity;
 import edu.wol.dom.space.Movement;
 import edu.wol.dom.space.Planetoid;
 import edu.wol.dom.space.Position;
+import edu.wol.dom.space.Rotation;
 import edu.wol.dom.space.Vector3f;
 import edu.wol.dom.time.Ichinen;
 import edu.wol.dom.time.ManifestPresent;
@@ -49,7 +50,7 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 	public static final int LIGHT_VELOCITY = (int) 3e7;
 	
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-	private Map<Long,Velocity> angularVelocityIndex;
+	private Map<Long,Rotation<Planetoid>> angularVelocityIndex;
 	@Transient
 	private Map<GravityField,Force> gravityFieldsIndex;
 
@@ -61,7 +62,7 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 	    this.heap = new LinkedList<Long>();
 	    this.ichinens = new HashMap<Long, Ichinen<Planetoid>>();
 	    this.velocityIndex = new HashMap<Long, Velocity>();
-	    this.angularVelocityIndex = new HashMap<Long, Velocity>();
+	    this.angularVelocityIndex = new HashMap<Long, Rotation<Planetoid>>();
 	}
 	public SolarSystemPhisycs(Orbital space, TimeQueque<Planetoid> time) {
 		this(space,time,1, 1);
@@ -100,23 +101,12 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 	
 	private void initialize(Planetoid planet) {
 		entityMap.put(planet.getID(), planet);
-		//Random initialize angular velocity
-		Vector3f v=null;
-		float maxRotation=(float) Math.random();
-		int maxDimension = ThreadLocalRandom.current().nextInt(0, 3);
-		int divisor1 = ThreadLocalRandom.current().nextInt(2, 100);
-		int divisor2 = ThreadLocalRandom.current().nextInt(2, 100);
-		switch(maxDimension){
-			case 0: v=new Vector3f(maxRotation,maxRotation/divisor1,maxRotation/divisor1);
-			break;
-			case 1: v=new Vector3f(maxRotation/divisor1,maxRotation,maxRotation/divisor2);
-			break;
-			case 2: v=new Vector3f(maxRotation/divisor1,maxRotation/divisor2,maxRotation);
-			break;
-		}
 		
-		angularVelocityIndex.put(planet.getID(), new Velocity(59000,v));
-		//velocityIndex.put(planet.getID(), new Velocity(1));
+		//Random initialize angular velocity
+		Vector3f ax=new Vector3f((float) Math.random(),(float) Math.random(),(float) Math.random());
+		double radians=Math.random()/10;
+		
+		angularVelocityIndex.put(planet.getID(), new Rotation<Planetoid>(planet,ax,radians));
 	}
 	  @Override
 		public void processEvent(iEvent event) {
@@ -192,7 +182,7 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 		return null;
 	}
 	@Override
-	public Velocity getAngularVelocity(Planetoid entity) {
+	public Rotation<Planetoid> getAngularVelocity(Planetoid entity) {
 		if(entity!=null && !entity.isNew()){
 			return angularVelocityIndex.get(entity.getID());
 		}else{
