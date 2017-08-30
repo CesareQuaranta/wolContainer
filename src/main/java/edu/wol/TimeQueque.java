@@ -77,7 +77,7 @@ public class TimeQueque<E extends WolEntity> implements iTimeManager<E> {
 
 
     public List<Ichinen<E>> getPresent(){
-    	QuequeElement headTime=null;
+    	QuequeElement<E> headTime=null;
     	if (!timeList.isEmpty()){
     		headTime=timeList.get(0);
     		headTime.count-=1;
@@ -174,14 +174,14 @@ public class TimeQueque<E extends WolEntity> implements iTimeManager<E> {
 			headElement=newHeadElement;
 		}
 		index.put(element, headElement);
-		headElement.elements.add((Ichinen<WolEntity>) element);
+		headElement.elements.add(element);
 		
 	}
 	
 	private void insertLast(Ichinen<E> element,long delay){
 		QuequeElement lastElement=new QuequeElement();
 		lastElement.count=delay;
-		lastElement.elements.add((Ichinen<WolEntity>) element);
+		lastElement.elements.add(element);
 		timeList.add(lastElement);
 		index.put(element, lastElement);
 	}
@@ -190,7 +190,7 @@ public class TimeQueque<E extends WolEntity> implements iTimeManager<E> {
 		long newDelay=delay-getSumDelay(insertIndex-1);
 		if(newDelay==0){
 			QuequeElement insertElement=timeList.get(insertIndex);
-			insertElement.elements.add((Ichinen<WolEntity>) element);
+			insertElement.elements.add(element);
 			index.put(element, insertElement);
 		}else{
 			QuequeElement nextElement=timeList.get(insertIndex);
@@ -198,7 +198,7 @@ public class TimeQueque<E extends WolEntity> implements iTimeManager<E> {
 			
 			QuequeElement newElement=new QuequeElement();
 			newElement.count=newDelay;
-			newElement.elements.add((Ichinen<WolEntity>) element);
+			newElement.elements.add(element);
 			timeList.add(insertIndex,newElement);
 			index.put(element, newElement);
 		}
@@ -223,7 +223,7 @@ public class TimeQueque<E extends WolEntity> implements iTimeManager<E> {
 	
 	@Entity
 	@Table(name="WOL_TIMEQELEMENT")
-    public class QuequeElement{
+    public class QuequeElement<ET extends WolEntity>{
 		@Id
 		@GeneratedValue
 		private long ID;
