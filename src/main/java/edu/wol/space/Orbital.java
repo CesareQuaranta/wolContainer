@@ -6,23 +6,16 @@ package edu.wol.space;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.MapKey;
-import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -152,6 +145,19 @@ public class Orbital extends Space<Planetoid,Position> {
 
 	public Planetoid getEntity(Position position) {
         return planetsMap.get(position.serialize());  //To change body of implemented methods use File | Settings | File Templates.
+    }
+	
+	public List<Planetoid> getEntities(Position position,long radius) {
+		List<Planetoid> lEntities = new ArrayList<Planetoid>(0);
+		for(Position curPosition:posIndex.values()){
+			if(curPosition.distance(position)<radius){
+				Planetoid p = planetsMap.get(curPosition.serialize());
+				if(p != null){
+					lEntities.add(p);
+				}
+			}
+		}
+        return lEntities;  
     }
 
     public Position getPosition(Planetoid planetoid) {
