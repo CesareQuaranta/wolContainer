@@ -1,23 +1,15 @@
 package edu.wol.physics.starsystem;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
 import javax.persistence.Transient;
 
 import edu.wol.TimeQueque;
@@ -99,6 +91,18 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 		}
 	}
 	
+	@Override
+	public void castAwayEntities(Position coordinate, long radius) {
+		List<Planetoid> pl = space.getEntities(coordinate,radius);
+		for(Planetoid p:pl){
+			Position curPos = space.getPosition(p);
+			Velocity newVelocity= new Velocity(3,(curPos.x - coordinate.x)/radius, (curPos.y - coordinate.y)/radius, (curPos.z - coordinate.z)/radius);
+			velocityIndex.put(p.getID(), newVelocity);
+			heap.add(p.getID());
+		}
+		
+	}
+	
 	private void initialize(Planetoid planet) {
 		entityMap.put(planet.getID(), planet);
 		
@@ -178,8 +182,11 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 	}
 	@Override
 	public Velocity getVelocity(Planetoid entity) {
-		// TODO Auto-generated method stub
-		return null;
+		if(entity!=null && !entity.isNew()){
+			return velocityIndex.get(entity.getID());
+		}else{
+			return null;
+		}
 	}
 	@Override
 	public Rotation<Planetoid> getAngularVelocity(Planetoid entity) {
@@ -189,6 +196,7 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 			return null;
 		}
 	}
+	
 	
 	
 /*
