@@ -36,37 +36,55 @@ import edu.wol.dom.time.iTimeManager;
 @Entity
 public class TimeQueque<E extends WolEntity> implements iTimeManager<E> {
 
+	public Long getLength() {
+		return length;
+	}
+
 	private static final long serialVersionUID = -5727897362144888852L;
 	@Id
 	@GeneratedValue
 	private long ID;
 	
+	private Float precision;
+	private Long curTime;
+	private Long length;
+	
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	@OrderColumn(name="time_seq", nullable=false)
-    private List<QuequeElement> timeList;
+    private List<QuequeElement<WolEntity>> timeList;
     
 	@Transient
     private List<iEventObserver<E>> observers=new ArrayList<iEventObserver<E>>();
     @Transient
-    private Map<Long,List<QuequeElement>> entityIndex;//Entity.ID->list of elements
+    private Map<Long,List<QuequeElement<E>>> entityIndex;//Entity.ID->list of elements
     
     @Transient
-    private Map<Ichinen<E>,QuequeElement> index;
+    private Map<Ichinen<E>,QuequeElement<E>> index;
     
-    public TimeQueque(){
-         timeList=new  LinkedList<QuequeElement>();
-         index=new HashMap<Ichinen<E>,QuequeElement>();
-         entityIndex=new HashMap<Long,List<QuequeElement>>();
+    protected TimeQueque(){
+    	this(0);
+    }
+    public TimeQueque(float precision){
+    	 this.precision = precision;
+    	 curTime = 0L;
+    	 length = 0L;
+         timeList=new  LinkedList<QuequeElement<WolEntity>>();
+         index=new HashMap<Ichinen<E>,QuequeElement<E>>();
+         entityIndex=new HashMap<Long,List<QuequeElement<E>>>();
+        
     }
     
     public void run() {
        List<Ichinen<E>> present=getPresent();
         if (present!=null&&!present.isEmpty()){
+            length -= present.size();
 	     for(iEventObserver<E> curObserver:observers){
 	        curObserver.processEvent(new ManifestPresent<E>(present));
 	        }
         }
+        curTime++;
     }
+    
 
     public void processEvent(Phenomen<E> phenomen) {
  /*   	if (phenomen instanceof Effect /*&&((Effect<E>) phenomen).getDelay()>0){
@@ -79,7 +97,7 @@ public class TimeQueque<E extends WolEntity> implements iTimeManager<E> {
     public List<Ichinen<E>> getPresent(){
     	QuequeElement<E> headTime=null;
     	if (!timeList.isEmpty()){
-    		headTime=timeList.get(0);
+    		headTime=(TimeQueque<E>.QuequeElement<E>) timeList.get(0);
     		headTime.count-=1;
     	}
     	if (headTime!=null && headTime.count<1){
@@ -119,6 +137,7 @@ public class TimeQueque<E extends WolEntity> implements iTimeManager<E> {
     			}
     		}
     	}
+    	this.length++;
     }
 /*
 	public boolean removeFuture(Effect<E> element){
@@ -142,12 +161,12 @@ public class TimeQueque<E extends WolEntity> implements iTimeManager<E> {
 	}
 	
 	 private int findInsertIndex(long delay) {
-	    	QuequeElement curElement=null;
+	    	QuequeElement<E> curElement=null;
 	        long curDelay=delay;
 	        int curIndex=0;
-	        Iterator<QuequeElement> elements=timeList.iterator();
+	        Iterator<QuequeElement<WolEntity>> elements=timeList.iterator();
 	        while(elements.hasNext()){
-	        	curElement=elements.next();
+	        	curElement=(TimeQueque<E>.QuequeElement<E>) elements.next();
 	        	curDelay-=curElement.count;
 	        	if(curDelay<=0)
 	        		return curIndex;
@@ -158,23 +177,23 @@ public class TimeQueque<E extends WolEntity> implements iTimeManager<E> {
 		}
 	
 	private void insertInHead(Ichinen<E> element, long delay){
-		QuequeElement headElement=null;
+		QuequeElement<E> headElement=null;
 		if(timeList.isEmpty()){
-			headElement=new QuequeElement();
+			headElement=new QuequeElement<E>();
 			headElement.count=delay;
-			timeList.add(headElement);
+			timeList.add((TimeQueque<E>.QuequeElement<WolEntity>) headElement);
 		}else{
-			headElement=timeList.get(0);
+			headElement=(TimeQueque<E>.QuequeElement<E>) timeList.get(0);
 		}
 		if(headElement.count>delay){
-			QuequeElement newHeadElement=new QuequeElement();
+			QuequeElement<E> newHeadElement=new QuequeElement<E>();
 			newHeadElement.count=delay;
-			timeList.add(0,newHeadElement);
+			timeList.add(0,(TimeQueque<E>.QuequeElement<WolEntity>) newHeadElement);
 			headElement.count-=delay;
 			headElement=newHeadElement;
 		}
 		index.put(element, headElement);
-		headElement.elements.add(element);
+		headElement.elements.add((Ichinen<WolEntity>) element);
 		
 	}
 	
@@ -239,4 +258,12 @@ public class TimeQueque<E extends WolEntity> implements iTimeManager<E> {
         	elements=new LinkedList<Ichinen<WolEntity>>();
         }
     }
+
+	public Long getCurTime() {
+		return curTime;
+	}
+
+	public float getPrecision() {
+		return precision;
+	}
 }

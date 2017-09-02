@@ -19,10 +19,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import edu.wol.TimeQueque;
 import edu.wol.dom.iEvent;
 import edu.wol.dom.iEventObserver;
 import edu.wol.dom.phisycs.Collision;
 import edu.wol.dom.phisycs.ForceFactory;
+import edu.wol.dom.phisycs.MassEntity;
 import edu.wol.dom.shape.Shape;
 import edu.wol.dom.space.BigVector;
 import edu.wol.dom.space.Movement;
@@ -38,91 +40,63 @@ import edu.wol.physics.starsystem.GravityField;
  * @author cesare
  * Spazio orbilate di un sistema solare
  * Tutti i punti sono definiti come orbite attorno ad un centro di gravità
+ * TODO Aggiungere curvatura spazio da gravità
+ * Indice dei corpi che si influnezano in base alla loro massa ed al raggio di hill
  */
 @Entity
-public class Orbital extends Space<Planetoid,Position> {
+public class Orbital<E extends Planetoid> extends Inertial<E> {
    /**
 	 * 
 	 */
 	private static final long serialVersionUID = 9186629741540928858L;
-    private static final long spaceUnit=1L;
-    
-    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-    @JoinTable(name="PlanetsMap",joinColumns = @JoinColumn( name = "Orbital_id"),inverseJoinColumns = @JoinColumn( name = "Planet_id"))
-    private Map<String,Planetoid> planetsMap;//<SerializedPosition,Planetoid>
-    
+     
     @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     private Map<String,GravityField> gravityFields;//<SerializedPosition,GravityField>
     
-    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-    private Map<Long,Position> posIndex;//Convenient posIndex idPlanetoid position
-    @Transient
-    private List<iEventObserver<Planetoid>> observers;
-
-    public Orbital(){
-    		planetsMap=new HashMap<String,Planetoid>();//TODO da implementare hash map ottimizzata
-            gravityFields=new HashMap<String,GravityField>();
-            observers=new ArrayList<iEventObserver<Planetoid>>();
-            posIndex=new HashMap<Long,Position>();
+    protected Orbital(){
+    	this(0,null);
+    }
+    
+    public Orbital(float precision, TimeQueque<E> time){
+    	super(precision, time);
+        gravityFields=new HashMap<String,GravityField>();
     }
 
-    public Collection<Planetoid> getAllEntities(){
-        return  planetsMap.values();
-    }
-
-    public boolean insertEntity(Position position,Planetoid planet){
-    	boolean ok=false;
-        if (!posIndex.containsKey(planet.getID())&&getEntity(position)==null){
-        	boolean collision=false;
-        	Iterator<Planetoid> planets=getAllEntities().iterator();
-        	while(collision==false&&planets.hasNext()){
-        		Planetoid checkPlanet=planets.next();
-        		Vector3f checkPosition=posIndex.get(checkPlanet.getID());
-        		double checkDistance=position.distance(checkPosition);
-        		collision=checkDistance<(planet.getRadius()+checkPlanet.getRadius());
-        		if(collision){
-        			System.err.println("Impossibile inserire "+planet+" alle coordinate:"+position+" collisione con "+checkPlanet+" alle coordinate:"+checkPosition);
+    @Override
+    public boolean insertEntity(Position position,E planet){
+    	boolean ok=super.insertEntity(position,planet);
+    	if(ok && planet.getMass()>0){
+    		String sPosition=position.serialize();
+    		gravityFields.put(sPosition, new GravityField(planet.getMass(),position));
+    		Collection<GravityField> GF=getEngagedGravityFields(position,planet.getMass());
+    		Map<GravityField,BigVector> GfMap=new HashMap<GravityField,BigVector>(GF.size());
+    		if(!GF.isEmpty()){
+    			//Collection<Force> forces=new ArrayList<Force>(GF.size()-1);
+        		for(GravityField curGravityField:GF){
+        			BigVector distance=curGravityField.getCenter().distanceVector(position);
+        			GfMap.put(curGravityField, distance);
+					//forces.add(curGravityField.getForce(planet, position));
         		}
-        	}
-        	if(!collision){
-        		String sPosition=position.serialize();
-        		planetsMap.put(sPosition,planet);
-        		posIndex.put(planet.getID(),position);
-        		if(planet.getMass()>0){
-        			gravityFields.put(sPosition, new GravityField(planet.getMass(),position));
-        		}
+        		fireEvent(new GravityAttraction(planet,GfMap));
         		
-        		Collection<GravityField> GF=getEngagedGravityFields(position,planet.getMass());
-        		Map<GravityField,BigVector> GfMap=new HashMap<GravityField,BigVector>(GF.size());
-        		if(!GF.isEmpty()){
-        			//Collection<Force> forces=new ArrayList<Force>(GF.size()-1);
-	        		for(GravityField curGravityField:GF){
-	        			BigVector distance=curGravityField.getCenter().distanceVector(position);
-	        			GfMap.put(curGravityField, distance);
-						//forces.add(curGravityField.getForce(planet, position));
-	        		}
-	        		fireEvent(new GravityAttraction(planet,GfMap));
-	        		
-					for(GravityField curGravityField:GF){//For all planet
-						if(!curGravityField.getCenter().equals(position)){
-							Planetoid curPlanet=planetsMap.get(curGravityField.getCenter().serialize());
-							Position curPlatetPosition=curGravityField.getCenter();
-							//Collection<Force> forces2=new ArrayList<Force>(GF.size()-1);
-							Collection<GravityField> GF2=getEngagedGravityFields(curPlatetPosition,curPlanet.getMass());
-							Map<GravityField,BigVector> GfMap2=new HashMap<GravityField,BigVector>(GF2.size());
-							for(GravityField curGravityField2:GF2){
-								BigVector distance=curGravityField2.getCenter().distanceVector(curPlatetPosition);
-			        			GfMap2.put(curGravityField2, distance);
-								//forces2.add(curGravityField2.getForce(curPlanet, curPlatetPosition));
-							}
-							fireEvent(new GravityAttraction(curPlanet,GfMap2));
+				for(GravityField curGravityField:GF){//For all planet
+					if(!curGravityField.getCenter().equals(position)){
+						Planetoid curPlanet=(Planetoid) entitiesMap.get(curGravityField.getCenter().serialize());
+						Position curPlatetPosition=curGravityField.getCenter();
+						//Collection<Force> forces2=new ArrayList<Force>(GF.size()-1);
+						Collection<GravityField> GF2=getEngagedGravityFields(curPlatetPosition,curPlanet.getMass());
+						Map<GravityField,BigVector> GfMap2=new HashMap<GravityField,BigVector>(GF2.size());
+						for(GravityField curGravityField2:GF2){
+							BigVector distance=curGravityField2.getCenter().distanceVector(curPlatetPosition);
+		        			GfMap2.put(curGravityField2, distance);
+							//forces2.add(curGravityField2.getForce(curPlanet, curPlatetPosition));
 						}
+						fireEvent(new GravityAttraction(curPlanet,GfMap2));
 					}
-        		}
-        		
-        		ok=true;
-        	}	
-        }
+				}
+    		}
+    	}
+       
         return ok;
     }
 
@@ -143,15 +117,12 @@ public class Orbital extends Space<Planetoid,Position> {
 		return engagedFields;
 	}
 
-	public Planetoid getEntity(Position position) {
-        return planetsMap.get(position.serialize());  //To change body of implemented methods use File | Settings | File Templates.
-    }
 	
-	public List<Planetoid> getEntities(Position position,long radius) {
-		List<Planetoid> lEntities = new ArrayList<Planetoid>(0);
+	public List<E> getEntities(Position position,long radius) {
+		List<E> lEntities = new ArrayList<E>(0);
 		for(Position curPosition:posIndex.values()){
 			if(curPosition.distance(position)<radius){
-				Planetoid p = planetsMap.get(curPosition.serialize());
+				E p = (E) entitiesMap.get(curPosition.serialize());
 				if(p != null){
 					lEntities.add(p);
 				}
@@ -160,11 +131,7 @@ public class Orbital extends Space<Planetoid,Position> {
         return lEntities;  
     }
 
-    public Position getPosition(Planetoid planetoid) {
-        return posIndex.get(planetoid.getID());  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-
+/*
     public boolean process(Movement<Planetoid> movement) {
     	Position curPosition=posIndex.get(movement.getEntity().getID());
         Vector3f moveVector=movement.getVector();
@@ -186,18 +153,10 @@ public class Orbital extends Space<Planetoid,Position> {
         return false;
        
     }
+    */
 
 
-    public void addObserver(iEventObserver<Planetoid> observer) {
-        observers.add(observer);
-    }
-
-
-    public void processEvent(iEvent event) {
-    	if (event instanceof Movement){
-    		//internalProcessEvent((iSpacePhenomen<iPlanetoid>) event);
-         }
-    }
+   
     
   /*  protected void internalProcessEvent(Event<iPlanetoid> event){
     	if(event instanceof Movement){
@@ -218,7 +177,7 @@ public class Orbital extends Space<Planetoid,Position> {
     }*/
 
    
-    
+    /*
     private List<Planetoid> checkCollision(Position startPoint,Position endPoint){
     	List<Planetoid> collisionList=null;
 
@@ -276,9 +235,10 @@ public class Orbital extends Space<Planetoid,Position> {
     			curPoint.setZ(curPoint.getZ()+1);
     		}
     	}     */
-    	
+    	/*
     	return collisionList;
     }
+
     private boolean checkCollision(Position pointOne,double radiusOne,Position pointTwo,double radiusTwo){
         if(pointOne.getX()+radiusOne>pointTwo.getX()-radiusTwo&&pointOne.getX()-radiusOne<pointTwo.getX()+radiusTwo){
             //X collision
@@ -301,12 +261,8 @@ public class Orbital extends Space<Planetoid,Position> {
     	posIndex.put(planet.getID(), newPosition);
     	//TODO Gravity field
     }
-    
-    protected void fireEvent(iEvent event){
-    	for(iEventObserver<Planetoid> observer:observers){
-            observer.processEvent(event);
-    	}
-    }
+    */
+  
 /*
 	@Override
 	public Collection<Force> getAllForces(iPlanetoid entity) {
@@ -319,15 +275,5 @@ public class Orbital extends Space<Planetoid,Position> {
 		return forces;
 	}
 */
-	@Override
-	public void insertForceFactory(ForceFactory f) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return planetsMap.isEmpty();
-	}
 	
 }

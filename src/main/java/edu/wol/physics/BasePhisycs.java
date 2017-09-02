@@ -29,6 +29,7 @@ import edu.wol.dom.phisycs.Acceleration;
 import edu.wol.dom.phisycs.Force;
 import edu.wol.dom.phisycs.Forces;
 import edu.wol.dom.phisycs.Inertia;
+import edu.wol.dom.phisycs.MassEntity;
 import edu.wol.dom.phisycs.Velocity;
 import edu.wol.dom.phisycs.iPhisycs;
 import edu.wol.dom.space.Movement;
@@ -36,6 +37,7 @@ import edu.wol.dom.space.Position;
 import edu.wol.dom.space.Space;
 import edu.wol.dom.space.Vector3f;
 import edu.wol.dom.time.Ichinen;
+import edu.wol.space.Inertial;
 
 /**
  * Created with IntelliJ IDEA.
@@ -46,14 +48,13 @@ import edu.wol.dom.time.Ichinen;
  */
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class BasePhisycs<E extends WolEntity,S extends Space<E,Position>> implements iPhisycs<E>{
+public abstract class BasePhisycs<E extends MassEntity, S extends Inertial<E>> implements iPhisycs<E>{
 	@Id
 	@GeneratedValue
 	private long ID;
 	
-	protected float spacePrecision;
 	protected float maxVelocity;
-	protected float timePrecision;
+	
 	
 	@OneToOne(cascade=CascadeType.ALL)
     protected S space;
@@ -86,6 +87,9 @@ public abstract class BasePhisycs<E extends WolEntity,S extends Space<E,Position
 		while(!heap.isEmpty()){//Process Heap
 			Long curEntity= heap.remove(0);
 			Forces<E> activeForces=forcesIndex.get(curEntity);
+			Acceleration acc = calcAcceleration(curEntity,activeForces);
+			space.addAcceleration(entityMap.get(curEntity),acc);
+			/*
 			if(activeForces!=null && !activeForces.isEmpty()){//Process active forces
 				insertAccellerationIchinen(curEntity,activeForces);
 			}
@@ -93,7 +97,7 @@ public abstract class BasePhisycs<E extends WolEntity,S extends Space<E,Position
 			Velocity actualVelocity=velocityIndex.get(curEntity);
 			if(actualVelocity!=null && !actualVelocity.isEmpty()){//Process inertial velocity
 				insertInertiaIchinen(curEntity);
-			}
+			}*/
 			
 		}
 	}
@@ -123,7 +127,7 @@ public abstract class BasePhisycs<E extends WolEntity,S extends Space<E,Position
 			
 			if(forces.isEmpty()){
 				forcesIndex.remove(entity.getID());
-				insertInertiaIchinen(entity.getID());
+				//insertInertiaIchinen(entity.getID());
 			}else if(!heap.contains(entity.getID())){
 				heap.add(entity.getID());
 			}
@@ -155,7 +159,7 @@ public abstract class BasePhisycs<E extends WolEntity,S extends Space<E,Position
 			}
 			
 			//Convert from m/s to spacePrecision/timePrecision
-			float precisionFactor=(future+1)*timePrecision;
+			float precisionFactor=(future+1) * this.time.getPrecision();
 			Vector3f relativeAccelleration=accPowr.getVector().clone();
 			relativeAccelleration.scale(precisionFactor);
 			Vector3f newValocityVect=curVelocity.getVector().clone();
@@ -184,7 +188,7 @@ public abstract class BasePhisycs<E extends WolEntity,S extends Space<E,Position
 		}
 		long future=calculateFuture(velocity);
 		//Convert from m/s to spacePrecision/timePrecision
-		float precisionFactor=(future+1)*timePrecision;
+		float precisionFactor=(future+1) * this.time.getPrecision();
 		velocity.getVector().scale(precisionFactor);
 		Movement<E> effect=new Movement<E>(entity,velocity.getVector());
 		Ichinen<E> ichinen=new Ichinen<E>(entity);
@@ -211,7 +215,7 @@ public abstract class BasePhisycs<E extends WolEntity,S extends Space<E,Position
 			double timeToMinMovement=velocity.getTime()/maxFactor;
 			
 			//convert from m/s a spacePrecision/timePrecision
-			timeToMinMovement=timeToMinMovement*(spacePrecision/timePrecision);
+			timeToMinMovement=timeToMinMovement*(this.space.getPrecision()/this.time.getPrecision());
 			future=Math.round(timeToMinMovement);
 		/*
 			while((maxFactor*precisionFactor*future)<1)

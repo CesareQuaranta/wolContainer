@@ -5,15 +5,13 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.wol.TimeQueque;
-import edu.wol.dom.WolEntity;
 import edu.wol.dom.WorldContainer;
 import edu.wol.dom.iEvent;
 import edu.wol.dom.iEventObserver;
@@ -21,8 +19,6 @@ import edu.wol.dom.space.NewPosition;
 import edu.wol.dom.space.Planetoid;
 import edu.wol.dom.space.Position;
 import edu.wol.dom.space.Space;
-import edu.wol.dom.space.Vector3f;
-import edu.wol.dom.space.iCoordinate;
 import edu.wol.dom.time.iTimeManager;
 import edu.wol.physics.starsystem.SolarSystemPhisycs;
 import edu.wol.space.Orbital;
@@ -35,11 +31,13 @@ import edu.wol.space.Orbital;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-public class SolarSystem extends WorldContainer<Planetoid,Position> {
+public class SolarSystem extends WorldContainer<Planetoid,Position,Orbital<Planetoid>,SolarSystemPhisycs> {
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 8786030279582189151L;
+	final static Logger logger = LoggerFactory.getLogger(SolarSystem.class);
+	
 	private double radius;
 	
 	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
@@ -48,7 +46,7 @@ public class SolarSystem extends WorldContainer<Planetoid,Position> {
 	
 	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	@JoinColumn(name = "spId", referencedColumnName = "ID")
-    private Orbital space;
+    private Orbital<Planetoid> space;
 	
     @OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     @JoinColumn(name = "phId", referencedColumnName = "ID")
@@ -62,14 +60,16 @@ public class SolarSystem extends WorldContainer<Planetoid,Position> {
     
 	@Override
 	public void init(float spacePrecision, float timePrecision){
-    	if(space==null){
-    		space=new Orbital();
+		if(timeManager==null){
+    		timeManager = new TimeQueque<Planetoid>(timePrecision);
     	}
-    	if(timeManager==null){
-    		timeManager = new TimeQueque<Planetoid>();
+		
+		if(space==null){
+    		space=new Orbital<Planetoid>(spacePrecision, timeManager);
     	}
+    	
     	if(phisycs==null){
-    		phisycs = new SolarSystemPhisycs(space, timeManager, spacePrecision,timePrecision);
+    		phisycs = new SolarSystemPhisycs(space, timeManager);
     	}
         phisycs.addObserver(this);
         space.addObserver(phisycs);
@@ -77,13 +77,26 @@ public class SolarSystem extends WorldContainer<Planetoid,Position> {
         System.out.println("StarsContainer successfull Initialized");
     }
     public void run() {
-        phisycs.run();
+    	long startExecution = System.currentTimeMillis();
+        phisycs.run(); //Implicy run time?
+       
        /* for(WorldContainer<Planetoid,Position> subWold:subWorlds){
         	subWold.run();
         }*/
+        long executionTime = System.currentTimeMillis() - startExecution;
+        long sleepTime = (long) ((timeManager.getPrecision()*1000) - executionTime);
+        if(sleepTime < 0){
+        	logger.warn("--- Overloading system --- no realtime garantee");
+        }else{
+        	try {
+				Thread.sleep(sleepTime);
+			} catch (InterruptedException e) {
+				System.out.println("Gently shutdown while sleeping");
+			}
+        }
     }
     
-    public void setSpace(Orbital space){
+    public void setSpace(Orbital<Planetoid> space){
     	this.space=space;
     }
     
@@ -121,10 +134,11 @@ public class SolarSystem extends WorldContainer<Planetoid,Position> {
 	}
 	
 	@Override
-	public Space<Planetoid,Position> getSpace() {
+	public Orbital<Planetoid> getSpace() {
 		return space;
 	}
 	
+	@Override
 	public SolarSystemPhisycs getPhisycs() {
 		return phisycs;
 	}

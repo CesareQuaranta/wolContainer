@@ -37,7 +37,7 @@ import edu.wol.space.Orbital;
  * this template use File | Settings | File Templates.
  */
 @Entity
-public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
+public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital<Planetoid>> {
 	private static final long serialVersionUID = -7499754647514879204L;
 	public static final int LIGHT_VELOCITY = (int) 3e7;
 	
@@ -56,18 +56,16 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 	    this.velocityIndex = new HashMap<Long, Velocity>();
 	    this.angularVelocityIndex = new HashMap<Long, Rotation<Planetoid>>();
 	}
-	public SolarSystemPhisycs(Orbital space, TimeQueque<Planetoid> time) {
-		this(space,time,1, 1);
+	public SolarSystemPhisycs(Orbital<Planetoid> space, TimeQueque<Planetoid> time) {
+		this(space,time, 0);
 	}
 
-	public SolarSystemPhisycs(Orbital space, TimeQueque<Planetoid> time,float spacePrecision, float maxVelocity) {
+	public SolarSystemPhisycs(Orbital<Planetoid>  space, TimeQueque<Planetoid> time, float maxVelocity) {
 		//Super class initialize
 		this();
 		this.space=space;
 		this.time=time;
-		this.spacePrecision = spacePrecision;
 		this.maxVelocity=maxVelocity;
-		this.timePrecision = spacePrecision/maxVelocity;
 		for(Planetoid curPlanet:space.getAllEntities()){
 			if(!entityMap.containsKey(curPlanet.getID())){
 				initialize(curPlanet);
@@ -96,9 +94,11 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 		List<Planetoid> pl = space.getEntities(coordinate,radius);
 		for(Planetoid p:pl){
 			Position curPos = space.getPosition(p);
-			Velocity newVelocity= new Velocity(3,(curPos.x - coordinate.x)/radius, (curPos.y - coordinate.y)/radius, (curPos.z - coordinate.z)/radius);
-			velocityIndex.put(p.getID(), newVelocity);
-			heap.add(p.getID());
+			Velocity newVelocity= new Velocity(3,(curPos.x - coordinate.x), (curPos.y - coordinate.y), (curPos.z - coordinate.z));
+			newVelocity.getVector().normalize();
+			space.addVelocity(p, newVelocity.getVector());
+			//velocityIndex.put(p.getID(), newVelocity);
+			//heap.add(p.getID());
 		}
 		
 	}
@@ -163,14 +163,14 @@ public class SolarSystemPhisycs extends BasePhisycs<Planetoid,Orbital> {
 
 				
 				if(curEffect instanceof Movement){
-					space.process((Movement<Planetoid>)curEffect);
+					//space.process((Movement<Planetoid>)curEffect);
 				}
 				Forces<Planetoid> extrenalCause=(Forces<Planetoid>) curIchinen.getExternalCause();
 				insertAccellerationIchinen(curIchinen.getEntity().getID(), extrenalCause);//TODO Ottimizzazzione inserire lo stesso ichinen non ricalcolarlo ogni volta
 			}
 			else if(power instanceof Inertia){
 				if(curEffect instanceof Movement){
-					space.process((Movement<Planetoid>)curEffect);
+					//space.process((Movement<Planetoid>)curEffect);
 				}
 				insertInertiaIchinen(curIchinen.getEntity().getID());//TODO Ottimizzazzione inserire lo stesso ichinen non ricalcolarlo ogni volta
 			}

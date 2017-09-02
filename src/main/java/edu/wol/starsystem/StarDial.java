@@ -21,6 +21,7 @@ import edu.wol.dom.space.Position;
 import edu.wol.dom.space.Space;
 import edu.wol.dom.space.iCoordinate;
 import edu.wol.dom.time.iTimeManager;
+import edu.wol.physics.BasePhisycs;
 import edu.wol.physics.starsystem.SolarSystemPhisycs;
 import edu.wol.space.Interstellar;
 
@@ -32,7 +33,7 @@ import edu.wol.space.Interstellar;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-public class StarDial extends WorldContainer<SolarSystem,Position> {
+public class StarDial extends WorldContainer<SolarSystem,Position,Interstellar,iPhisycs<SolarSystem>> {
     /**
 	 * 
 	 */
@@ -60,7 +61,7 @@ public class StarDial extends WorldContainer<SolarSystem,Position> {
     		space=new Interstellar();
     	}
     	if(timeManager==null){
-    		timeManager = new TimeQueque<Planetoid>();
+    		timeManager = new TimeQueque<Planetoid>(timePrecision);
     	}
     	/*TODO
     	if(phisycs==null){
@@ -117,7 +118,7 @@ public class StarDial extends WorldContainer<SolarSystem,Position> {
 	}
 	
 	@Override
-	public Space<SolarSystem,Position> getSpace() {
+	public Interstellar getSpace() {
 		return space;
 	}
 	

@@ -42,9 +42,10 @@ public class FunctionalTest {
 	
 	@Test
 	public void basePhisicTest(){
-		Orbital space = new Orbital();
-		TimeQueque<Planetoid> tq = new TimeQueque<Planetoid>();
-		SolarSystemPhisycs phisycs = new SolarSystemPhisycs(space, tq, 1,1);
+		TimeQueque<Planetoid> tq = new TimeQueque<Planetoid>(1f);
+		Orbital<Planetoid> space = new Orbital<Planetoid>(1f,tq);
+		
+		SolarSystemPhisycs phisycs = new SolarSystemPhisycs(space, tq);
 		space.addObserver(phisycs);
 	    tq.addObserver(phisycs);
 	    
@@ -52,17 +53,16 @@ public class FunctionalTest {
 	    Planet unitTestPlanet = mock(Planet.class);
 	    when(unitTestPlanet.getID()).thenReturn(1L);
 	    when(unitTestPlanet.isNew()).thenReturn(false);
-	  
 	    unitTestPlanet.setMass(1);;
 	    unitTestPlanet.setRadius(1);
+	    
 	    Position startPosition=new Position();
 	    phisycs.insert(unitTestPlanet,startPosition );
 	    Force unitTestFore=new Force((double) 1,new Acceleration(1,1,1));
 	    phisycs.applyForce(unitTestPlanet, unitTestFore);
 	    phisycs.run();
-	    phisycs.run();
 	    Position endPosition=space.getPosition(unitTestPlanet);
-	    assertTrue("Test fallito Position:"+endPosition,endPosition.getX()==endPosition.getY() && endPosition.getY()==endPosition.getZ() && endPosition.getZ()==1);
+	    assertTrue("Test fallito Position:"+endPosition,endPosition.getX()==endPosition.getY() && endPosition.getY()==endPosition.getZ() && endPosition.getZ()==0.5);
 	    phisycs.removeForce(unitTestPlanet, unitTestFore);
 	    phisycs.run();
 	    //Assert.assertTrue("Test fallito Position:"+endPosition,endPosition.getX()==endPosition.getY() && endPosition.getY()==endPosition.getZ() && endPosition.getZ()==2);

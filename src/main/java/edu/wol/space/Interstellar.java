@@ -297,11 +297,7 @@ public class Interstellar extends Space<SolarSystem,Position> {
 		return forces;
 	}
 */
-	@Override
-	public void insertForceFactory(ForceFactory f) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	@Override
 	public boolean isEmpty() {
